@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Alexandr Poidich](https://up.htmlacademy.ru/react/14/user/2390165).
-* Наставник: `Неизвестно`.
+* Наставник: [Антон Ткачук](https://htmlacademy.ru/profile/id2397393).
 
 ---
 
