@@ -1,6 +1,9 @@
-import Main from '../../pages/main/main-page';
-function App() {
-  return <Main />;
+import Main from '../../pages/main/main';
+
+function App(): JSX.Element {
+  return (
+    <Main />
+  );
 }
 
 export default App;
