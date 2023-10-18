@@ -3,7 +3,7 @@ type CardProps = {
   isLabel?: boolean;
 }
 
-function Card({ elementType, isLabel = true}: CardProps): JSX.Element {
+function Card({ elementType, isLabel = true }: CardProps): JSX.Element {
   const options = {
     cities: {
       className: 'cities',
@@ -19,15 +19,12 @@ function Card({ elementType, isLabel = true}: CardProps): JSX.Element {
     }
   };
 
-  const labelTemplate = (
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>
-  );
-
   return (
     <article className={`${options[elementType].className}__card place-card`}>
-      {isLabel && labelTemplate}
+      {isLabel &&
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>}
       <div className={`${options[elementType].className}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src="img/apartment-01.jpg" width={`${options[elementType].width}`} height={`${options[elementType].hight}`} alt="Place image" />
