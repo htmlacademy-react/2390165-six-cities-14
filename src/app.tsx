@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import MainPage from './pages/main-page/mainPage';
-import LoginPage from './pages/login-page/loginPage';
-import FavoritePage from './pages/favorites-page/favoritePage';
-import OfferPage from './pages/offer-page/offerPage';
-import NotFound from './pages/404-page/404Page';
+import MainPage from './pages/main-page/main-page';
+import LoginPage from './pages/login-page/login-page';
+import FavoritePage from './pages/favorites-page/favorite-page';
+import OfferPage from './pages/offer-page/offer-page';
+import NotFound from './pages/404-page/404-page';
 
 type AppProps = {
   offersCount: number;
