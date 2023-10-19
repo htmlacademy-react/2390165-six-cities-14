@@ -17,7 +17,10 @@ function App({ offersCount }: AppProps): JSX.Element {
         <Route path={'/'} element={<MainPage offersCount={offersCount} />} />
         <Route path={'login'} element={<LoginPage />} />
         <Route path={'favorites'} element={<FavoritePage />} />
-        <Route path={'offer'} element={<OfferPage />} />
+        <Route path={'offer'}>
+          <Route index element={<OfferPage />} />
+          <Route path={':id'} element={<OfferPage />} />
+        </Route>
         <Route path={'*'} element={<NotFound />} />
       </Routes>
     </BrowserRouter >
