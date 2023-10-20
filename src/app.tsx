@@ -8,7 +8,7 @@ import NotFound from './pages/404-page/404-page';
 import PrivateRoute from './components/private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { AppRoute } from './const';
+import { AppRoute, AuthStatus } from './const';
 
 
 type AppProps = {
@@ -32,7 +32,10 @@ function App({ offersCount }: AppProps): JSX.Element {
           <Route
             path={AppRoute.Favorite}
             element={
-              <PrivateRoute>
+              <PrivateRoute
+                restrictedFor = {AuthStatus.NoAuth}
+                redirectTo = {AppRoute.Login}
+              >
                 <FavoritePage />
               </PrivateRoute>
             }
