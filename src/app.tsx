@@ -8,6 +8,9 @@ import NotFound from './pages/404-page/404-page';
 import PrivateRoute from './components/private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 
+import { AppRoute } from './const';
+
+
 type AppProps = {
   offersCount: number;
 }
@@ -18,23 +21,23 @@ function App({ offersCount }: AppProps): JSX.Element {
       <BrowserRouter>
         <Routes>
           <Route
-            path={'/'}
+            path={AppRoute.Main}
             element={<MainPage offersCount={offersCount} />}
           />
           <Route
-            path={'login'}
+            path={AppRoute.Login}
             element={<LoginPage />}
           />
 
           <Route
-            path={'favorites'}
+            path={AppRoute.Favorite}
             element={
               <PrivateRoute>
                 <FavoritePage />
               </PrivateRoute>
             }
           />
-          <Route path={'offer'}>
+          <Route path={AppRoute.Offer}>
             <Route
               index
               element={<OfferPage />}
