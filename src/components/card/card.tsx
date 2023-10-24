@@ -27,7 +27,7 @@ function Card({ elementType, isLabel = true }: CardProps): JSX.Element {
         </div>}
       <div className={`${options[elementType].className}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
-          <img className="place-card__image" src="img/apartment-01.jpg" width={`${options[elementType].width}`} height={`${options[elementType].hight}`} alt="Place image" />
+          <img className="place-card__image" src="img/apartment-01.jpg" width={options[elementType].width} height={options[elementType].hight} alt="Place image" />
         </a>
       </div>
       <div className={`${elementType === 'favorite' ? 'favorites__card-info ' : ''}'place-card__info'`}>
