@@ -9,6 +9,7 @@ import PrivateRoute from './components/private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { AppRoute, AuthStatus } from './const';
+import Layout from './components/layout/layout';
 
 
 type AppProps = {
@@ -21,42 +22,47 @@ function App({ offersCount }: AppProps): JSX.Element {
       <BrowserRouter>
         <Routes>
           <Route
-            path={AppRoute.Main}
-            element={<MainPage offersCount={offersCount} />}
-          />
-          <Route
-            path={AppRoute.Login}
-            element={<LoginPage />}
-          />
-
-          <Route
-            path={AppRoute.Favorite}
-            element={
-              <PrivateRoute
-                restrictedFor = {AuthStatus.NoAuth}
-                redirectTo = {AppRoute.Login}
-              >
-                <FavoritePage />
-              </PrivateRoute>
-            }
-          />
-          <Route path={AppRoute.Offer}>
+            path={'/'}
+            element={<Layout />}
+          >
             <Route
-              index
-              element={<OfferPage />}
+              path={AppRoute.Main}
+              element={<MainPage offersCount={offersCount} />}
             />
             <Route
-              path={':id'}
-              element={<OfferPage />}
+              path={AppRoute.Login}
+              element={<LoginPage />}
+            />
+
+            <Route
+              path={AppRoute.Favorite}
+              element={
+                <PrivateRoute
+                  restrictedFor={AuthStatus.NoAuth}
+                  redirectTo={AppRoute.Login}
+                >
+                  <FavoritePage />
+                </PrivateRoute>
+              }
+            />
+            <Route path={AppRoute.Offer}>
+              <Route
+                index
+                element={<OfferPage />}
+              />
+              <Route
+                path={':id'}
+                element={<OfferPage />}
+              />
+            </Route>
+            <Route
+              path={'*'}
+              element={<NotFound />}
             />
           </Route>
-          <Route
-            path={'*'}
-            element={<NotFound />}
-          />
         </Routes>
       </BrowserRouter >
-    </HelmetProvider>
+    </HelmetProvider >
 
   );
 }
