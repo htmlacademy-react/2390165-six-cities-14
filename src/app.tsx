@@ -21,44 +21,23 @@ function App({ offersCount }: AppProps): JSX.Element {
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route
-            path={'/'}
-            element={<Layout />}
-          >
-            <Route
-              path={AppRoute.Main}
-              element={<MainPage offersCount={offersCount} />}
-            />
-            <Route
-              path={AppRoute.Login}
-              element={<LoginPage />}
-            />
-
-            <Route
-              path={AppRoute.Favorite}
-              element={
-                <PrivateRoute
-                  restrictedFor={AuthStatus.NoAuth}
-                  redirectTo={AppRoute.Login}
-                >
-                  <FavoritePage />
-                </PrivateRoute>
-              }
+          <Route path={'/'} element={<Layout />} >
+            <Route path={AppRoute.Main} element={<MainPage offersCount={offersCount} />} />
+            <Route path={AppRoute.Login} element={<LoginPage />} />
+            <Route path={AppRoute.Favorite} element={
+              <PrivateRoute
+                restrictedFor={AuthStatus.NoAuth}
+                redirectTo={AppRoute.Login}
+              >
+                <FavoritePage />
+              </PrivateRoute>
+            }
             />
             <Route path={AppRoute.Offer}>
-              <Route
-                index
-                element={<OfferPage />}
-              />
-              <Route
-                path={':id'}
-                element={<OfferPage />}
-              />
+              <Route index element={<OfferPage />} />
+              <Route path={':id'} element={<OfferPage />} />
             </Route>
-            <Route
-              path={'*'}
-              element={<NotFound />}
-            />
+            <Route path={'*'} element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter >
