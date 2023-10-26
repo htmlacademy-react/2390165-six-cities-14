@@ -3,7 +3,9 @@ import { Link, Outlet } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
 function Layout(): JSX.Element {
-  const pathname = window.location.pathname;
+  const url = new URL(window.location.href);
+  const pathname = url.pathname;
+
   const isMain = pathname === AppRoute.Main as string;
   const isLogin = pathname === AppRoute.Login as string;
 
@@ -20,6 +22,7 @@ function Layout(): JSX.Element {
               <Link
                 className={`header__logo-link ${isMain ? 'header__logo-link--active' : ''}`}
                 to={link}
+                // style={isMain ? {cursor: 'default', padding: '100px'} : {}}
               >
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
