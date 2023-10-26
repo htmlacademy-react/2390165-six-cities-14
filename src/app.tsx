@@ -10,6 +10,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { AppRoute, AuthStatus } from './const';
 import Layout from './components/layout/layout';
+import ScrollToTop from './components/scroll-to-top/scroll-to-top';
 
 
 type AppProps = {
@@ -20,6 +21,7 @@ function App({ offersCount }: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path={'/'} element={<Layout />} >
             <Route path={AppRoute.Main} element={<MainPage offersCount={offersCount} />} />
