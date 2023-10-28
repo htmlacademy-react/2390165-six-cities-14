@@ -43,9 +43,9 @@ function App({ offersCount, offers }: AppProps): JSX.Element {
             />
             <Route path={AppRoute.Offer}>
               <Route index element={<OfferPage offers={offers}/>} />
-              <Route path={':id'} element={<OfferPage offers={offers} />} />
+              <Route path={':offerId'} element={<OfferPage offers={offers} />} />
             </Route>
-            <Route path={'*'} element={<NotFound />} />
+            <Route path={AppRoute.NotFound} element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter >

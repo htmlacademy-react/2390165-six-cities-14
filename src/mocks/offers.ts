@@ -209,7 +209,7 @@ const offers: Array<Offer> =
       ],
       host: {
         id: 25,
-        'name': 'Angelina',
+        name: 'Angelina',
         isPro: true,
         avatarUrl: 'img/avatar-angelina.jpg'
       },
