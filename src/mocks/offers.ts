@@ -29,7 +29,7 @@ const offers: Array<Offer> =
         'https://14.react.pages.academy/static/offer/5.jpg'
       ],
       title: 'Waterfront with extraordinary view',
-      isFavorite: false,
+      isFavorite: true,
       isPremium: false,
       rating: 4.8,
       type: 'room',
