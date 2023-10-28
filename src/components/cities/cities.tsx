@@ -1,5 +1,7 @@
-import Offer from '../../types/offer';
 import CardList from '../card-list/card-list';
+
+import Offer from '../../types/offer';
+import Map from '../map/map';
 
 type CitiesProps = {
   offersCount: number;
@@ -32,9 +34,7 @@ function Cities({offersCount, offers}: CitiesProps): JSX.Element {
             <CardList elementType={'cities'} offers={offers} />
           </div>
         </section>
-        <div className="cities__right-section">
-          <section className="cities__map map"></section>
-        </div>
+        <Map />
       </div>
     </div>
   );
