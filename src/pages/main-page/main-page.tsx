@@ -1,10 +1,13 @@
-import Card from '../../components/card/card';
+import CardList from '../../components/card-list/card-list';
+
+import Offer from '../../types/offer';
 
 type MainPageProps = {
   offersCount: number;
+  offers: Array<Offer>;
 }
 
-function MainPage({ offersCount }: MainPageProps): JSX.Element {
+function MainPage({ offersCount, offers }: MainPageProps): JSX.Element {
   return (
 
     <div className="page page--gray page--main">
@@ -67,8 +70,7 @@ function MainPage({ offersCount }: MainPageProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {new Array(5).fill(0).map(() =>
-                  <Card elementType='cities' key={crypto.randomUUID()} />)}
+                <CardList elementType={'cities'} offers={offers} />
               </div>
             </section>
             <div className="cities__right-section">

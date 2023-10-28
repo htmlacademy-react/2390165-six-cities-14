@@ -1,7 +1,17 @@
 import { Helmet } from 'react-helmet-async';
+
 import Card from '../../components/card/card';
 
-function FavoritePage() {
+import Offer from '../../types/offer';
+import CardList from '../../components/card-list/card-list';
+
+type FavoritePageProps = {
+  offers: Array<Offer>;
+}
+
+function FavoritePage({ offers }: FavoritePageProps) {
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+
   return (
     <div className="page">
       <Helmet>
@@ -21,9 +31,8 @@ function FavoritePage() {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <Card elementType={'favorite'} />
-                  <Card elementType={'favorite'} isLabel={false} />
 
+                  <CardList elementType='favorite' offers={favoriteOffers} />
 
                 </div>
               </li>
@@ -37,7 +46,11 @@ function FavoritePage() {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <Card elementType={'favorite'} isLabel={false} />
+
+                  {offers.slice(0, 1).map((offer) => (
+                    <Card elementType={'favorite'} offer={offer} key={offer.id} />
+                  ))}
+
                 </div>
               </li>
             </ul>

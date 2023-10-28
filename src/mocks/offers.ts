@@ -81,7 +81,7 @@ const offers: Array<Offer> =
         'https://14.react.pages.academy/static/offer/13.jpg'
       ],
       title: 'House in countryside',
-      isFavorite: false,
+      isFavorite: true,
       isPremium: false,
       rating: 2.8,
       type: 'room',
@@ -134,7 +134,7 @@ const offers: Array<Offer> =
         'https://14.react.pages.academy/static/offer/12.jpg'
       ],
       title: 'Loft Studio in the Central Area',
-      isFavorite: false,
+      isFavorite: true,
       isPremium: false,
       rating: 2.9,
       type: 'room',
@@ -194,9 +194,9 @@ const offers: Array<Offer> =
         'https://14.react.pages.academy/static/offer/5.jpg'
       ],
       title: 'Nice, cozy, warm big bed apartment',
-      isFavorite: false,
+      isFavorite: true,
       isPremium: false,
-      rating: 3.2,
+      rating: 4.6,
       type: 'hotel',
       bedrooms: 4,
       maxAdults: 4,
