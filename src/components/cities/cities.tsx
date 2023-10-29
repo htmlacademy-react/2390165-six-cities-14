@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import CardList from '../card-list/card-list';
 
 import Offer from '../../types/offer';
@@ -8,7 +10,13 @@ type CitiesProps = {
   offers: Array<Offer>;
 }
 
-function Cities({offersCount, offers}: CitiesProps): JSX.Element {
+function Cities({ offersCount, offers }: CitiesProps): JSX.Element {
+  const [hoveredOfferId, setHoveredOfferId] = useState<Offer['id'] | null>(null);
+
+  function handleCardHover(offerId: Offer['id'] | null) {
+    setHoveredOfferId(offerId);
+  }
+
   return (
     <div className="cities">
       <div className="cities__places-container container">
@@ -31,7 +39,11 @@ function Cities({offersCount, offers}: CitiesProps): JSX.Element {
             </ul>
           </form>
           <div className="cities__places-list places__list tabs__content">
-            <CardList elementType={'cities'} offers={offers} />
+            <CardList
+              elementType={'cities'}
+              offers={offers}
+              onCardHover={handleCardHover}
+            />
           </div>
         </section>
         <Map />
