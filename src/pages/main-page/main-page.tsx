@@ -3,11 +3,10 @@ import Cities from '../../components/cities/cities';
 import Offer from '../../types/offer';
 
 type MainPageProps = {
-  offersCount: number;
   offers: Array<Offer>;
 }
 
-function MainPage({ offersCount, offers }: MainPageProps): JSX.Element {
+function MainPage({ offers }: MainPageProps): JSX.Element {
   return (
 
     <div className="page page--gray page--main">
@@ -49,7 +48,7 @@ function MainPage({ offersCount, offers }: MainPageProps): JSX.Element {
             </ul>
           </section>
         </div>
-        <Cities offersCount={offersCount} offers={offers} />
+        <Cities offers={offers} />
       </main>
     </div>
 
