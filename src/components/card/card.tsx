@@ -5,7 +5,7 @@ import { AppRoute } from '../../const';
 type CardProps = {
   elementType: 'cities' | 'favorite';
   offer: Offer;
-  onCardHover: (offerId: Offer['id'] | null) => void;
+  onCardHover?: (offerId: Offer['id'] | null) => void;
 }
 
 function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
@@ -23,11 +23,11 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
   };
 
   function handleMouseEnter() {
-    onCardHover(offer.id);
+    onCardHover?.(offer.id);
   }
 
   function handleMouseLeave() {
-    onCardHover(null);
+    onCardHover?.(null);
   }
 
   return (
