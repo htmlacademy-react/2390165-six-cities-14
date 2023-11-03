@@ -12,7 +12,7 @@ import Offer from '../../types/offer';
 type MapProps = {
   city: CityMap;
   offers: Array<Offer>;
-  hoveredOfferId: number;
+  hoveredOfferId: Offer['id'] | null;
 }
 
 const defaultCustomIcon = leaflet.icon({
@@ -61,7 +61,6 @@ function Map({ city, offers, hoveredOfferId }: MapProps): JSX.Element {
   return (
     <section
       className="cities__map map"
-      // style={{ height: '500px' }}
       ref={mapRef}
     >
 
