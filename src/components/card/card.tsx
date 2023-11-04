@@ -5,9 +5,10 @@ import { AppRoute } from '../../const';
 type CardProps = {
   elementType: 'cities' | 'favorite';
   offer: Offer;
+  onCardHover?: (offerId: Offer['id'] | null) => void;
 }
 
-function Card({ elementType, offer }: CardProps): JSX.Element {
+function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
   const options = {
     cities: {
       className: 'cities',
@@ -21,8 +22,20 @@ function Card({ elementType, offer }: CardProps): JSX.Element {
     }
   };
 
+  function handleMouseEnter() {
+    onCardHover?.(offer.id);
+  }
+
+  function handleMouseLeave() {
+    onCardHover?.(null);
+  }
+
   return (
-    <article className={`${options[elementType].className}__card place-card`}>
+    <article
+      className={`${options[elementType].className}__card place-card`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {
         offer.isPremium &&
         <div className="place-card__mark">

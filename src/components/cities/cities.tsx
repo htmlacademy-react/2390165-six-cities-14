@@ -1,20 +1,29 @@
-import CardList from '../card-list/card-list';
+import { useState } from 'react';
 
-import Offer from '../../types/offer';
+import CardList from '../card-list/card-list';
 import Map from '../map/map';
 
+import { city } from '../../mocks/city';
+
+import Offer from '../../types/offer';
+
 type CitiesProps = {
-  offersCount: number;
   offers: Array<Offer>;
 }
 
-function Cities({offersCount, offers}: CitiesProps): JSX.Element {
+function Cities({ offers }: CitiesProps): JSX.Element {
+  const [hoveredOfferId, setHoveredOfferId] = useState<Offer['id'] | null>(null);
+
+  function handleCardHover(offerId: Offer['id'] | null) {
+    setHoveredOfferId(offerId);
+  }
+
   return (
     <div className="cities">
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+          <b className="places__found">{offers.length} places to stay in Amsterdam</b>
           <form className="places__sorting" action="#" method="get">
             <span className="places__sorting-caption">Sort by</span>
             <span className="places__sorting-type" tabIndex={0}>
@@ -31,10 +40,16 @@ function Cities({offersCount, offers}: CitiesProps): JSX.Element {
             </ul>
           </form>
           <div className="cities__places-list places__list tabs__content">
-            <CardList elementType={'cities'} offers={offers} />
+            <CardList
+              elementType={'cities'}
+              offers={offers}
+              onCardHover={handleCardHover}
+            />
           </div>
         </section>
-        <Map />
+        <div className="cities__right-section">
+          <Map city={city} offers={offers} hoveredOfferId={hoveredOfferId}/>
+        </div>
       </div>
     </div>
   );
