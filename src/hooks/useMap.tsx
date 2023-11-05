@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { Map, TileLayer } from 'leaflet';
+import { Map } from 'leaflet';
+import L from 'leaflet';
 
 import { CityMap } from '../mocks/city';
 
@@ -13,7 +14,7 @@ function useMap(
 
   useEffect(() => {
     if (!isRenderedRef.current && mapRef.current !== null) {
-      const instance = new Map(mapRef.current, {
+      const instance = L.map(mapRef.current, {
         center: {
           lat: city.lat,
           lng: city.lng,
@@ -21,7 +22,7 @@ function useMap(
         zoom: city.zoom
       });
 
-      const layer = new TileLayer(
+      const layer = L.tileLayer(
         'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         {
           attribution:
@@ -29,7 +30,7 @@ function useMap(
         }
       );
 
-      instance.addLayer(layer);
+      layer.addTo(instance);
 
       setMap(instance);
       isRenderedRef.current = true;
