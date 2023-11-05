@@ -10,9 +10,10 @@ import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 import Offer from '../../types/offer';
 
 type MapProps = {
-  city: CityMap;
+  mapType: 'cities' | 'offer';
+  cities: Array<CityMap>;
   offers: Array<Offer>;
-  hoveredOfferId: Offer['id'] | null;
+  hoveredOfferId?: Offer['id'] | null;
 }
 
 const defaultCustomIcon = L.icon({
@@ -28,9 +29,11 @@ const currentCustomIcon = L.icon({
 });
 
 
-function Map({ city, offers, hoveredOfferId }: MapProps): JSX.Element {
+function Map({ mapType, cities, offers, hoveredOfferId }: MapProps): JSX.Element {
+
+
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, cities);
 
   useEffect(() => {
     if (map) {
@@ -61,15 +64,17 @@ function Map({ city, offers, hoveredOfferId }: MapProps): JSX.Element {
 
   return (
     <section
-      className="cities__map map"
+      className={`${mapType}__map map`}
       ref={mapRef}
-      // style={{
-      //   height: '100%',
-      //   minHeight: '500px',
-      //   width: '100%',
-      //   minWidth: '1144px',
-      //   margin: '0, auto'
-      // }}
+      style={mapType === 'offer' ?
+        {
+          height: '100%',
+          minHeight: '500px',
+          width: '100%',
+          minWidth: '1144px',
+          margin: '0, auto'
+        }
+        : undefined}
     >
 
     </section>

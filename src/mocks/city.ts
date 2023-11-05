@@ -1,9 +1,11 @@
+import City from '../types/city';
+
 type CityMap = {
-  title: string;
+  title: City['name'];
   lat: number;
   lng: number;
   zoom: number;
-}
+} | undefined
 
 type Point = {
   title: string;

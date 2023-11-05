@@ -7,13 +7,14 @@ import { CityMap } from '../mocks/city';
 
 function useMap(
   mapRef: React.MutableRefObject<HTMLElement | null>,
-  city: CityMap
+  cities: Array<CityMap>
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
+  const city = cities.find((it) => it?.title === 'Amsterdam');
 
   useEffect(() => {
-    if (!isRenderedRef.current && mapRef.current !== null) {
+    if (!isRenderedRef.current && mapRef.current !== null && city) {
       const instance = L.map(mapRef.current, {
         center: {
           lat: city.lat,
