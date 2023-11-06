@@ -1,8 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { Navigate, useParams } from 'react-router-dom';
 
-import { AppRoute } from '../../const';
-import { cities } from '../../mocks/city';
+import { AppRoute, CITIES_LOCATION } from '../../const';
 
 import Map from '../../components/map/map';
 import OfferDetails from '../../components/offer-details/offer-details';
@@ -38,7 +37,7 @@ function OfferPage({offers, upcomingOffers}: OfferPageProps): JSX.Element {
       <main className="page__main page__main--offer">
         <section className="offer">
           <OfferDetails selectedOffer={selectedOffer}/>
-          <Map mapType={'offer'} cities={cities} offers={upcomingOffers} hoveredOfferId={upcomingOfferId}/>
+          <Map mapType={'offer'} cityLocations={CITIES_LOCATION} offers={upcomingOffers} hoveredOfferId={upcomingOfferId}/>
         </section>
         <div className="container">
           <NearPlaces upcomingOffers={upcomingOffers} hoveredOfferId={handleCardHover}/>

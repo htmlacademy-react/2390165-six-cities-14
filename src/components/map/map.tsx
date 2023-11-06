@@ -11,7 +11,7 @@ import Offer from '../../types/offer';
 
 type MapProps = {
   mapType: 'cities' | 'offer';
-  cities: Array<CityMap>;
+  cityLocations: Array<CityMap>;
   offers: Array<Offer>;
   hoveredOfferId: Offer['id'] | null;
 }
@@ -29,11 +29,11 @@ const currentCustomIcon = L.icon({
 });
 
 
-function Map({ mapType, cities, offers, hoveredOfferId }: MapProps): JSX.Element {
+function Map({ mapType, cityLocations, offers, hoveredOfferId }: MapProps): JSX.Element {
 
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, cities);
+  const map = useMap(mapRef, cityLocations);
 
   useEffect(() => {
     if (map) {

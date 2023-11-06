@@ -7,20 +7,20 @@ import { CityMap } from '../mocks/city';
 
 function useMap(
   mapRef: React.MutableRefObject<HTMLElement | null>,
-  cities: Array<CityMap>
+  cityLocations: Array<CityMap>
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
-  const city = cities.find((it) => it?.title === 'Amsterdam');
+  const cityLocation = cityLocations.find((it) => it?.title === 'Amsterdam');
 
   useEffect(() => {
-    if (!isRenderedRef.current && mapRef.current !== null && city) {
+    if (!isRenderedRef.current && mapRef.current !== null && cityLocation) {
       const instance = L.map(mapRef.current, {
         center: {
-          lat: city.lat,
-          lng: city.lng,
+          lat: cityLocation.lat,
+          lng: cityLocation.lng,
         },
-        zoom: city.zoom
+        zoom: cityLocation.zoom
       });
 
       const layer = L.tileLayer(
@@ -36,7 +36,7 @@ function useMap(
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, city]);
+  }, [mapRef, cityLocation]);
   return map;
 }
 
