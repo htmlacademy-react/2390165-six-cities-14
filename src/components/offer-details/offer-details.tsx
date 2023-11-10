@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-import ReviewList from '../reviewList/reviewList';
+import Reviews from './reviews/reviews';
 import reviews from '../../mocks/reviews';
 
 import Offer from '../../types/offer';
@@ -105,7 +105,7 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
               </p>
             </div>
           </div>
-          <ReviewList reviews={reviews} />
+          <Reviews reviews={reviews} />
         </div>
       </div >
     </>
