@@ -7,13 +7,15 @@ import useMap from '../../hooks/useMap';
 import { CityMap } from '../../mocks/city';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 
-import Offer from '../../types/offer';
+import { Offer } from '../../types/offer';
+import { ActiveCity } from '../../types/city';
 
 type MapProps = {
   mapType: 'cities' | 'offer';
   cityLocations: Array<CityMap>;
   offers: Array<Offer>;
   hoveredOfferId: Offer['id'] | null;
+  activeCity: ActiveCity;
 }
 
 const defaultCustomIcon = L.icon({
@@ -29,16 +31,16 @@ const currentCustomIcon = L.icon({
 });
 
 
-function Map({ mapType, cityLocations, offers, hoveredOfferId }: MapProps): JSX.Element {
-
+function Map({ mapType, cityLocations, offers, hoveredOfferId, activeCity }: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, cityLocations);
+  const map = useMap(mapRef, cityLocations, activeCity);
+  const offersByCityList = offers.filter((offer) => offer.city.name === activeCity);
 
   useEffect(() => {
     if (map) {
       const markerLayer = L.layerGroup().addTo(map);
-      offers.forEach((offer) => {
+      offersByCityList.forEach((offer) => {
         const marker = L.marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude
@@ -59,7 +61,19 @@ function Map({ mapType, cityLocations, offers, hoveredOfferId }: MapProps): JSX.
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, hoveredOfferId]);
+  }, [map, offersByCityList, hoveredOfferId, activeCity]);
+
+  useEffect(() => {
+    if (map) {
+      const location = cityLocations.find((city) => city?.title === activeCity);
+      if (location) {
+        map.setView({
+          lat: location.lat,
+          lng: location.lng,
+        });
+      }
+    }
+  });
 
 
   return (
@@ -76,10 +90,8 @@ function Map({ mapType, cityLocations, offers, hoveredOfferId }: MapProps): JSX.
         }
         : undefined}
     >
-
     </section>
   );
-
 }
 
 export default Map;
