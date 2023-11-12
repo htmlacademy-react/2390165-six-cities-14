@@ -1,6 +1,6 @@
 import CardList from '../card-list/card-list';
 
-import Offer from '../../types/offer';
+import {Offer} from '../../types/offer';
 
 type NearPlacesProps = {
   upcomingOffers: Array<Offer>;
