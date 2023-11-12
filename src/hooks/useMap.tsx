@@ -3,12 +3,11 @@ import { useState, useRef, useEffect } from 'react';
 import { Map } from 'leaflet';
 import L from 'leaflet';
 
-import { CityMap } from '../mocks/city';
-import { ActiveCity } from '../types/city';
+import { ActiveCity, CityLocationType } from '../types/city';
 
 function useMap(
   mapRef: React.MutableRefObject<HTMLElement | null>,
-  cityLocations: Array<CityMap>,
+  cityLocations: Array<CityLocationType>,
   activeCity: ActiveCity
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);

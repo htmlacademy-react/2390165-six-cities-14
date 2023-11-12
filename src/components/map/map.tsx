@@ -4,15 +4,14 @@ import L from 'leaflet';
 import { useRef, useEffect } from 'react';
 
 import useMap from '../../hooks/useMap';
-import { CityMap } from '../../mocks/city';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 
 import { Offer } from '../../types/offer';
-import { ActiveCity } from '../../types/city';
+import { ActiveCity, CityLocationType } from '../../types/city';
 
 type MapProps = {
   mapType: 'cities' | 'offer';
-  cityLocations: Array<CityMap>;
+  cityLocations: Array<CityLocationType>;
   offers: Array<Offer>;
   hoveredOfferId: Offer['id'] | null;
   activeCity: ActiveCity;
@@ -65,7 +64,7 @@ function Map({ mapType, cityLocations, offers, hoveredOfferId, activeCity }: Map
 
   useEffect(() => {
     if (map) {
-      const location = cityLocations.find((city) => city?.title === activeCity);
+      const location: CityLocationType | undefined = cityLocations.find((city) => city?.title === activeCity);
       if (location) {
         map.setView({
           lat: location.lat,

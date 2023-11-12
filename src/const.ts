@@ -1,4 +1,4 @@
-import { CityMap } from './mocks/city';
+import { CityLocationType } from './types/city';
 
 enum AppRoute {
   Main = '/',
@@ -21,7 +21,7 @@ const URL_MARKER_DEFAULT =
 const URL_MARKER_CURRENT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
 
-const CITIES_LOCATION: Array<CityMap> = [
+const CITIES_LOCATION: Array<CityLocationType> = [
   {
     title: 'Cologne',
     lat: 50.938361,
