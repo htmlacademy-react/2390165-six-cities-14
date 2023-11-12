@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import { Navigate, useParams } from 'react-router-dom';
-import { useState } from 'react';
 
 import { AppRoute, CITIES_LOCATION } from '../../const';
 import Map from '../../components/map/map';
@@ -9,7 +8,7 @@ import NearPlaces from '../../components/near-places/near-places';
 
 
 import { Offer } from '../../types/offer';
-import { ActiveCity, CityLocationType } from '../../types/city';
+import { ActiveCity } from '../../types/city';
 
 type OfferPageProps = {
   offers: Array<Offer>;
@@ -17,25 +16,25 @@ type OfferPageProps = {
 
 function OfferPage({ offers }: OfferPageProps): JSX.Element {
   const { offerId } = useParams();
-  const selectedOffer = offers.find((it) => it.id === Number(offerId));
-  const [upcomingOfferId, setUpcomingOfferId] = useState<Offer['id'] | null>(null);
-
-  function handleCardHover(nearOfferId: Offer['id'] | null) {
-    setUpcomingOfferId(nearOfferId);
-  }
+  const selectedOffer: Offer | undefined = offers.find((it) => it.id === Number(offerId));
 
   if (!selectedOffer) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  const selectedCityName: ActiveCity | undefined =
-    offers.find((offer) => offer.id === Number(offerId))?.city.name;
-  const selectedCityData: CityLocationType | undefined = CITIES_LOCATION.find((city) => city?.title === selectedCityName) ;
-  const nearOffers: Array<Offer> = offers.filter((offer) =>
-    (offer.city.name === selectedOffer.city.name) &&
-    (offer.id !== Number(offerId))
-  )
+  const selectedCityName: ActiveCity =
+    offers.find((offer) => offer.id === Number(offerId))?.city.name || 'Paris';
+
+  const offersByCity: Array<Offer> = offers.filter((offer) =>
+    (offer.city.name === selectedOffer.city.name));
+
+  const nearOffers: Array<Offer> = offersByCity
+    .filter((offer) => offer.id !== Number(offerId))
     .slice(0, 3);
+
+  const onMapOffers = [...nearOffers];
+  onMapOffers.push(selectedOffer);
+
 
   return (
 
@@ -46,10 +45,16 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element {
       <main className="page__main page__main--offer">
         <section className="offer">
           <OfferDetails selectedOffer={selectedOffer} />
-          <Map mapType={'offer'} cityLocations={selectedCityData} offers={nearOffers} hoveredOfferId={upcomingOfferId} />
+          <Map
+            mapType={'offer'}
+            cityLocations={CITIES_LOCATION}
+            offers={onMapOffers}
+            activeCity={selectedCityName}
+            selectedOffer={selectedOffer}
+          />
         </section>
         <div className="container">
-          <NearPlaces upcomingOffers={nearOffers} hoveredOfferId={handleCardHover} />
+          <NearPlaces upcomingOffers={nearOffers} />
         </div>
       </main>
     </div>
