@@ -57,10 +57,10 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
               {selectedOffer.type[0].toUpperCase() + selectedOffer.type.slice(1)}
             </li>
             <li className="offer__feature offer__feature--bedrooms">
-              {selectedOffer.bedrooms} Bedrooms
+              {selectedOffer.bedrooms} {selectedOffer.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
             </li>
             <li className="offer__feature offer__feature--adults">
-              Max {selectedOffer.maxAdults} adults
+              Max {selectedOffer.maxAdults} {selectedOffer.maxAdults === 1 ? 'adult' : 'adults'}
             </li>
           </ul>
           <div className="offer__price">
