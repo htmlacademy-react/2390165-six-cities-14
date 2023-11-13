@@ -3,15 +3,23 @@ import Filter from '../../components/filter/filter';
 import { ActiveCity } from '../../types/city';
 
 import { Offer } from '../../types/offer';
-import {useState} from 'react';
+import { useEffect, useState } from 'react';
 
 type MainPageProps = {
   offers: Array<Offer>;
 }
 
 function MainPage({ offers }: MainPageProps): JSX.Element {
-  const [filterValue, setFilterValue] = useState<ActiveCity>('Paris') ;
-  const offersByCities = offers.filter((offer) => offer.city.name === filterValue);
+
+  const [offersServer, setOffers] = useState(offers);
+  useEffect(() => {
+    fetch('https://14.design.pages.academy/six-cities/offers')
+      .then((response) => response.json())
+      .then((data: Array<Offer>) => setOffers(data));
+  }, [setOffers]);
+
+  const [filterValue, setFilterValue] = useState<ActiveCity>('Paris');
+  const offersByCities = offersServer.filter((offer) => offer.city.name === filterValue);
 
   return (
 

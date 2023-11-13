@@ -3,10 +3,10 @@ import { Fragment } from 'react';
 import Reviews from './reviews/reviews';
 import reviews from '../../mocks/reviews';
 
-import {Offer} from '../../types/offer';
+import {OfferServer} from '../../types/offer';
 
 type OfferDetailsProps = {
-  selectedOffer: Offer;
+  selectedOffer: OfferServer;
 }
 
 function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {

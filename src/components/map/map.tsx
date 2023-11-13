@@ -7,15 +7,15 @@ import { useLocation } from 'react-router-dom';
 import useMap from '../../hooks/useMap';
 import { AppRoute, URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 
-import { Offer } from '../../types/offer';
+import { Offer, OfferServer } from '../../types/offer';
 import { ActiveCity, CityLocationType } from '../../types/city';
 
 type MapProps = {
   mapType: 'cities' | 'offer';
   cityLocations: Array<CityLocationType>;
-  offers: Array<Offer>;
+  offers: Array<OfferServer> | Offer[];
   activeCity: ActiveCity;
-  selectedOffer?: Offer;
+  selectedOffer?: OfferServer;
   hoveredOfferId?: Offer['id'] | null;
 }
 

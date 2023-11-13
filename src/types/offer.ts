@@ -1,13 +1,13 @@
 import Host from './host';
-import {City} from './city';
+import { City } from './city';
 import Loc from './loc';
 
 type Offer = {
-  id: number;
+  id: number | string;
   title: string;
   type: string;
   price: number;
-  previewImage: string;
+  previewImage?: string;
   city: City;
   location: Loc;
   isFavorite: boolean;
@@ -19,7 +19,25 @@ type Offer = {
   host: Host;
   images: Array<string>;
   maxAdults: number;
-  }
+}
+
+type OfferServer = {
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  city: City;
+  location: Loc;
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+  description: string;
+  bedrooms: number;
+  goods: Array<string>;
+  host: Host;
+  images: Array<string>;
+  maxAdults: number;
+}
 
 type NearOffer = {
   id: string;
@@ -43,4 +61,4 @@ type FullOffers = Offer & {
   maxAdults: number;
 }
 
-export type { Offer, NearOffer, FullOffers };
+export type { Offer, OfferServer, NearOffer, FullOffers };

@@ -7,8 +7,10 @@ import OfferDetails from '../../components/offer-details/offer-details';
 import NearPlaces from '../../components/near-places/near-places';
 
 
-import { Offer } from '../../types/offer';
+import { Offer, OfferServer } from '../../types/offer';
 import { ActiveCity } from '../../types/city';
+import { useEffect, useState } from 'react';
+import { offerServer } from '../../mocks/offer';
 
 type OfferPageProps = {
   offers: Array<Offer>;
@@ -16,25 +18,37 @@ type OfferPageProps = {
 
 function OfferPage({ offers }: OfferPageProps): JSX.Element {
   const { offerId } = useParams();
-  const selectedOffer: Offer | undefined = offers.find((it) => it.id === Number(offerId));
+  const [offersServer, setOffersServer] = useState(offers);
+  const [selectedOffer, setSelectedOffer] = useState<OfferServer>(offerServer);
+
+  useEffect(() => {
+    fetch(`https://14.design.pages.academy/six-cities/offers/${offerId}`)
+      .then((response) => response.json())
+      .then((data: OfferServer) => setSelectedOffer(data));
+  }, [offerId]);
+
+  useEffect(() => {
+    fetch('https://14.design.pages.academy/six-cities/offers')
+      .then((response) => response.json())
+      .then((data: Array<Offer>) => setOffersServer(data));
+  }, []);
 
   if (!selectedOffer) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
   const selectedCityName: ActiveCity =
-    offers.find((offer) => offer.id === Number(offerId))?.city.name || 'Paris';
+    offersServer.find((offer) => offer.id === offerId)?.city.name || 'Paris';
 
-  const offersByCity: Array<Offer> = offers.filter((offer) =>
+  const offersByCity: Offer[] | OfferServer[] = offersServer.filter((offer) =>
     (offer.city.name === selectedOffer.city.name));
 
-  const nearOffers: Array<Offer> = offersByCity
-    .filter((offer) => offer.id !== Number(offerId))
+  const nearOffers: Offer[] | Array<OfferServer> = offersByCity
+    .filter((offer) => offer.id !== offerId)
     .slice(0, 3);
 
-  const onMapOffers = [...nearOffers];
+  const onMapOffers: OfferServer[] | Offer[] = [...nearOffers];
   onMapOffers.push(selectedOffer);
-
 
   return (
 
