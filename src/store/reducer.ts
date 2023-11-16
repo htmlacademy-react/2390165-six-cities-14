@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {createReducer } from '@reduxjs/toolkit';
 
 import offers from '../mocks/offers';
@@ -11,10 +12,10 @@ const initialState = {
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setCity, (state, action) => {
-      state.activeCity = action.payload
+      state.activeCity = action.payload;
     })
     .addCase(setOffersAction, (state, action) => {
-      state.offers = action.payload
+      state.offers = action.payload;
     });
 });
 
