@@ -13,11 +13,11 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-
-    <App
-      offers={offers}
-    />
-
+    <Provider store={store} >
+      <App
+        offers={offers}
+      />
+    </Provider>
 
   </React.StrictMode>
 
