@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react';
+
 import Cities from '../../components/cities/cities';
 import Filter from '../../components/filter/filter';
-import { ActiveCity } from '../../types/city';
 
+import { ActiveCity } from '../../types/city';
 import { Offer } from '../../types/offer';
-import { useEffect, useState } from 'react';
 
 type MainPageProps = {
   offers: Array<Offer>;
