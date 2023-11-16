@@ -5,11 +5,11 @@ const setCity = createAction('setCity', (value) => (
   { payload: value }
 ));
 
-const setOffersAction = createAction('setOffers', (value) => (
+const setOffers = createAction('setOffers', (value) => (
   { payload: value }
 ));
 
 export {
   setCity,
-  setOffersAction,
+  setOffers,
 };

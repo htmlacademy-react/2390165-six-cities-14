@@ -1,15 +1,15 @@
+import { useAppDispatch } from '../../hooks';
+import { setCity } from '../../store/actions';
+
 import Filters from '../../types/filters';
 import { ActiveCity } from '../../types/city';
 
-type FilterProps = {
-  cb: (param: ActiveCity) => void;
-}
-
-function Filter({ cb }: FilterProps): JSX.Element {
+function Filter(): JSX.Element {
   const filters: Filters = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+  const dispatch = useAppDispatch();
 
   function handleClick(filter: ActiveCity) {
-    return () => cb(filter);
+    return () => dispatch(setCity(filter));
   }
 
   return (

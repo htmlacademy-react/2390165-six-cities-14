@@ -21,11 +21,13 @@ function Sort({ cb }: SortProps): JSX.Element {
   }
 
   function handleLiClick(sortValue: SortType) {
-    items.forEach((it) => (it.isSelected = sortValue === it.value));
+    return () => {
+      items.forEach((it) => (it.isSelected = sortValue === it.value));
 
-    cb(sortValue);
-    setUlClassName('places__options--closed');
-    setSortItems(items);
+      cb(sortValue);
+      setUlClassName('places__options--closed');
+      setSortItems(items);
+    };
   }
 
   return (
@@ -51,7 +53,7 @@ function Sort({ cb }: SortProps): JSX.Element {
               key={item.value}
               className={`places__option ${item.isSelected ? 'places__option--active' : ''}`}
               tabIndex={0}
-              onClick={() => handleLiClick(item.value)}
+              onClick={handleLiClick(item.value)}
             >
               {item.value}
             </li>
