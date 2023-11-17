@@ -12,7 +12,7 @@ function Filter(): JSX.Element {
   const dispatch = useAppDispatch();
 
   function handleClick(filter: ActiveCity) {
-    return () => dispatch(setCity(filter));
+    return () => dispatch(setCity({city: filter}));
   }
 
   return (

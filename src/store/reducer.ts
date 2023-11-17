@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {createReducer } from '@reduxjs/toolkit';
+import {createReducer} from '@reduxjs/toolkit';
 
 import offers from '../mocks/offers';
 import { setCity, setOffers } from './actions';
@@ -18,7 +18,8 @@ const initialState: InitialState = {
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setCity, (state, action) => {
-      state.activeCity = action.payload;
+      const {city} = action.payload;
+      state.activeCity = city;
     })
     .addCase(setOffers, (state, action) => {
       state.offers = action.payload;
