@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { SortType } from '../../types/sort';
 
@@ -13,11 +13,38 @@ function Sort({ cb }: SortProps): JSX.Element {
     isSelected: false
   }));
 
-  const [sortItems, setSortItems] = useState(items);
-  const [ulClassName, setUlClassName] = useState('places__options--closed');
+  const refSpan = useRef<HTMLUListElement | null>(null);
 
-  function handleUlClick() {
-    setUlClassName('places__options--opened');
+  const [sortItems, setSortItems] = useState(items);
+  const [isOpened, setIsOpened] = useState(false);
+
+  function handleDocumentKeydown(event: KeyboardEvent) {
+    if (event.key.startsWith('Esc') && isOpened) {
+      event.preventDefault();
+      setIsOpened(false);
+    }
+  }
+  useEffect(() => {
+    document.addEventListener('keydown', handleDocumentKeydown);
+
+    return (() => document.removeEventListener('keydown', handleDocumentKeydown));
+  });
+
+  function handleDocumentClick(event: MouseEvent) {
+    const isContains = refSpan.current?.contains(event.target as Element);
+    if (!isContains) {
+      setIsOpened(false);
+    }
+  }
+  useEffect(() => {
+    document.addEventListener('click', handleDocumentClick);
+
+    return (() => document.removeEventListener('click', handleDocumentClick));
+  });
+
+  function handleSpanClick(event: React.MouseEvent) {
+    event.stopPropagation();
+    setIsOpened((prevIsOpened) => !prevIsOpened);
   }
 
   function handleLiClick(sortValue: SortType) {
@@ -25,18 +52,25 @@ function Sort({ cb }: SortProps): JSX.Element {
       items.forEach((it) => (it.isSelected = sortValue === it.value));
 
       cb(sortValue);
-      setUlClassName('places__options--closed');
+      setIsOpened((prevIsOpened) => !prevIsOpened);
       setSortItems(items);
     };
   }
 
   return (
-    <form className="places__sorting" action="#" method="get">
+    <form
+      className="places__sorting"
+      action="#"
+      method="get"
+
+
+    >
       <span className="places__sorting-caption">Sort by</span>
       <span
         className="places__sorting-type"
         tabIndex={0}
-        onClick={handleUlClick}
+        onClick={handleSpanClick}
+        ref={refSpan}
       >
         {sortItems.find((item) => item.isSelected)?.value || 'Popular'}
         <svg className="places__sorting-arrow" width="7" height="4">
@@ -44,7 +78,7 @@ function Sort({ cb }: SortProps): JSX.Element {
         </svg>
       </span>
       <ul
-        className={`places__options places__options--custom ${ulClassName}`}
+        className={`places__options places__options--custom places__options${isOpened ? '--opened' : '--closed'}`}
 
       >
         {
