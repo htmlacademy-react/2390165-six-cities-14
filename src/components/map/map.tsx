@@ -8,7 +8,7 @@ import useMap from '../../hooks/useMap';
 import { AppRoute, URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 
 import { Offer, OfferServer } from '../../types/offer';
-import { ActiveCity, CityLocationType } from '../../types/city';
+import { CityLocationType } from '../../types/city';
 import { useAppSelector } from '../../hooks';
 
 type MapProps = {
@@ -47,9 +47,6 @@ function Map({ mapType, cityLocations, offers, hoveredOfferId, selectedOffer }: 
   if (isOfferPage && selectedOffer) {
     offers = offers.filter((offer) => offer.id !== selectedOffer.id);
   }
-
-
-  // console.log(isOfferPage)
 
   useEffect(() => {
     if (map) {
