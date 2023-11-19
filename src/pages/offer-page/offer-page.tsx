@@ -12,27 +12,18 @@ import { useEffect, useState } from 'react';
 import { offerServer } from '../../mocks/offer';
 import { useAppSelector } from '../../hooks';
 
-type OfferPageProps = {
-  offers: Array<Offer>;
-};
-
-function OfferPage({ offers }: OfferPageProps): JSX.Element {
+function OfferPage(): JSX.Element {
   const { offerId } = useParams();
   const selectedCityName = useAppSelector((state) => state.activeCity);
-  const [offersServer, setOffersServer] = useState(offers);
   const [selectedOffer, setSelectedOffer] = useState<OfferServer>(offerServer);
+  // const [offersServer, setOffersServer] = useState(offers);
+  const offersServer = useAppSelector((state) => state.offers);
 
   useEffect(() => {
     fetch(`https://14.design.pages.academy/six-cities/offers/${offerId}`)
       .then((response) => response.json())
       .then((data: OfferServer) => setSelectedOffer(data));
   }, [offerId]);
-
-  useEffect(() => {
-    fetch('https://14.design.pages.academy/six-cities/offers')
-      .then((response) => response.json())
-      .then((data: Array<Offer>) => setOffersServer(data));
-  }, []);
 
   if (!selectedOffer) {
     return <Navigate to={AppRoute.NotFound} />;

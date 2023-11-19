@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import Cities from '../../components/cities/cities';
 import Filter from '../../components/filter/filter';
 
-// import { Offer } from '../../types/offer';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import { setOffers, isLoaded as isReady } from '../../store/actions';
@@ -12,8 +11,6 @@ function MainPage(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
   const isLoaded = useAppSelector((state) => state.isLoaded);
   const dispatch = useAppDispatch();
-  console.log(offers)
-
 
   useEffect(() => {
 
@@ -27,7 +24,6 @@ function MainPage(): JSX.Element {
 
   const filterValue = useAppSelector((state) => state.activeCity);
   const offersByCity = offers.filter((offer) => offer.city.name === filterValue);
-  console.log(offersByCity)
 
   return (
     <>
