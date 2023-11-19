@@ -5,9 +5,11 @@ import Filter from '../../components/filter/filter';
 
 import { Offer } from '../../types/offer';
 import { useAppSelector } from '../../hooks';
+import { PlaceHolder } from '../../components/placeholder/placeholder';
 
 function MainPage(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
+  const isLoaded = useAppSelector((state) => state.isLoaded);
   const [offersServer, setOffers] = useState(offers);
 
   useEffect(() => {
@@ -20,18 +22,23 @@ function MainPage(): JSX.Element {
   const offersByCity = offersServer.filter((offer) => offer.city.name === filterValue);
 
   return (
+    <>
+      <PlaceHolder />
 
-    <div className="page page--gray page--main">
-      <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <Filter />
-          </section>
-        </div>
-        <Cities offersByCity={offersByCity} selectedCity={filterValue} />
-      </main>
-    </div>
+      {isLoaded &&
+        <div className="page page--gray page--main">
+          <main className="page__main page__main--index">
+            <h1 className="visually-hidden">Cities</h1>
+            <div className="tabs">
+              <section className="locations container">
+                <Filter />
+              </section>
+            </div>
+            <Cities offersByCity={offersByCity} selectedCity={filterValue} />
+          </main>
+        </div>};
+
+    </>
 
   );
 }
