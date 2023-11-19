@@ -3,23 +3,31 @@ import { useEffect, useState } from 'react';
 import Cities from '../../components/cities/cities';
 import Filter from '../../components/filter/filter';
 
-import { Offer } from '../../types/offer';
-import { useAppSelector } from '../../hooks';
+// import { Offer } from '../../types/offer';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
+import { setOffers, isLoaded as isReady } from '../../store/actions';
 
 function MainPage(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
   const isLoaded = useAppSelector((state) => state.isLoaded);
-  const [offersServer, setOffers] = useState(offers);
+  const dispatch = useAppDispatch();
+  console.log(offers)
+
 
   useEffect(() => {
+
     fetch('https://14.design.pages.academy/six-cities/offers')
       .then((response) => response.json())
-      .then((data: Array<Offer>) => setOffers(data));
-  }, [setOffers]);
+      .then((data) => dispatch(setOffers(data)))
+      .then(() => setTimeout(() =>
+        dispatch(isReady()), 2000));
+  }, []);
+
 
   const filterValue = useAppSelector((state) => state.activeCity);
-  const offersByCity = offersServer.filter((offer) => offer.city.name === filterValue);
+  const offersByCity = offers.filter((offer) => offer.city.name === filterValue);
+  console.log(offersByCity)
 
   return (
     <>

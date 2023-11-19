@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {createReducer} from '@reduxjs/toolkit';
 
-import offers from '../mocks/offers';
+// import offers from '../mocks/offers';
 import { isLoaded, setCity, setOffers } from './actions';
 import { ActiveCity } from '../types/city';
 import { Offer } from '../types/offer';
@@ -13,7 +13,7 @@ type InitialState = {
 }
 const initialState: InitialState = {
   activeCity: 'Paris',
-  offers: offers,
+  offers: [],
   isLoaded: false,
 };
 
