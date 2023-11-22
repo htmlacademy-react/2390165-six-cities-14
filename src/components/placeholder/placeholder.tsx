@@ -1,24 +1,19 @@
-import { useAppDispatch, useAppSelector } from '../../hooks';
 import styles from './placeholder.module.css';
+
 import { useEffect } from 'react';
-import { isLoaded} from '../../store/actions';
+import { useAppSelector } from '../../hooks';
 
 function PlaceHolder(): JSX.Element | null {
   const isReady = useAppSelector((state) => state.isLoaded);
   const message = 'Loading...';
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   setTimeout(() => dispatch(isLoaded()), 2000);
 
-  // }, [dispatch]);
-
-  function handleDocumentClick(event: KeyboardEvent) {
+  function handleDocumentClick(event: MouseEvent) {
     event.preventDefault();
   }
 
   useEffect(() => {
-    document.addEventListener('keydown', handleDocumentClick);
-    return(() => document.removeEventListener('keydown', handleDocumentClick));
+    document.addEventListener('click', handleDocumentClick);
+    return(() => document.removeEventListener('click', handleDocumentClick));
   }, []);
 
   if (isReady) {

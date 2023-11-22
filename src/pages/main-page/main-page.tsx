@@ -18,7 +18,7 @@ function MainPage(): JSX.Element {
       .then((response) => response.json())
       .then((data) => dispatch(setOffers(data)))
       .then(() => setTimeout(() =>
-        dispatch(isReady()), 2000));
+        dispatch(isReady()), 500));
   }, []);
 
 
