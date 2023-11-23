@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import axios, { AxiosInstance } from 'axios';
-import { useAppDispatch } from '../../hooks';
 import { setOffers, isLoaded } from '../../store/actions';
-import { Offer } from '../../types/offer';
 import { useEffect } from 'react';
 import store from '../../store';
+import { getToken } from './token';
 
 
 const BASE_URL = 'https://14.design.pages.academy/six-cities';
@@ -15,6 +14,18 @@ export function createAPI(): AxiosInstance {
     baseURL: BASE_URL,
     timeout: REQUEST_TIMEOUT,
   });
+
+  api.interceptors.request.use(
+    (config) => {
+      const token = getToken();
+
+      if(token && config.headers) {
+        config.headers['x-token'] = token;
+      }
+
+      return config;
+    });
+
   return api;
 }
 
