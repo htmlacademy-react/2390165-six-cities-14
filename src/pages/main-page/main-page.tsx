@@ -6,20 +6,22 @@ import Filter from '../../components/filter/filter';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import { setOffers, isLoaded as isReady } from '../../store/actions';
+import { useGetOffers } from '../../services/apiService/api';
 
 function MainPage(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
   const isLoaded = useAppSelector((state) => state.isLoaded);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  useGetOffers(dispatch);
+  // useEffect(() => {
 
-    fetch('https://14.design.pages.academy/six-cities/offers')
-      .then((response) => response.json())
-      .then((data) => dispatch(setOffers(data)))
-      .then(() => setTimeout(() =>
-        dispatch(isReady()), 500));
-  }, []);
+  //   fetch('https://14.design.pages.academy/six-cities/offers')
+  //     .then((response) => response.json())
+  //     .then((data) => dispatch(setOffers(data)))
+  //     .then(() => setTimeout(() =>
+  //       dispatch(isReady()), 500));
+  // }, []);
 
 
   const filterValue = useAppSelector((state) => state.activeCity);
