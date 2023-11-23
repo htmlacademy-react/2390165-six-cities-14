@@ -33,27 +33,41 @@ async function request(path: string, options = {}) {
 
 }
 
-//  function useGetOffers(dispatch: typeof store.dispatch) {
-//   useEffect(() => {
-//     async function wrapper() {
-//       const data = await request('offers')
-//       dispatch(setOffers(data));
-//       dispatch(isLoaded());
-//     }
-//     wrapper();
-//   })
-// }
-
-
 function useGetOffers(dispatch: typeof store.dispatch) {
   useEffect(() => {
-    request('offers')
-      .then((data) => dispatch(setOffers(data)))
-      .then(() => dispatch(isLoaded()));
-  });
+    let isNeedUpdate = true;
+    async function startFetching() {
+      const data = await request('offers');
+      if (isNeedUpdate) {
+        dispatch(setOffers(data));
+        setTimeout(() => dispatch(isLoaded()), 500);
+      }
 
+    }
+    startFetching();
+
+    return (() => {
+      isNeedUpdate = false;
+    });
+  }, []);
 }
 
+
+// function useGetOffers(dispatch: typeof store.dispatch) {
+//   useEffect(() => {
+//     let isNeedUpdate = true;
+
+//     request('offers')
+//       .then((data) => isNeedUpdate && dispatch(setOffers(data)))
+//       .then(() => setTimeout(() =>
+//         dispatch(isLoaded()), 500));
+
+
+//     return (() => {
+//       isNeedUpdate = false;
+//     });
+//   }, []);
+// }
 
 const options = {
   method: '',
