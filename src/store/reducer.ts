@@ -24,7 +24,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.activeCity = city;
     })
     .addCase(setOffers, (state, action) => {
-      state.offers = action.payload;
+      state.offers = action.payload.offers;
     })
     .addCase(isLoaded, (state) => {
       state.isLoaded = true;

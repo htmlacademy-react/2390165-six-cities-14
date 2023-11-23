@@ -80,11 +80,4 @@ function useGetOffers(dispatch: typeof store.dispatch) {
 //   }, []);
 // }
 
-const options = {
-  method: '',
-  headers: { 'content-type': 'application/json' },
-  body: []
-};
-
-
 export { useGetOffers };

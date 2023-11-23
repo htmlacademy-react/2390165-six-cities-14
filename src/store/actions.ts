@@ -2,10 +2,14 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ActiveCity } from '../types/city';
 
-const setCity = createAction<{city: ActiveCity}>('setCity');
+const setCity = createAction<{ city: ActiveCity }>('setCity');
 
 const setOffers = createAction('setOffers', (value) => (
-  { payload: value }
+  {
+    payload: {
+      offers: value,
+    }
+  }
 ));
 const isLoaded = createAction('loaded');
 
