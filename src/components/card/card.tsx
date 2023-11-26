@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import {useState} from 'react';
-import { Offer } from '../../types/offer';
+import { useState } from 'react';
+import { NearOffer, Offer } from '../../types/offer';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { favoritesNumber } from '../../store/actions';
 
 type CardProps = {
   elementType: 'cities' | 'favorite' | 'offers';
-  offer: Offer;
+  offer: Offer | NearOffer;
   onCardHover?: (offerId: Offer['id'] | null) => void;
 }
 
@@ -47,6 +47,7 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
   }
 
   return (
+
     <article
       className={`${options[elementType].className}__card place-card`}
       onMouseEnter={handleMouseEnter}
@@ -73,7 +74,7 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
           <button
             className={`${isFav ? 'place-card__bookmark-button--active ' : ''}place-card__bookmark-button button`}
             type="button"
-            onClick = {handleFavClick}
+            onClick={handleFavClick}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -93,6 +94,7 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
         <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
+
   );
 }
 
