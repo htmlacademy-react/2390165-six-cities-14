@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { NearOffer, Offer } from '../../types/offer';
-import { AppRoute } from '../../const';
-import { useAppDispatch } from '../../hooks';
-import { favoritesNumber } from '../../store/actions';
+import { Offer } from '../../types/offer';
+import { AppRoute, AuthStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { favoritesNumber, setOffers } from '../../store/actions';
+import { updateOffers } from '../../services/apiService/api';
 
 type CardProps = {
   elementType: 'cities' | 'favorite' | 'offers';
-  offer: Offer | NearOffer;
+  offer: Offer;
   onCardHover?: (offerId: Offer['id'] | null) => void;
 }
 
@@ -30,12 +31,34 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
     },
   };
 
-  const [isFav, setIsFav] = useState<boolean>(offer.isFavorite);
-  const dispatch = useAppDispatch();
+  const offersStore = useAppSelector((state) => state.offers);
+  const index = offersStore.findIndex((it) => it.id === offer.id);
 
-  function handleFavClick() {
-    setIsFav((isFavPrev) => !isFavPrev);
-    dispatch(favoritesNumber(isFav ? -1 : 1));
+
+  const offerCopy = { ...offer };
+
+  const [isFav, setIsFav] = useState<boolean>(offer.isFavorite);
+  // console.log(isFav)
+  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector((state) => state.authStatus);
+  const navigate = useNavigate();
+
+  async function handleFavClick() {
+    if (authStatus === AuthStatus.NoAuth) {
+      navigate(AppRoute.Login);
+    }
+    if (authStatus === AuthStatus.Auth) {
+      offerCopy.isFavorite = !isFav;
+      setIsFav((isFavPrev) => !isFavPrev);
+      dispatch(favoritesNumber(isFav ? -1 : 1));
+      dispatch(setOffers(offersStore));
+      try {
+        const data = await updateOffers(offer);
+        dispatch(setOffers(data));
+      } catch {
+        throw new Error();
+      }
+    }
   }
 
   function handleMouseEnter() {
