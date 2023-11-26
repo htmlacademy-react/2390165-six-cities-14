@@ -6,12 +6,13 @@ import { AppRoute } from '../../const';
 import Map from '../../components/map/map';
 import OfferDetails from '../../components/offer-details/offer-details';
 import NearPlaces from '../../components/near-places/near-places';
-import { fetchNearPlaces, fetchSelectedOffer, isSelectedOfferLoaded } from '../../store/actions';
+import { fetchNearPlaces, fetchReviews, fetchSelectedOffer, isSelectedOfferLoaded } from '../../store/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 
 import { NearOffer, SelectedOffer } from '../../types/offer';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
+import ReviewType from '../../types/review';
 
 
 function OfferPage(): JSX.Element {
@@ -38,6 +39,13 @@ function OfferPage(): JSX.Element {
       .then((response) => response.json())
       .then((data: NearOffer[]) => dispatch(fetchNearPlaces(data)));
   }, [dispatch, offerId]);
+
+  useEffect(() => {
+    fetch(`https://14.design.pages.academy/six-cities/comments/${offerId}`)
+      .then((response) => response.json())
+      .then((data: ReviewType[]) => dispatch(fetchReviews(data)));
+  }, [dispatch, offerId]
+  );
 
   if (!selectedOffer && !offerId) {
     return <Navigate to={AppRoute.NotFound} />;

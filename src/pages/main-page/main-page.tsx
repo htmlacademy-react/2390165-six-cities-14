@@ -4,13 +4,20 @@ import Filter from '../../components/filter/filter';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import { useGetOffers } from '../../services/apiService/api';
+import { fetchOffersAction } from '../../store/api-actions';
+import {useEffect} from 'react';
+import store from '../../store';
 
 function MainPage(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
   const isLoaded = useAppSelector((state) => state.isLoaded);
   const dispatch = useAppDispatch();
 
-  useGetOffers(dispatch, 'offers');
+  // useGetOffers(dispatch, 'offers');
+  useEffect(() => {
+    dispatch(fetchOffersAction());
+
+  }, [dispatch]);
   // useEffect(() => {
 
   //   fetch('https://14.design.pages.academy/six-cities/offers')

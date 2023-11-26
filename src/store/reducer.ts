@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createReducer } from '@reduxjs/toolkit';
 
-// import offers from '../mocks/offers';
 import { fetchFavs, fetchNearPlaces, fetchSelectedOffer, fetchOffers, fetchReviews, isLoaded, setCity, setOffers, isSelectedOfferLoaded, isFavsLoaded, isNearPlacesLoaded, isReviewsLoaded, favoritesNumber, requireAuthorization } from './actions';
 import { ActiveCity } from '../types/city';
 import { Favs, NearOffer, Offer, SelectedOffer } from '../types/offer';
