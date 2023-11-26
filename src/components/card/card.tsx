@@ -4,7 +4,6 @@ import { Offer } from '../../types/offer';
 import { AppRoute, AuthStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { favoritesNumber, setOffers } from '../../store/actions';
-import { updateOffers } from '../../services/apiService/api';
 
 type CardProps = {
   elementType: 'cities' | 'favorite' | 'offers';
@@ -32,18 +31,15 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
   };
 
   const offersStore = useAppSelector((state) => state.offers);
-  const index = offersStore.findIndex((it) => it.id === offer.id);
-
 
   const offerCopy = { ...offer };
 
   const [isFav, setIsFav] = useState<boolean>(offer.isFavorite);
-  // console.log(isFav)
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector((state) => state.authStatus);
   const navigate = useNavigate();
 
-  async function handleFavClick() {
+  function handleFavClick() {
     if (authStatus === AuthStatus.NoAuth) {
       navigate(AppRoute.Login);
     }
@@ -52,12 +48,6 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
       setIsFav((isFavPrev) => !isFavPrev);
       dispatch(favoritesNumber(isFav ? -1 : 1));
       dispatch(setOffers(offersStore));
-      try {
-        const data = await updateOffers(offer);
-        dispatch(setOffers(data));
-      } catch {
-        throw new Error();
-      }
     }
   }
 

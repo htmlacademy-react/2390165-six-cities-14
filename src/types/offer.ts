@@ -7,7 +7,7 @@ type Offer = { //для CityPage
   title: string;
   type: string;
   price: number;
-  previewImage: string;
+  previewImage?: string;
   city: City;
   location: Loc;
   isFavorite: boolean;
@@ -33,20 +33,7 @@ type SelectedOffer = { //для OfferPage
   maxAdults: number;
 }
 
-type NearOffer = { //для OfferPage
-  id: string;
-  title: string;
-  type: string;
-  price: number;
-  previewImage?: string;
-  city: City;
-  location: Loc;
-  isFavorite: boolean;
-  isPremium: boolean;
-  rating: number;
-}
-
-type Favs = NearOffer
+type Favs = Offer
 
 
-export type { Offer, SelectedOffer, NearOffer, Favs };
+export type { Offer, SelectedOffer, Favs };

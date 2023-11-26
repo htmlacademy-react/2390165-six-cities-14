@@ -20,13 +20,13 @@ function FavoritePage(): JSX.Element {
       }
     })
       .then((response) => response.json())
-      .then((data: Favs[]) => dispatch(fetchFavs(data)))
+      .then((data:Favs[]) => dispatch(fetchFavs(data)))
       .then(() => setTimeout(() => {
         dispatch(isFavsLoaded());
       }, 500));
-  }, []);
+  }, [dispatch]);
 
-  const favoriteOffers: Favs[] = useAppSelector((state) => state.favs);
+  const favoriteOffers = useAppSelector((state) => state.favs);
 
   function getFavoriteCities(favOffers: Array<Offer>): FavoritesByCity {
 

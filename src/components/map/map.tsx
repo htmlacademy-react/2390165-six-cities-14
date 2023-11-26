@@ -7,12 +7,12 @@ import { useLocation } from 'react-router-dom';
 import useMap from '../../hooks/useMap';
 import { AppRoute, URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 
-import { NearOffer, Offer, SelectedOffer } from '../../types/offer';
+import { Offer, SelectedOffer } from '../../types/offer';
 import Loc from '../../types/loc';
 
 type MapProps = {
   mapType: 'cities' | 'offer';
-  offers: Offer[] | NearOffer[];
+  offers: Offer[];
   selectedOffer?: SelectedOffer;
   hoveredOfferId?: Offer['id'] | null;
 }
@@ -35,14 +35,8 @@ function Map({ mapType, offers, selectedOffer, hoveredOfferId }: MapProps): JSX.
   const { pathname } = useLocation();
   const isOfferPage = pathname.startsWith(AppRoute.Offer);
 
-  // const {offerId} = useParams();
-  // const selectedOffer = offers.find((offer) => offer.id === offerId);
 
   const location: Loc = offers[0].city.location;
-  // if(offers) {
-  //   location = offers[0].city.location;
-  // }
-
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, location);

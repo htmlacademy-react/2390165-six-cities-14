@@ -10,7 +10,7 @@ import { fetchNearPlaces, fetchReviews, fetchSelectedOffer, isSelectedOfferLoade
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 
-import { NearOffer, SelectedOffer } from '../../types/offer';
+import { Offer, SelectedOffer } from '../../types/offer';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import ReviewType from '../../types/review';
 
@@ -18,7 +18,7 @@ import ReviewType from '../../types/review';
 function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const { offerId } = useParams();
-  const nearOffers: NearOffer[] = useAppSelector((state) => state.nearPlaces);
+  const nearOffers = useAppSelector((state) => state.nearPlaces);
   const selectedOffer = useAppSelector((state) => state.selectedOffer);
   const isReady = useAppSelector((state) => state.isSelectedOfferLoaded);
 
@@ -37,7 +37,7 @@ function OfferPage(): JSX.Element {
   useEffect(() => {
     fetch(`https://14.design.pages.academy/six-cities/offers/${offerId}/nearby`)
       .then((response) => response.json())
-      .then((data: NearOffer[]) => dispatch(fetchNearPlaces(data)));
+      .then((data: Offer[]) => dispatch(fetchNearPlaces(data)));
   }, [dispatch, offerId]);
 
   useEffect(() => {
