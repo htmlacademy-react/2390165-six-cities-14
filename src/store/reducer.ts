@@ -2,10 +2,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 // import offers from '../mocks/offers';
-import { fetchFavs, fetchNearPlaces, fetchSelectedOffer, fetchOffers, fetchReviews, isLoaded, setCity, setOffers, isSelectedOfferLoaded, isFavsLoaded, isNearPlacesLoaded, isReviewsLoaded, favoritesNumber } from './actions';
+import { fetchFavs, fetchNearPlaces, fetchSelectedOffer, fetchOffers, fetchReviews, isLoaded, setCity, setOffers, isSelectedOfferLoaded, isFavsLoaded, isNearPlacesLoaded, isReviewsLoaded, favoritesNumber, requireAuthorization } from './actions';
 import { ActiveCity } from '../types/city';
 import { Favs, NearOffer, Offer, SelectedOffer } from '../types/offer';
 import ReviewType from '../types/review';
+import { AuthStatus } from '../const';
 
 type InitialState = {
   activeCity: ActiveCity;
@@ -20,6 +21,7 @@ type InitialState = {
   isNearPlacesLoaded: boolean;
   reviews: ReviewType[];
   isReviewsLoaded: boolean;
+  authStatus: AuthStatus;
 }
 const initialState: InitialState = {
   activeCity: 'Paris',
@@ -34,6 +36,7 @@ const initialState: InitialState = {
   isNearPlacesLoaded: false,
   reviews: [],
   isReviewsLoaded: false,
+  authStatus: AuthStatus.Unknown,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -77,6 +80,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(isReviewsLoaded, (state) => {
       state.isReviewsLoaded = true;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authStatus = action.payload;
     });
 });
 

@@ -3,6 +3,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { ActiveCity } from '../types/city';
 import { Favs, NearOffer, Offer, SelectedOffer } from '../types/offer';
 import ReviewType from '../types/review';
+import { AuthStatus } from '../const';
 
 const setCity = createAction<{ city: ActiveCity }>('setCity');
 
@@ -27,6 +28,8 @@ const isNearPlacesLoaded = createAction('nearPlacesLoaded');
 const fetchReviews = createAction<ReviewType[]>('fetchReviews');
 const isReviewsLoaded = createAction('reviewsLoaded');
 
+const requireAuthorization = createAction<AuthStatus>('user/requireAuthorization');
+
 
 export {
   setCity,
@@ -41,5 +44,6 @@ export {
   fetchNearPlaces,
   isNearPlacesLoaded,
   fetchReviews,
-  isReviewsLoaded
+  isReviewsLoaded,
+  requireAuthorization,
 };
