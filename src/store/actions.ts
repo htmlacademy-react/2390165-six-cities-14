@@ -9,16 +9,15 @@ const setCity = createAction<{ city: ActiveCity }>('setCity');
 const setOffers = createAction<Offer[]>('setOffers');
 const favoritesNumber = createAction<number>('favoritesNumber');
 
-const fetchOffers = createAction<Offer[]>('fetchOffers');
 const isLoaded = createAction<boolean>('loaded');
 
-const fetchSelectedOffer = createAction<SelectedOffer>('fetchOffer');
+const setSelectedOffer = createAction<SelectedOffer>('data/setSelectedOffer');
 const isSelectedOfferLoaded = createAction('selectedOfferLoaded');
-const fetchFavs = createAction<Favs[]>('fetchFavs');
+const setFavs = createAction<Favs[]>('data/setFavs');
 const isFavsLoaded = createAction('favsLoaded');
-const fetchNearPlaces = createAction<Offer[]>('fetchNearPlaces');
+const setNearPlaces = createAction<Offer[]>('data/setNearPlaces');
 const isNearPlacesLoaded = createAction('nearPlacesLoaded');
-const fetchReviews = createAction<ReviewType[]>('fetchReviews');
+const setReviews = createAction<ReviewType[]>('data/setReviews');
 const isReviewsLoaded = createAction('reviewsLoaded');
 
 const requireAuthorization = createAction<AuthStatus>('user/requireAuthorization');
@@ -28,15 +27,14 @@ export {
   setCity,
   setOffers,
   favoritesNumber,
-  fetchOffers,
   isLoaded,
-  fetchSelectedOffer,
+  setSelectedOffer,
   isSelectedOfferLoaded,
-  fetchFavs,
+  setFavs,
   isFavsLoaded,
-  fetchNearPlaces,
+  setNearPlaces,
   isNearPlacesLoaded,
-  fetchReviews,
+  setReviews,
   isReviewsLoaded,
   requireAuthorization,
 };

@@ -6,7 +6,7 @@ import { AppRoute } from '../../const';
 import Map from '../../components/map/map';
 import OfferDetails from '../../components/offer-details/offer-details';
 import NearPlaces from '../../components/near-places/near-places';
-import { fetchNearPlaces, fetchReviews, fetchSelectedOffer, isSelectedOfferLoaded } from '../../store/actions';
+import { setNearPlaces, setReviews, setSelectedOffer, isSelectedOfferLoaded } from '../../store/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 
@@ -26,7 +26,7 @@ function OfferPage(): JSX.Element {
     if (offerId) {
       fetch(`https://14.design.pages.academy/six-cities/offers/${offerId}`)
         .then((response) => response.json())
-        .then((data: SelectedOffer) => dispatch(fetchSelectedOffer(data)))
+        .then((data: SelectedOffer) => dispatch(setSelectedOffer(data)))
         .then(() => setTimeout(() => {
           dispatch(isSelectedOfferLoaded());
         }, 500));
@@ -37,13 +37,13 @@ function OfferPage(): JSX.Element {
   useEffect(() => {
     fetch(`https://14.design.pages.academy/six-cities/offers/${offerId}/nearby`)
       .then((response) => response.json())
-      .then((data: Offer[]) => dispatch(fetchNearPlaces(data)));
+      .then((data: Offer[]) => dispatch(setNearPlaces(data)));
   }, [dispatch, offerId]);
 
   useEffect(() => {
     fetch(`https://14.design.pages.academy/six-cities/comments/${offerId}`)
       .then((response) => response.json())
-      .then((data: ReviewType[]) => dispatch(fetchReviews(data)));
+      .then((data: ReviewType[]) => dispatch(setReviews(data)));
   }, [dispatch, offerId]
   );
 

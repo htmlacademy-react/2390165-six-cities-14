@@ -6,7 +6,7 @@ import CardList from '../../components/card-list/card-list';
 import { Favs, Offer } from '../../types/offer';
 import FavoritesByCity from '../../types/favorites-by-city';
 import { useEffect } from 'react';
-import { fetchFavs, isFavsLoaded } from '../../store/actions';
+import { setFavs, isFavsLoaded } from '../../store/actions';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 
 function FavoritePage(): JSX.Element {
@@ -20,7 +20,7 @@ function FavoritePage(): JSX.Element {
       }
     })
       .then((response) => response.json())
-      .then((data:Favs[]) => dispatch(fetchFavs(data)))
+      .then((data:Favs[]) => dispatch(setFavs(data)))
       .then(() => setTimeout(() => {
         dispatch(isFavsLoaded());
       }, 500));
