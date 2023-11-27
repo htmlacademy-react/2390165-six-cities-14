@@ -10,7 +10,7 @@ const setOffers = createAction<Offer[]>('setOffers');
 const favoritesNumber = createAction<number>('favoritesNumber');
 
 const fetchOffers = createAction<Offer[]>('fetchOffers');
-const isLoaded = createAction('loaded');
+const isLoaded = createAction<boolean>('loaded');
 
 const fetchSelectedOffer = createAction<SelectedOffer>('fetchOffer');
 const isSelectedOfferLoaded = createAction('selectedOfferLoaded');

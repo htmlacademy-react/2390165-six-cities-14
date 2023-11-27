@@ -11,11 +11,12 @@ const fetchOffersAction = createAsyncThunk<void, undefined, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'fetchOffers',
-  async (_arg, { dispatch, extra: api }) => {
+  'data/fetchOffers',
+  async (_arg, { dispatch, extra: api, }) => {
+    dispatch(isLoaded(false));
     const { data } = await api.get<Offer[]>(APIRoute.Offers);
     dispatch(setOffers(data));
-    dispatch(isLoaded());
+    setTimeout(() => dispatch(isLoaded(true)), 500) ;
   },
 );
 

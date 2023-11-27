@@ -50,8 +50,8 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setOffers, (state, action) => {
       state.offers = action.payload;
     })
-    .addCase(isLoaded, (state) => {
-      state.isLoaded = true;
+    .addCase(isLoaded, (state, action) => {
+      state.isLoaded = action.payload;
     })
     .addCase(fetchOffers, (state, action) => {
       state.offers = action.payload;
