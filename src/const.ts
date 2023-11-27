@@ -1,5 +1,7 @@
 import { CityLocationType } from './types/city';
 
+const TIMEOUT_SHOW_ERROR = 2000;
+
 enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -72,6 +74,7 @@ const CITIES_LOCATION: Array<CityLocationType> = [
 
 
 export {
+  TIMEOUT_SHOW_ERROR,
   AppRoute,
   AuthStatus,
   APIRoute,
