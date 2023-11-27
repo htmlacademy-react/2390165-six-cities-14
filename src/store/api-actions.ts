@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios';
 
 import { APIRoute, AuthStatus } from '../const';
 import { isLoaded, requireAuthorization, setOffers } from './actions';
-import { saveToken } from '../services/apiService/token';
+import { dropToken, saveToken } from '../services/apiService/token';
 
 import { AppDispatch, State } from '../types/state';
 import { AuthData } from '../types/auth-data';
@@ -43,10 +43,21 @@ const loginAction = createAsyncThunk<void, AuthData, {
   extra: AxiosInstance;
 }>('user/login',
   async ({ email, password }, { dispatch, extra: api }) => {
-    const {data} = await api.post<UserData>(APIRoute.Login, { email, password });
+    const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
     const token = data.token;
     saveToken(token);
     dispatch(requireAuthorization(AuthStatus.Auth));
+  });
+
+const logoutAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>('user/logout',
+  async (_arg, { dispatch, extra: api }) => {
+    await api.delete(APIRoute.Logout);
+    dropToken();
+    dispatch(requireAuthorization(AuthStatus.NoAuth));
   });
 
 
@@ -54,4 +65,5 @@ export {
   fetchOffersAction,
   checkAuthAction,
   loginAction,
+  logoutAction
 };
