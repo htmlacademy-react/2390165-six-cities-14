@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 
 import { APIRoute, AuthStatus, TIMEOUT_SHOW_ERROR } from '../const';
 import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews } from './actions';
@@ -30,21 +30,31 @@ const fetchSelectedOfferDataAction = createAsyncThunk<void, string, {
   extra: AxiosInstance;
 }>(
   'data/fetchSelectedOfferData',
-  async (offerId, {dispatch, extra: api}) => {
+  async (offerId, { dispatch, extra: api }) => {
     dispatch(isLoaded(false));
     const offerPath = APIRoute.SelectedOffer + offerId;
     const nearbyPath = `${APIRoute.SelectedOffer}${offerId}/nearby`;
     const commentsPath = APIRoute.Reviews + offerId;
+    try {
+      const [selectedOffer, nearbyOffers, comments] = await Promise.all(
+        [
+          api.get<SelectedOffer>(offerPath),
+          api.get<Offer[]>(nearbyPath),
+          api.get<ReviewType[]>(commentsPath),
+        ]
+      );
 
-    const selectedOffer = await api.get<SelectedOffer>(offerPath);
-    const nearbyOffers = await api.get<Offer[]>(nearbyPath);
-    const comments = await api.get<ReviewType[]>(commentsPath);
+      dispatch(setSelectedOffer(selectedOffer.data));
+      dispatch(setNearPlaces(nearbyOffers.data));
+      dispatch(setReviews(comments.data));
+      setTimeout(() => dispatch(isLoaded(true)), 500);
 
-
-    dispatch(setSelectedOffer(selectedOffer.data));
-    dispatch(setNearPlaces(nearbyOffers.data));
-    dispatch(setReviews(comments.data));
-    setTimeout(() => dispatch(isLoaded(true)), 500);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        dispatch(setError(err));
+        throw err;
+      }
+    }
   }
 );
 
@@ -55,7 +65,7 @@ const checkAuthAction = createAsyncThunk<void, undefined, {
 }>('user/checkAuth',
   async (_arg, { dispatch, extra: api }) => {
     try {
-      const {data} = await api.get<UserData>(APIRoute.Login);
+      const { data } = await api.get<UserData>(APIRoute.Login);
       dispatch(requireAuthorization(AuthStatus.Auth));
       dispatch(setUserData(data));
     } catch {
@@ -69,7 +79,7 @@ const loginAction = createAsyncThunk<void, AuthData, {
 }>('user/login',
   async ({ email, password }, { dispatch, extra: api }) => {
     const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
-    if(data) {
+    if (data) {
       const token = data.token;
       saveToken(token);
       dispatch(requireAuthorization(AuthStatus.Auth));
