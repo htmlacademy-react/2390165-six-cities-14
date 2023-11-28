@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
+import { favoritesNumber } from '../../store/actions';
 
 function Header(): JSX.Element {
   const { pathname } = useLocation();
@@ -18,6 +19,7 @@ function Header(): JSX.Element {
 
   function handleSignOutClick() {
     dispatch(logoutAction());
+    dispatch(favoritesNumber(-favsNumber));
     navigate(AppRoute.Main);
   }
 
