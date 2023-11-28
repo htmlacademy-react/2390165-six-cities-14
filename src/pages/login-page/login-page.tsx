@@ -1,14 +1,15 @@
 import { FormEvent, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthStatus } from '../../const';
 
 function LoginPage() {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const authStatus = useAppSelector((state) => state.authStatus);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -23,6 +24,11 @@ function LoginPage() {
       }));
       navigate(AppRoute.Main);
     }
+  }
+
+
+  if (authStatus === AuthStatus.Auth) {
+    return <Navigate to={AppRoute.Main} />;
   }
 
 

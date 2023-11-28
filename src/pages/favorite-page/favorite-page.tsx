@@ -8,15 +8,17 @@ import FavoritesByCity from '../../types/favorites-by-city';
 import { useEffect } from 'react';
 import { setFavs, isFavsLoaded } from '../../store/actions';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
+import { getToken } from '../../services/apiService/token';
 
 function FavoritePage(): JSX.Element {
   const dispatch = useAppDispatch();
   const isReady = useAppSelector((state) => state.isFavsLoaded);
+  const token = getToken();
 
   useEffect(() => {
     fetch('https://14.design.pages.academy/six-cities/favorite', {
       headers: {
-        'x-token': 'b2xpdmVyLmNvbm5lckBnbWFpbC5jb20='
+        'x-token': token,
       }
     })
       .then((response) => response.json())
@@ -26,7 +28,7 @@ function FavoritePage(): JSX.Element {
       }, 500));
   }, [dispatch]);
 
-  const favoriteOffers = useAppSelector((state) => state.favs);
+  const favoriteOffers = useAppSelector((state) => state.favs) ?? [];
 
   function getFavoriteCities(favOffers: Array<Offer>): FavoritesByCity {
 
@@ -41,7 +43,6 @@ function FavoritePage(): JSX.Element {
     }, {});
     return result;
   }
-
 
   const favoritesByCity = getFavoriteCities(favoriteOffers);
 
