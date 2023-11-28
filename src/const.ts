@@ -21,7 +21,7 @@ enum APIRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
-  // FullOffer = '/offers/',
+  SelectedOffer = '/offers/',
   Reviews = '/comments/',
   Nearby = '/nearby',
   PostReview = '/comments',

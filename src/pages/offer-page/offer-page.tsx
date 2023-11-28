@@ -6,46 +6,27 @@ import { AppRoute } from '../../const';
 import Map from '../../components/map/map';
 import OfferDetails from '../../components/offer-details/offer-details';
 import NearPlaces from '../../components/near-places/near-places';
-import { setNearPlaces, setReviews, setSelectedOffer, isSelectedOfferLoaded } from '../../store/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 
-import { Offer, SelectedOffer } from '../../types/offer';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
-import ReviewType from '../../types/review';
+import { fetchSelectedOfferDataAction } from '../../store/api-actions';
 
 
 function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const { offerId } = useParams();
   const nearOffers = useAppSelector((state) => state.nearPlaces);
   const selectedOffer = useAppSelector((state) => state.selectedOffer);
-  const isReady = useAppSelector((state) => state.isSelectedOfferLoaded);
 
+  const isReady = useAppSelector((state) => state.isLoaded);
+
+  const { offerId } = useParams();
   useEffect(() => {
     if (offerId) {
-      fetch(`https://14.design.pages.academy/six-cities/offers/${offerId}`)
-        .then((response) => response.json())
-        .then((data: SelectedOffer) => dispatch(setSelectedOffer(data)))
-        .then(() => setTimeout(() => {
-          dispatch(isSelectedOfferLoaded());
-        }, 500));
+      dispatch(fetchSelectedOfferDataAction(offerId));
     }
   }, [dispatch, offerId]);
 
-
-  useEffect(() => {
-    fetch(`https://14.design.pages.academy/six-cities/offers/${offerId}/nearby`)
-      .then((response) => response.json())
-      .then((data: Offer[]) => dispatch(setNearPlaces(data)));
-  }, [dispatch, offerId]);
-
-  useEffect(() => {
-    fetch(`https://14.design.pages.academy/six-cities/comments/${offerId}`)
-      .then((response) => response.json())
-      .then((data: ReviewType[]) => dispatch(setReviews(data)));
-  }, [dispatch, offerId]
-  );
 
   if (!selectedOffer && !offerId) {
     return <Navigate to={AppRoute.NotFound} />;
