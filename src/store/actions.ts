@@ -1,8 +1,10 @@
 import { createAction } from '@reduxjs/toolkit';
-import { ActiveCity } from '../types/city';
-import { Favs, Offer, SelectedOffer } from '../types/offer';
-import ReviewType from '../types/review';
 import { AuthStatus } from '../const';
+
+import { Favs, Offer, SelectedOffer } from '../types/offer';
+import { ActiveCity } from '../types/city';
+import ReviewType from '../types/review';
+import { UserData } from '../types/user-data';
 
 const setCity = createAction<{ city: ActiveCity }>('setCity');
 
@@ -25,7 +27,7 @@ const setReviews = createAction<ReviewType[]>('data/setReviews');
 const isReviewsLoaded = createAction('reviewsLoaded');
 
 const requireAuthorization = createAction<AuthStatus>('user/requireAuthorization');
-
+const setUserData = createAction<UserData>('user/setUserData');
 
 export {
   setCity,
@@ -48,4 +50,5 @@ export {
   isReviewsLoaded,
 
   requireAuthorization,
+  setUserData,
 };

@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createReducer } from '@reduxjs/toolkit';
 
-import { setFavs, setNearPlaces, setSelectedOffer, setReviews, isLoaded, setCity, setOffers, isSelectedOfferLoaded, isFavsLoaded, isNearPlacesLoaded, isReviewsLoaded, favoritesNumber, requireAuthorization, setError } from './actions';
+import { setFavs, setNearPlaces, setSelectedOffer, setReviews,
+  isLoaded, setCity, setOffers, isSelectedOfferLoaded, isFavsLoaded,
+  isNearPlacesLoaded, isReviewsLoaded, favoritesNumber, requireAuthorization,
+  setError, setUserData } from './actions';
+import { AuthStatus } from '../const';
+
 import { ActiveCity } from '../types/city';
 import { Favs, Offer, SelectedOffer } from '../types/offer';
 import ReviewType from '../types/review';
-import { AuthStatus } from '../const';
+import { UserData } from '../types/user-data';
 
 type InitialState = {
   activeCity: ActiveCity;
@@ -28,6 +33,7 @@ type InitialState = {
   isReviewsLoaded: boolean;
 
   authStatus: AuthStatus;
+  authUserData: UserData | null;
 }
 const initialState: InitialState = {
   activeCity: 'Paris',
@@ -50,6 +56,7 @@ const initialState: InitialState = {
   isReviewsLoaded: false,
 
   authStatus: AuthStatus.Unknown,
+  authUserData: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -102,6 +109,9 @@ const reducer = createReducer(initialState, (builder) => {
 
     .addCase(requireAuthorization, (state, action) => {
       state.authStatus = action.payload;
+    })
+    .addCase(setUserData, (state, action) => {
+      state.authUserData = action.payload;
     });
 });
 

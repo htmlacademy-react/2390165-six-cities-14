@@ -6,6 +6,7 @@ import { useAppSelector } from '../../hooks';
 function Header(): JSX.Element {
   const {pathname} = useLocation();
   const favsNumber = useAppSelector((state) => state.favoritesNumber);
+  const userData = useAppSelector((state) => state.authUserData);
 
   const isMain = pathname === AppRoute.Main as string;
   const isLogin = pathname === AppRoute.Login as string;
@@ -29,10 +30,10 @@ function Header(): JSX.Element {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorite}>
+                  <Link className="header__nav-link header__nav-link--profile" to={userData ? AppRoute.Favorite : AppRoute.Login}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    <span className="header__user-name user__name">{userData ? userData.email : 'Login'}</span>
                     <span className="header__favorite-count">{favsNumber}</span>
                   </Link>
                 </li>
