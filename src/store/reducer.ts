@@ -33,7 +33,7 @@ type InitialState = {
   isReviewsLoaded: boolean;
 
   authStatus: AuthStatus;
-  authUserData: UserData | null;
+  UserData: UserData | null;
 }
 const initialState: InitialState = {
   activeCity: 'Paris',
@@ -56,7 +56,7 @@ const initialState: InitialState = {
   isReviewsLoaded: false,
 
   authStatus: AuthStatus.Unknown,
-  authUserData: null
+  UserData: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -111,7 +111,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.authStatus = action.payload;
     })
     .addCase(setUserData, (state, action) => {
-      state.authUserData = action.payload;
+      state.UserData = action.payload;
     });
 });
 

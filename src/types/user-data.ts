@@ -1,4 +1,4 @@
-type UserData = {
+type UserData = null | {
   name: string;
   avatarUrl: string;
   isPro: boolean;

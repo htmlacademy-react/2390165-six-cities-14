@@ -31,8 +31,9 @@ const checkAuthAction = createAsyncThunk<void, undefined, {
 }>('user/chekAuth',
   async (_arg, { dispatch, extra: api }) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data} = await api.get<UserData>(APIRoute.Login);
       dispatch(requireAuthorization(AuthStatus.Auth));
+      dispatch(setUserData(data));
     } catch {
       dispatch(requireAuthorization(AuthStatus.NoAuth));
     }
@@ -44,10 +45,12 @@ const loginAction = createAsyncThunk<void, AuthData, {
 }>('user/login',
   async ({ email, password }, { dispatch, extra: api }) => {
     const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
-    const token = data.token;
-    saveToken(token);
-    dispatch(requireAuthorization(AuthStatus.Auth));
-    dispatch(setUserData(data));
+    if(data) {
+      const token = data.token;
+      saveToken(token);
+      dispatch(requireAuthorization(AuthStatus.Auth));
+      dispatch(setUserData(data));
+    }
   });
 
 const logoutAction = createAsyncThunk<void, undefined, {
@@ -59,6 +62,7 @@ const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireAuthorization(AuthStatus.NoAuth));
+    dispatch(setUserData(null));
   });
 
 const clearErrorAction = createAsyncThunk('app/clearError',

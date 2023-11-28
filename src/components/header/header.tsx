@@ -1,17 +1,25 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { AppRoute } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { logoutAction } from '../../store/api-actions';
 
 function Header(): JSX.Element {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const favsNumber = useAppSelector((state) => state.favoritesNumber);
-  const userData = useAppSelector((state) => state.authUserData);
+  const userData = useAppSelector((state) => state.UserData);
 
   const isMain = pathname === AppRoute.Main as string;
   const isLogin = pathname === AppRoute.Login as string;
 
   const link = isMain ? '' : AppRoute.Main;
+
+  function handleSignOutClick() {
+    dispatch(logoutAction());
+    navigate(AppRoute.Main);
+  }
 
   return (
     <header className="header">
@@ -38,7 +46,11 @@ function Header(): JSX.Element {
                   </Link>
                 </li>
                 <li className="header__nav-item">
-                  <Link className="header__nav-link" to="#">
+                  <Link
+                    className="header__nav-link"
+                    to="#"
+                    onClick={handleSignOutClick}
+                  >
                     <span className="header__signout">Sign out</span>
                   </Link>
                 </li>
