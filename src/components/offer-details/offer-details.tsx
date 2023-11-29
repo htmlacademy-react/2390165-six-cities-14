@@ -2,7 +2,9 @@ import { Fragment } from 'react';
 
 import Reviews from './reviews/reviews';
 
-import {SelectedOffer} from '../../types/offer';
+import { SelectedOffer } from '../../types/offer';
+import ReviewList from './review-ist/review-list';
+import ReviewForm from './review-form/review-form';
 
 type OfferDetailsProps = {
   selectedOffer: SelectedOffer;
@@ -104,7 +106,10 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
               </p>
             </div>
           </div>
-          <Reviews />
+          <section className="offer__reviews reviews">
+            <ReviewList />
+            <ReviewForm />
+          </section>
         </div>
       </div >
     </>
