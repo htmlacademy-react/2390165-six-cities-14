@@ -1,9 +1,6 @@
 import { ChangeEvent, Fragment, useState } from 'react';
 
 function ReviewForm(): JSX.Element {
-  const [comment, setComment] = useState('');
-  const [rating, setRating] = useState('0');
-
   const ratingMap = {
     'perfect': '5',
     'good': '4',
@@ -12,10 +9,17 @@ function ReviewForm(): JSX.Element {
     'terribly': '1'
   };
 
+  const MIN_COMMENT_LENGTH = 49;
+  const MAX_COMMENT_LENGTH = 300;
+
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState('0');
+
+
   function isDisabled() {
-    const isCommentValid = comment.length > 49 && comment.length < 300;
+    const isCommentValid = comment.length > MIN_COMMENT_LENGTH && comment.length < MAX_COMMENT_LENGTH;
     const isRatingValid = Boolean(Number(rating));
-    return isCommentValid && isRatingValid;
+    return !(isCommentValid && isRatingValid);
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -77,7 +81,7 @@ function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isDisabled()}
+          disabled={isDisabled()}
         >
           Submit
         </button>
