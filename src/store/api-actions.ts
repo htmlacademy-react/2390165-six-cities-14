@@ -18,11 +18,17 @@ const fetchOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchOffers',
   async (_arg, { dispatch, extra: api, }) => {
-    dispatch(isLoaded(false));
-    const { data } = await api.get<Offer[]>(APIRoute.Offers);
-    dispatch(setOffers(data));
-    setTimeout(() => dispatch(isLoaded(true)), 500);
-  },
+    try {
+      dispatch(isLoaded(false));
+      const { data } = await api.get<Offer[]>(APIRoute.Offers);
+      dispatch(setOffers(data));
+      setTimeout(() => dispatch(isLoaded(true)), 500);
+
+    } catch (error) {
+      dispatch(setError(String(error)));
+      throw error;
+    }
+  }
 );
 
 const fetchSelectedOfferDataAction = createAsyncThunk<void, string, {
@@ -51,7 +57,7 @@ const fetchSelectedOfferDataAction = createAsyncThunk<void, string, {
 
     } catch (err) {
       if (err instanceof AxiosError) {
-        dispatch(setError(err));
+        dispatch(setError(String(err)));
         throw err;
       }
     }
