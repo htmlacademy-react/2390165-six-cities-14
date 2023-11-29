@@ -12,6 +12,12 @@ function ReviewForm(): JSX.Element {
     'terribly': '1'
   };
 
+  function isDisabled() {
+    const isCommentValid = comment.length > 49 && comment.length < 300;
+    const isRatingValid = Boolean(Number(rating));
+    return isCommentValid && isRatingValid;
+  }
+
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     setRating(event.target.value);
   }
@@ -58,6 +64,8 @@ function ReviewForm(): JSX.Element {
         id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
+        minLength={50}
+        maxLength={300}
         onChange={handleTextAreaChange}
       >
       </textarea>
@@ -69,7 +77,7 @@ function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          disabled={!isDisabled()}
         >
           Submit
         </button>
