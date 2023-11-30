@@ -8,7 +8,7 @@ function ReviewList(): JSX.Element {
 
   const reviewServer = useAppSelector((state) => state.reviews);
 
-  const reviewServerCopy = [...reviewServer]
+  const reviewServerCopy = structuredClone(reviewServer)
     .sort((a, b) => dateInMs(b.date) - dateInMs(a.date))
     .slice(0, 10);
 
