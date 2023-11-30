@@ -2,13 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError, AxiosInstance } from 'axios';
 
 import { APIRoute, AuthStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews } from './actions';
+import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews, setFavs } from './actions';
 import { dropToken, saveToken } from '../services/apiService/token';
 
 import { AppDispatch, State } from '../types/state';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { Offer, SelectedOffer } from '../types/offer';
+import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType, { CommentSend } from '../types/review';
 
 
@@ -27,6 +27,26 @@ const fetchOffersAction = createAsyncThunk<void, undefined, {
     } catch (error) {
       dispatch(setError(String(error)));
       throw error;
+    }
+  }
+);
+
+const fetchFavoritesAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  extra: AxiosInstance;
+}>(
+  'data/fetchFavs',
+  async (_arg, { dispatch, extra: api }) => {
+    try {
+      dispatch(isLoaded(false));
+      const { data } = await api.get<Favorite[]>(APIRoute.Favorite);
+      dispatch(setFavs(data));
+      dispatch(isLoaded(true));
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        dispatch(setError(String(err)));
+        throw err;
+      }
     }
   }
 );
@@ -69,7 +89,7 @@ const postCommentAction = createAsyncThunk<
   { reviewData: CommentSend; offerId: string | undefined },
   { dispatch: AppDispatch; extra: AxiosInstance }
 >('user/postReview',
-  async ({ reviewData, offerId }, {dispatch, extra: api }) => {
+  async ({ reviewData, offerId }, { dispatch, extra: api }) => {
     setTimeout(() => {
       dispatch(isLoaded(false));
     }, 2000);
@@ -79,7 +99,6 @@ const postCommentAction = createAsyncThunk<
     return data;
   }
 );
-
 
 const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -130,6 +149,7 @@ const clearErrorAction = createAsyncThunk('app/clearError',
 
 export {
   fetchOffersAction,
+  fetchFavoritesAction,
   fetchSelectedOfferDataAction,
   postCommentAction,
   checkAuthAction,

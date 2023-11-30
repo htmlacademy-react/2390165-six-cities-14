@@ -8,7 +8,7 @@ import { setFavs, setNearPlaces, setSelectedOffer, setReviews,
 import { AuthStatus } from '../const';
 
 import { ActiveCity } from '../types/city';
-import { Favs, Offer, SelectedOffer } from '../types/offer';
+import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType from '../types/review';
 import { UserData } from '../types/user-data';
 
@@ -23,7 +23,7 @@ type InitialState = {
   selectedOffer: SelectedOffer | null;
   isSelectedOfferLoaded: boolean;
 
-  favs: Favs[];
+  favs: Favorite[];
   isFavsLoaded: boolean;
 
   nearPlaces: Offer[];
