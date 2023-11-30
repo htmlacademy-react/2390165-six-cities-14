@@ -3,12 +3,17 @@ import { Fragment } from 'react';
 import { SelectedOffer } from '../../types/offer';
 import ReviewList from './review-ist/review-list';
 import ReviewForm from './review-form/review-form';
+import { useAppSelector } from '../../hooks';
+import { AuthStatus } from '../../const';
 
 type OfferDetailsProps = {
   selectedOffer: SelectedOffer;
 }
 
 function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
+  const authStatus = useAppSelector((state) => state.authStatus);
+  const isAvailableForm = authStatus === AuthStatus.Auth;
+
   return (
     <>
       <div className="offer__gallery-container container">
@@ -106,7 +111,10 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
           </div>
           <section className="offer__reviews reviews">
             <ReviewList />
-            <ReviewForm />
+            {
+              isAvailableForm && <ReviewForm />
+            }
+
           </section>
         </div>
       </div >
