@@ -20,6 +20,7 @@ const isSelectedOfferLoaded = createAction('selectedOfferLoaded');
 
 const setFavs = createAction<Favorite[]>('data/setFavs');
 const isFavsLoaded = createAction<boolean>('favsLoaded');
+const dropFavOffer = createAction<Offer>('data/dropFavOffer');
 
 const setNearPlaces = createAction<Offer[]>('data/setNearPlaces');
 const isNearPlacesLoaded = createAction('nearPlacesLoaded');
@@ -44,6 +45,7 @@ export {
 
   setFavs,
   isFavsLoaded,
+  dropFavOffer,
 
   setNearPlaces,
   isNearPlacesLoaded,

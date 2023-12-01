@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError, AxiosInstance } from 'axios';
 
 import { APIRoute, AuthStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews, setFavs, isFavsLoaded, favoritesNumber } from './actions';
+import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews, setFavs, isFavsLoaded, favoritesNumber, dropFavOffer } from './actions';
 import { dropToken, saveToken } from '../services/apiService/token';
 
 import { AppDispatch, State, ThunkAPI } from '../types/state';
@@ -23,6 +23,7 @@ const fetchOffersAction = createAsyncThunk<void, undefined, {
       dispatch(isLoaded(false));
 
       const { data } = await api.get<Offer[]>(APIRoute.Offers);
+      console.log(data)
       dispatch(setOffers(data));
 
       const favNumbers = data.reduce((sum, item) => {
@@ -112,7 +113,7 @@ const postCommentAction = createAsyncThunk<
 const postFavStatusAction = createAsyncThunk<
   void,
   { offerId: string | undefined; status: number }, ThunkAPI
->('user/postReview',
+>('user/postFavStatus',
   async ({ offerId, status }, { dispatch, getState, extra: api }) => {
     dispatch(isFavsLoaded(false));
     const path = `${APIRoute.Favorite}/${offerId}/${status}`;
@@ -124,6 +125,10 @@ const postFavStatusAction = createAsyncThunk<
     offersCopy.splice(index, 1, data);
 
     dispatch(setOffers(offersCopy));
+
+    if (status === 0) {
+      dispatch(dropFavOffer(data));
+    }
 
     dispatch(isFavsLoaded(true));
   }

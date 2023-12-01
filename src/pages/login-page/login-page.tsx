@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { loginAction } from '../../store/api-actions';
+import { fetchFavoritesAction, fetchOffersAction, loginAction } from '../../store/api-actions';
 import { AppRoute, AuthStatus } from '../../const';
 
 function LoginPage() {
@@ -22,6 +22,8 @@ function LoginPage() {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       }));
+      dispatch(fetchOffersAction());
+      dispatch(fetchFavoritesAction())
       navigate(AppRoute.Main);
     }
   }
