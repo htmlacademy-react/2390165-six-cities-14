@@ -159,6 +159,7 @@ const loginAction = createAsyncThunk<void, AuthData, {
       saveToken(token);
       dispatch(requireAuthorization(AuthStatus.Auth));
       dispatch(setUserData(data));
+      dispatch(fetchOffersAction())
     }
   });
 

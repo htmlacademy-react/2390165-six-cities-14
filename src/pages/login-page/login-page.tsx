@@ -22,9 +22,11 @@ function LoginPage() {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       }));
-      dispatch(fetchOffersAction());
-      dispatch(fetchFavoritesAction())
-      navigate(AppRoute.Main);
+      // dispatch(fetchOffersAction());
+      // dispatch(fetchFavoritesAction())
+      setTimeout(() => {
+        navigate(AppRoute.Main);
+      }, 0);
     }
   }
 
