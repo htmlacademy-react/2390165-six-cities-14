@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError, AxiosInstance } from 'axios';
 
@@ -23,7 +22,6 @@ const fetchOffersAction = createAsyncThunk<void, undefined, {
       dispatch(isLoaded(false));
 
       const { data } = await api.get<Offer[]>(APIRoute.Offers);
-      console.log(data)
       dispatch(setOffers(data));
 
       const favNumbers = data.reduce((sum, item) => {
@@ -159,7 +157,7 @@ const loginAction = createAsyncThunk<void, AuthData, {
       saveToken(token);
       dispatch(requireAuthorization(AuthStatus.Auth));
       dispatch(setUserData(data));
-      dispatch(fetchOffersAction())
+      dispatch(fetchOffersAction());
     }
   });
 

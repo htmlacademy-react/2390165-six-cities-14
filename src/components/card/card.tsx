@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Offer } from '../../types/offer';
 import { AppRoute, AuthStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { favoritesNumber, replaceOffer, setOffers } from '../../store/actions';
+import { favoritesNumber } from '../../store/actions';
 import { postFavStatusAction } from '../../store/api-actions';
 
 type CardProps = {

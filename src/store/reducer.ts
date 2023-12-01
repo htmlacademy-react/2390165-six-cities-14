@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createReducer } from '@reduxjs/toolkit';
 
 import { setFavs, setNearPlaces, setSelectedOffer, setReviews,
   isLoaded, setCity, setOffers, isSelectedOfferLoaded, isFavsLoaded,
   isNearPlacesLoaded, isReviewSending, favoritesNumber, requireAuthorization,
-  setError, setUserData, replaceOffer, dropFavOffer } from './actions';
+  setError, setUserData, dropFavOffer } from './actions';
 import { AuthStatus } from '../const';
 
 import { ActiveCity } from '../types/city';
@@ -72,10 +71,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setOffers, (state, action) => {
       state.offers = action.payload;
     })
-    .addCase(replaceOffer, (state, action) => {
-      const index = state.offers.findIndex((offer) => offer.id === action.payload.offerId);
-      state.offers.splice(index, 1, action.payload.offer);
-    })
+
     .addCase(isLoaded, (state, action) => {
       state.isLoaded = action.payload;
     })
@@ -123,6 +119,4 @@ const reducer = createReducer(initialState, (builder) => {
     });
 });
 
-
 export default reducer;
-
