@@ -11,6 +11,7 @@ const setCity = createAction<{ city: ActiveCity }>('setCity');
 const favoritesNumber = createAction<number>('favoritesNumber');
 
 const setOffers = createAction<Offer[]>('setOffers');
+const replaceOffer = createAction<{offerId: string; offer: Offer}>('data/replaceOffer');
 const isLoaded = createAction<boolean>('loaded');
 const setError = createAction<string | null>('setError');
 
@@ -18,7 +19,7 @@ const setSelectedOffer = createAction<SelectedOffer>('data/setSelectedOffer');
 const isSelectedOfferLoaded = createAction('selectedOfferLoaded');
 
 const setFavs = createAction<Favorite[]>('data/setFavs');
-const isFavsLoaded = createAction('favsLoaded');
+const isFavsLoaded = createAction<boolean>('favsLoaded');
 
 const setNearPlaces = createAction<Offer[]>('data/setNearPlaces');
 const isNearPlacesLoaded = createAction('nearPlacesLoaded');
@@ -34,6 +35,7 @@ export {
   favoritesNumber,
 
   setOffers,
+  replaceOffer,
   isLoaded,
   setError,
 

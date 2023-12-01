@@ -13,9 +13,9 @@ function FavoritePage(): JSX.Element {
   const dispatch = useAppDispatch();
   const isReady = useAppSelector((state) => state.isLoaded);
 
-  useEffect(() =>{
+  useEffect(() => {
     dispatch(fetchFavoritesAction());
-  }, [dispatch]);
+  },[]);
 
   const favoriteOffers = useAppSelector((state) => state.favs) ?? [];
 

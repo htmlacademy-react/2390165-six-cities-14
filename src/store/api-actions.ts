@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError, AxiosInstance } from 'axios';
 
 import { APIRoute, AuthStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews, setFavs } from './actions';
+import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews, setFavs, isFavsLoaded, favoritesNumber } from './actions';
 import { dropToken, saveToken } from '../services/apiService/token';
 
-import { AppDispatch, State } from '../types/state';
+import { AppDispatch, State, ThunkAPI } from '../types/state';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { Favorite, Offer, SelectedOffer } from '../types/offer';
@@ -20,8 +21,16 @@ const fetchOffersAction = createAsyncThunk<void, undefined, {
   async (_arg, { dispatch, extra: api, }) => {
     try {
       dispatch(isLoaded(false));
+
       const { data } = await api.get<Offer[]>(APIRoute.Offers);
       dispatch(setOffers(data));
+
+      const favNumbers = data.reduce((sum, item) => {
+        const number = Number(item.isFavorite);
+        return sum + number;
+      }, 0);
+      dispatch(favoritesNumber(favNumbers));
+
       setTimeout(() => dispatch(isLoaded(true)), 500);
 
     } catch (error) {
@@ -100,6 +109,26 @@ const postCommentAction = createAsyncThunk<
   }
 );
 
+const postFavStatusAction = createAsyncThunk<
+  void,
+  { offerId: string | undefined; status: number }, ThunkAPI
+>('user/postReview',
+  async ({ offerId, status }, { dispatch, getState, extra: api }) => {
+    dispatch(isFavsLoaded(false));
+    const path = `${APIRoute.Favorite}/${offerId}/${status}`;
+    const { data } = await api.post<Favorite>(path);
+
+    const { offers } = getState();
+    const offersCopy = structuredClone(offers);
+    const index = offersCopy.findIndex((offer) => offer.id === data.id);
+    offersCopy.splice(index, 1, data);
+
+    dispatch(setOffers(offersCopy));
+
+    dispatch(isFavsLoaded(true));
+  }
+);
+
 const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   extra: AxiosInstance;
@@ -152,6 +181,7 @@ export {
   fetchFavoritesAction,
   fetchSelectedOfferDataAction,
   postCommentAction,
+  postFavStatusAction,
   checkAuthAction,
   loginAction,
   logoutAction,

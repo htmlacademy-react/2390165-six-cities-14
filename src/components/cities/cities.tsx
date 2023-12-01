@@ -26,7 +26,7 @@ function Cities({ offersByCity, selectedCity }: CitiesProps): JSX.Element {
   };
   const defaultSort = sortCallbacks['Popular'];
   const sort = sortCallbacks[sortItem] ?? defaultSort;
-  const sortedOffers = offersByCity.sort(sort);
+  const sortedOffers = offersByCity.slice().sort(sort);
 
   function handleCardHover(offerId: Offer['id'] | null) {
     setHoveredOfferId(offerId);

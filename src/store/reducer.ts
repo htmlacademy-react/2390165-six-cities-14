@@ -4,7 +4,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { setFavs, setNearPlaces, setSelectedOffer, setReviews,
   isLoaded, setCity, setOffers, isSelectedOfferLoaded, isFavsLoaded,
   isNearPlacesLoaded, isReviewSending, favoritesNumber, requireAuthorization,
-  setError, setUserData } from './actions';
+  setError, setUserData, replaceOffer } from './actions';
 import { AuthStatus } from '../const';
 
 import { ActiveCity } from '../types/city';
@@ -72,6 +72,10 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setOffers, (state, action) => {
       state.offers = action.payload;
     })
+    .addCase(replaceOffer, (state, action) => {
+      const index = state.offers.findIndex((offer) => offer.id === action.payload.offerId);
+      state.offers.splice(index, 1, action.payload.offer);
+    })
     .addCase(isLoaded, (state, action) => {
       state.isLoaded = action.payload;
     })
@@ -89,8 +93,8 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setFavs, (state, action) => {
       state.favs = action.payload;
     })
-    .addCase(isFavsLoaded, (state) => {
-      state.isFavsLoaded = true;
+    .addCase(isFavsLoaded, (state, action) => {
+      state.isFavsLoaded = action.payload;
     })
 
     .addCase(setNearPlaces, (state, action) => {

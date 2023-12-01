@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { Offer } from '../../types/offer';
 import { AppRoute, AuthStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { favoritesNumber, setOffers } from '../../store/actions';
+import { favoritesNumber, replaceOffer, setOffers } from '../../store/actions';
+import { postFavStatusAction } from '../../store/api-actions';
 
 type CardProps = {
   elementType: 'cities' | 'favorite' | 'offers';
@@ -11,30 +12,30 @@ type CardProps = {
   onCardHover?: (offerId: Offer['id'] | null) => void;
 }
 
+const options = {
+  cities: {
+    className: 'cities',
+    width: '260',
+    height: '200',
+  },
+  favorite: {
+    className: 'favorites',
+    width: '150',
+    height: '110',
+  },
+  offers: {
+    className: 'near-places',
+    width: '260',
+    height: '200',
+  },
+};
+
 function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
-  const options = {
-    cities: {
-      className: 'cities',
-      width: '260',
-      height: '200',
-    },
-    favorite: {
-      className: 'favorites',
-      width: '150',
-      height: '110',
-    },
-    offers: {
-      className: 'near-places',
-      width: '260',
-      height: '200',
-    },
-  };
-
-  const offersStore = useAppSelector((state) => state.offers);
-
-  const offerCopy = { ...offer };
 
   const [isFav, setIsFav] = useState<boolean>(offer.isFavorite);
+
+  const status = isFav ? 0 : 1;
+
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector((state) => state.authStatus);
   const navigate = useNavigate();
@@ -44,10 +45,11 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
       navigate(AppRoute.Login);
     }
     if (authStatus === AuthStatus.Auth) {
-      offerCopy.isFavorite = !isFav;
       setIsFav((isFavPrev) => !isFavPrev);
+
       dispatch(favoritesNumber(isFav ? -1 : 1));
-      dispatch(setOffers(offersStore));
+
+      dispatch(postFavStatusAction({ offerId: offer.id, status: status }));
     }
   }
 
