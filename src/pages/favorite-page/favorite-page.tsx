@@ -8,16 +8,20 @@ import FavoritesByCity from '../../types/favorites-by-city';
 import { useEffect } from 'react';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import { fetchFavoritesAction } from '../../store/api-actions';
+import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 
 function FavoritePage(): JSX.Element {
   const dispatch = useAppDispatch();
   const isReady = useAppSelector((state) => state.isLoaded);
+  const favoriteOffers = useAppSelector((state) => state.favs) ?? [];
+
+  const favoriteOffersLength = favoriteOffers.length;
+
 
   useEffect(() => {
     dispatch(fetchFavoritesAction());
   },[dispatch]);
 
-  const favoriteOffers = useAppSelector((state) => state.favs) ?? [];
 
   function getFavoriteCities(favOffers: Array<Offer>): FavoritesByCity {
 
@@ -37,6 +41,8 @@ function FavoritePage(): JSX.Element {
 
   return (
     <>
+      {!favoriteOffersLength && <FavoritesEmpty />}
+
       {!isReady && <PlaceHolder />}
 
       {
