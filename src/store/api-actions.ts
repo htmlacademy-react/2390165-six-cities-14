@@ -12,83 +12,98 @@ import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType, { CommentSend } from '../types/review';
 
 
-const fetchOffersAction = createAsyncThunk<void, undefined, {
+const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
   dispatch: AppDispatch;
   extra: AxiosInstance;
 }>(
   'data/fetchOffers',
   async (_arg, { dispatch, extra: api, }) => {
-    try {
-      dispatch(isLoaded(false));
+    const { data } = await api.get<Offer[]>(APIRoute.Offers);
 
-      const { data } = await api.get<Offer[]>(APIRoute.Offers);
-      dispatch(setOffers(data));
+    const favNumbers = data.reduce((sum, item) => {
+      const number = Number(item.isFavorite);
+      return sum + number;
+    }, 0);
 
-      const favNumbers = data.reduce((sum, item) => {
-        const number = Number(item.isFavorite);
-        return sum + number;
-      }, 0);
-      dispatch(favoritesNumber(favNumbers));
+    dispatch(favoritesNumber(favNumbers));
 
-      setTimeout(() => dispatch(isLoaded(true)), 500);
+    return data;
 
-    } catch (error) {
-      dispatch(setError(String(error)));
-      throw error;
-    }
+
+    // try {
+    // dispatch(isLoaded(false));
+
+    // dispatch(setOffers(data));
+
+
+    // setTimeout(() => dispatch(isLoaded(true)), 500);
+
+    // } catch (error) {
+    //   dispatch(setError(String(error)));
+    //   throw error;
+    // }
   }
 );
 
-const fetchFavoritesAction = createAsyncThunk<void, undefined, {
+const fetchFavoritesAction = createAsyncThunk<Favorite[], undefined, {
   dispatch: AppDispatch;
   extra: AxiosInstance;
 }>(
   'data/fetchFavs',
-  async (_arg, { dispatch, extra: api }) => {
-    try {
-      dispatch(isLoaded(false));
-      const { data } = await api.get<Favorite[]>(APIRoute.Favorite);
-      dispatch(setFavs(data));
-      dispatch(isLoaded(true));
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        dispatch(setError(String(err)));
-        throw err;
-      }
-    }
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<Favorite[]>(APIRoute.Favorite);
+    return data;
+
+    //   try {
+    //     // dispatch(isLoaded(false));
+    //     dispatch(setFavs(data));
+    //     dispatch(isLoaded(true));
+    //   } catch (err) {
+    //     if (err instanceof AxiosError) {
+    //       dispatch(setError(String(err)));
+    //       throw err;
+    //     }
+    //   }
   }
 );
 
-const fetchSelectedOfferDataAction = createAsyncThunk<void, string, {
-  dispatch: AppDispatch;
+type SelectedOfferData = [SelectedOffer, Offer[], ReviewType[]]
+
+const fetchSelectedOfferDataAction = createAsyncThunk<SelectedOfferData, string, {
+  // dispatch: AppDispatch;
   extra: AxiosInstance;
 }>(
   'data/fetchSelectedOfferData',
-  async (offerId, { dispatch, extra: api }) => {
-    dispatch(isLoaded(false));
+  async (offerId, { extra: api }) => {
+    // dispatch(isLoaded(false));
     const offerPath = APIRoute.SelectedOffer + offerId;
     const nearbyPath = `${APIRoute.SelectedOffer}${offerId}/nearby`;
     const commentsPath = APIRoute.Reviews + offerId;
-    try {
-      const [selectedOffer, nearbyOffers, comments] = await Promise.all(
-        [
-          api.get<SelectedOffer>(offerPath),
-          api.get<Offer[]>(nearbyPath),
-          api.get<ReviewType[]>(commentsPath),
-        ]
-      );
 
-      dispatch(setSelectedOffer(selectedOffer.data));
-      dispatch(setNearPlaces(nearbyOffers.data));
-      dispatch(setReviews(comments.data));
-      setTimeout(() => dispatch(isLoaded(true)), 500);
+    const data = await Promise.all(
+      [
+        api.get<SelectedOffer>(offerPath),
+        api.get<Offer[]>(nearbyPath),
+        api.get<ReviewType[]>(commentsPath),
+      ]
+    );
+    return data;
 
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        dispatch(setError(String(err)));
-        throw err;
-      }
-    }
+
+
+    // try {
+
+    //   dispatch(setSelectedOffer(selectedOffer.data));
+    //   dispatch(setNearPlaces(nearbyOffers.data));
+    //   dispatch(setReviews(comments.data));
+    //   setTimeout(() => dispatch(isLoaded(true)), 500);
+
+    // } catch (err) {
+    //   if (err instanceof AxiosError) {
+    //     dispatch(setError(String(err)));
+    //     throw err;
+    //   }
+    // }
   }
 );
 
@@ -137,7 +152,7 @@ const checkAuthAction = createAsyncThunk<UserData, undefined, {
   // dispatch: AppDispatch;
   extra: AxiosInstance;
 }>('user/checkAuth',
-  async (_arg, {extra: api }) => {
+  async (_arg, { extra: api }) => {
     const { data } = await api.get<UserData>(APIRoute.Login);
     return data;
 
