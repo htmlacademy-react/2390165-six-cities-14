@@ -4,6 +4,7 @@ import Filter from '../../components/filter/filter';
 import { useAppSelector } from '../../hooks';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import { AuthStatus } from '../../const';
+import MainEmpty from '../../components/main-empty/main-empty';
 
 function MainPage(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
@@ -12,6 +13,8 @@ function MainPage(): JSX.Element {
 
   const filterValue = useAppSelector((state) => state.activeCity);
   const offersByCity = offers.filter((offer) => offer.city.name === filterValue);
+
+  const offersLength = offersByCity.length;
 
   return (
     <>
@@ -26,6 +29,7 @@ function MainPage(): JSX.Element {
                 <Filter />
               </section>
             </div>
+            {!offersLength && <MainEmpty />}
             <Cities offersByCity={offersByCity} selectedCity={filterValue} />
           </main>
         </div>}
