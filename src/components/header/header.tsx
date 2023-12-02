@@ -17,10 +17,14 @@ function Header(): JSX.Element {
 
   const link = isMain ? '' : AppRoute.Main;
 
-  function handleSignOutClick() {
+  function handleSignOutClick(event: React.MouseEvent) {
+    event.preventDefault();
+    if (pathname === AppRoute.Favorite as string) {
+      navigate(AppRoute.Main);
+    }
+
     dispatch(logoutAction());
     dispatch(favoritesNumber(-favsNumber));
-    navigate(AppRoute.Main);
   }
 
   return (
@@ -58,7 +62,11 @@ function Header(): JSX.Element {
                       to="#"
                       onClick={handleSignOutClick}
                     >
-                      <span className="header__signout">Sign out</span>
+                      <span
+                        className="header__signout"
+                      >
+                        Sign out
+                      </span>
                     </Link>
                   </li>
                 }
