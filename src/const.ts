@@ -1,5 +1,11 @@
 import { CityLocationType } from './types/city';
 
+enum NameSpace {
+  Data = 'DATA',
+  App = 'APP',
+  User = 'USER',
+}
+
 const TIMEOUT_SHOW_ERROR = 2000;
 
 enum AppRoute {
@@ -75,6 +81,7 @@ const CITIES_LOCATION: Array<CityLocationType> = [
 
 
 export {
+  NameSpace,
   TIMEOUT_SHOW_ERROR,
   AppRoute,
   AuthStatus,
