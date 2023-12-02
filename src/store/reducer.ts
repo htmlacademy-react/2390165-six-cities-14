@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { setFavs, setNearPlaces, setSelectedOffer, setReviews,
-  isLoaded, setCity, setOffers, isSelectedOfferLoaded, isFavsLoaded,
-  isNearPlacesLoaded, isReviewSending, favoritesNumber, requireAuthorization,
+  isLoaded, setCity, setOffers,
+  isReviewSending, favoritesNumber, requireAuthorization,
   setError, setUserData, dropFavOffer } from './actions';
 import { AuthStatus } from '../const';
 
@@ -20,13 +20,10 @@ type InitialState = {
   error: string | null;
 
   selectedOffer: SelectedOffer | null;
-  isSelectedOfferLoaded: boolean;
 
   favs: Favorite[];
-  isFavsLoaded: boolean;
 
   nearPlaces: Offer[];
-  isNearPlacesLoaded: boolean;
 
   reviews: ReviewType[];
   isReviewSending: boolean;
@@ -43,13 +40,10 @@ const initialState: InitialState = {
   error: null,
 
   selectedOffer: null,
-  isSelectedOfferLoaded: false,
 
   favs: [],
-  isFavsLoaded: false,
 
   nearPlaces: [],
-  isNearPlacesLoaded: false,
 
   reviews: [],
   isReviewSending: false,
@@ -82,15 +76,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setSelectedOffer, (state, action) => {
       state.selectedOffer = action.payload;
     })
-    .addCase(isSelectedOfferLoaded, (state) => {
-      state.isSelectedOfferLoaded = true;
-    })
 
     .addCase(setFavs, (state, action) => {
       state.favs = action.payload;
-    })
-    .addCase(isFavsLoaded, (state, action) => {
-      state.isFavsLoaded = action.payload;
     })
     .addCase(dropFavOffer, (state, action) => {
       const index = state.favs.findIndex((offer) => offer.id === action.payload.id);
@@ -99,9 +87,6 @@ const reducer = createReducer(initialState, (builder) => {
 
     .addCase(setNearPlaces, (state, action) => {
       state.nearPlaces = action.payload;
-    })
-    .addCase(isNearPlacesLoaded, (state) => {
-      state.isNearPlacesLoaded = true;
     })
 
     .addCase(setReviews, (state, action) => {

@@ -15,14 +15,11 @@ const isLoaded = createAction<boolean>('loaded');
 const setError = createAction<string | null>('setError');
 
 const setSelectedOffer = createAction<SelectedOffer>('data/setSelectedOffer');
-const isSelectedOfferLoaded = createAction('selectedOfferLoaded');
 
 const setFavs = createAction<Favorite[]>('data/setFavs');
-const isFavsLoaded = createAction<boolean>('favsLoaded');
 const dropFavOffer = createAction<Offer>('data/dropFavOffer');
 
 const setNearPlaces = createAction<Offer[]>('data/setNearPlaces');
-const isNearPlacesLoaded = createAction('nearPlacesLoaded');
 
 const setReviews = createAction<ReviewType[]>('data/setReviews');
 const isReviewSending = createAction<boolean>('reviewSending');
@@ -39,14 +36,11 @@ export {
   setError,
 
   setSelectedOffer,
-  isSelectedOfferLoaded,
 
   setFavs,
-  isFavsLoaded,
   dropFavOffer,
 
   setNearPlaces,
-  isNearPlacesLoaded,
 
   setReviews,
   isReviewSending,
