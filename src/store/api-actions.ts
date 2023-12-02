@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError, AxiosInstance } from 'axios';
 
 import { APIRoute, AuthStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews, setFavs, isFavsLoaded, favoritesNumber, dropFavOffer } from './actions';
+import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews, setFavs, favoritesNumber, dropFavOffer } from './actions';
 import { dropToken, saveToken } from '../services/apiService/token';
 
 import { AppDispatch, State, ThunkAPI } from '../types/state';
@@ -129,7 +129,6 @@ const postFavStatusAction = createAsyncThunk<
   { offerId: string | undefined; status: number }, ThunkAPI
 >('user/postFavStatus',
   async ({ offerId, status }, { dispatch, getState, extra: api }) => {
-    dispatch(isFavsLoaded(false));
     const path = `${APIRoute.Favorite}/${offerId}/${status}`;
     const { data } = await api.post<Favorite>(path);
 
@@ -144,7 +143,6 @@ const postFavStatusAction = createAsyncThunk<
       dispatch(dropFavOffer(data));
     }
 
-    dispatch(isFavsLoaded(true));
   }
 );
 
