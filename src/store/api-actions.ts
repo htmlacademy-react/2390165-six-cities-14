@@ -108,6 +108,7 @@ const postCommentAction = createAsyncThunk<
   }
 );
 
+
 const postFavStatusAction = createAsyncThunk<
   void,
   { offerId: string | undefined; status: number }, ThunkAPI
