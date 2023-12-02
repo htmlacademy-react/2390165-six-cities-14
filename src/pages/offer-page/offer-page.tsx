@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import { fetchSelectedOfferDataAction } from '../../store/api-actions';
+import NotFound from '../404-page/404-page';
 
 
 function OfferPage(): JSX.Element {
@@ -28,8 +29,11 @@ function OfferPage(): JSX.Element {
   }, [dispatch, offerId]);
 
 
-  if (!selectedOffer && !offerId) {
-    return <Navigate to={AppRoute.NotFound} />;
+  // if (!selectedOffer && !offerId) {
+  //   return <Navigate to={AppRoute.NotFound} />;
+  // }
+  if (!selectedOffer || !offerId) {
+    return <NotFound />;
   }
 
   const nearOffersCut = nearOffers.slice(0, 3);
