@@ -28,10 +28,6 @@ function OfferPage(): JSX.Element {
     }
   }, [dispatch, offerId]);
 
-
-  // if (!selectedOffer && !offerId) {
-  //   return <Navigate to={AppRoute.NotFound} />;
-  // }
   if (!selectedOffer || !offerId) {
     return <NotFound />;
   }
