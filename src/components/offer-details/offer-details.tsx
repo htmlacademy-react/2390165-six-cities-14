@@ -1,18 +1,41 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { SelectedOffer } from '../../types/offer';
 import ReviewList from './review-ist/review-list';
 import ReviewForm from './review-form/review-form';
-import { useAppSelector } from '../../hooks';
-import { AuthStatus } from '../../const';
+import { favoritesNumber } from '../../store/actions';
+import { postFavStatusAction } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { AppRoute, AuthStatus } from '../../const';
+
+import { SelectedOffer } from '../../types/offer';
 
 type OfferDetailsProps = {
   selectedOffer: SelectedOffer;
 }
 
 function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const authStatus = useAppSelector((state) => state.authStatus);
+  const [isFav, setIsFav] = useState<boolean>(selectedOffer.isFavorite);
+
   const isAvailableForm = authStatus === AuthStatus.Auth;
+  const status = isFav ? 0 : 1;
+
+  function handleFavClick() {
+    if (authStatus === AuthStatus.NoAuth) {
+      navigate(AppRoute.Login);
+    }
+    if (authStatus === AuthStatus.Auth) {
+      setIsFav((isFavPrev) => !isFavPrev);
+
+      dispatch(favoritesNumber(isFav ? -1 : 1));
+
+      dispatch(postFavStatusAction({ offerId: selectedOffer.id, status: status }));
+    }
+  }
 
   return (
     <>
@@ -42,7 +65,11 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
             <h1 className="offer__name">
               {selectedOffer.title}
             </h1>
-            <button className="offer__bookmark-button button" type="button">
+            <button
+              className="offer__bookmark-button button"
+              type="button"
+              onClick={handleFavClick}
+            >
               <svg className="offer__bookmark-icon" width="31" height="33">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
