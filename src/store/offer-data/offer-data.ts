@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { fetchFavoritesAction, fetchOffersAction, fetchSelectedOfferDataAction } from '../api-actions';
 import { OffersData } from '../../types/Slices';
@@ -12,13 +12,19 @@ const initialState: OffersData = {
   nearPlaces: [],
   reviews: [],
 
+  isReviewSending: false,
+
   favs: [],
 };
 
 const offersData = createSlice({
   name: NameSpace.Data,
   initialState,
-  reducers: {},
+  reducers: {
+    isReviewSending: (state, action: PayloadAction<boolean>) => {
+      state.isReviewSending = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOffersAction.pending, (state) => {
