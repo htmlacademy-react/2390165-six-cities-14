@@ -133,21 +133,23 @@ const postFavStatusAction = createAsyncThunk<
   }
 );
 
-const checkAuthAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
+const checkAuthAction = createAsyncThunk<UserData, undefined, {
+  // dispatch: AppDispatch;
   extra: AxiosInstance;
 }>('user/checkAuth',
-  async (_arg, { dispatch, extra: api }) => {
-    try {
-      const { data } = await api.get<UserData>(APIRoute.Login);
-      dispatch(requireAuthorization(AuthStatus.Auth));
-      dispatch(setUserData(data));
-    } catch {
-      dispatch(requireAuthorization(AuthStatus.NoAuth));
-    }
+  async (_arg, {extra: api }) => {
+    const { data } = await api.get<UserData>(APIRoute.Login);
+    return data;
+
+    // try {
+    // dispatch(requireAuthorization(AuthStatus.Auth));
+    // dispatch(setUserData(data));
+    // } catch {
+    // dispatch(requireAuthorization(AuthStatus.NoAuth));
+    // }
   });
 
-const loginAction = createAsyncThunk<void, AuthData, {
+const loginAction = createAsyncThunk<UserData, AuthData, {
   dispatch: AppDispatch;
   extra: AxiosInstance;
 }>('user/login',
@@ -156,22 +158,22 @@ const loginAction = createAsyncThunk<void, AuthData, {
     if (data) {
       const token = data.token;
       saveToken(token);
-      dispatch(requireAuthorization(AuthStatus.Auth));
-      dispatch(setUserData(data));
+      // dispatch(requireAuthorization(AuthStatus.Auth));
+      // dispatch(setUserData(data));
       dispatch(fetchOffersAction());
     }
+    return data;
   });
 
 const logoutAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
+  // dispatch: AppDispatch;
   extra: AxiosInstance;
 }>('user/logout',
-  async (_arg, { dispatch, extra: api }) => {
+  async (_arg, { extra: api }) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthStatus.NoAuth));
-    dispatch(setUserData(null));
+    // dispatch(requireAuthorization(AuthStatus.NoAuth));
+    // dispatch(setUserData(null));
   });
 
 const clearErrorAction = createAsyncThunk('app/clearError',
