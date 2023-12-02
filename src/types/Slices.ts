@@ -15,10 +15,21 @@ type OffersData = Pick<State,
   | 'nearPlaces'
   | 'reviews'
 
+  | 'isReviewSending'
+
   | 'favs'
+>
+
+type AppProcess = Pick<State,
+'activeCity'
+|'favoritesNumber'
+|'error'
+|'favs'
+
 >
 
 export type {
   UserProcess,
-  OffersData
+  OffersData,
+  AppProcess,
 };
