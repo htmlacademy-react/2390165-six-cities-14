@@ -11,7 +11,7 @@ import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType from '../types/review';
 import { UserData } from '../types/user-data';
 
-type InitialState = {
+export type InitialState = {
   activeCity: ActiveCity;
   favoritesNumber: number;
 

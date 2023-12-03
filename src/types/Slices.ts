@@ -1,4 +1,8 @@
 import { AuthStatus } from '../const';
+import { InitialState } from '../store/reducer';
+import { ActiveCity } from './city';
+import { Favorite, Offer, SelectedOffer } from './offer';
+import ReviewType from './review';
 import { State } from './state';
 import { UserData } from './user-data';
 
@@ -7,7 +11,7 @@ type UserProcess = {
   userData: UserData;
 }
 
-type OffersData = Pick<State,
+type OffersData = Pick<InitialState,
   'offers'
   | 'isLoaded'
 
@@ -20,13 +24,36 @@ type OffersData = Pick<State,
   | 'favs'
 >
 
-type AppProcess = Pick<State,
+// type OffersData = {
+//   'offers': Offer[];
+//   'isLoaded': boolean;
+
+//   'selectedOffer': null | SelectedOffer;
+//   'nearPlaces': Offer[];
+//   'reviews': ReviewType[];
+
+//   'isReviewSending': boolean;
+
+//   'favs': Favorite[];
+// }
+
+type AppProcess = Pick<InitialState,
 'activeCity'
 |'favoritesNumber'
 |'error'
 |'favs'
-
 >
+// const obj: AppProcess = {
+
+// }
+
+// type AppProcess = {
+//   'activeCity': ActiveCity;
+//   'favoritesNumber': number;
+//   'error': string | null;
+//   'favs':
+
+// }
 
 export type {
   UserProcess,
