@@ -7,7 +7,6 @@ import { getReviews } from '../../../store/offer-data/offer-data-selectors';
 
 function ReviewList(): JSX.Element {
 
-  // const reviewServer = useAppSelector((state) => state.reviews);
   const reviewServer = useAppSelector(getReviews);
 
   const reviewServerCopy = structuredClone(reviewServer)

@@ -16,12 +16,9 @@ import { getIsLoaded, getNearPlaces, getSelectedOffer } from '../../store/offer-
 
 function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  // const nearOffers = useAppSelector((state) => state.nearPlaces);
-  // const selectedOffer = useAppSelector((state) => state.selectedOffer);
   const nearOffers = useAppSelector(getNearPlaces);
   const selectedOffer = useAppSelector(getSelectedOffer);
 
-  // const isReady = useAppSelector((state) => state.isLoaded);
   const isReady = useAppSelector(getIsLoaded);
 
   const { offerId } = useParams();

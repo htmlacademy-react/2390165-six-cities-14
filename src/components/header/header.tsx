@@ -6,14 +6,11 @@ import { logoutAction } from '../../store/api-actions';
 import { getFavsNumber } from '../../store/app-process/app-process-selectors';
 import { getUserData } from '../../store/users-process/user-process-selectors';
 import { favoritesNumber } from '../../store/app-process/app-process-slice';
-// import { favoritesNumber } from '../../store/actions';
 
 function Header(): JSX.Element {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  // const favsNumber = useAppSelector((state) => state.favoritesNumber);
-  // const userData = useAppSelector((state) => state.UserData);
   const favsNumber = useAppSelector(getFavsNumber);
   const userData = useAppSelector(getUserData);
 

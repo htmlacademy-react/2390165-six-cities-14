@@ -13,8 +13,6 @@ import { getFavs, getIsLoaded } from '../../store/offer-data/offer-data-selector
 
 function FavoritePage(): JSX.Element {
   const dispatch = useAppDispatch();
-  // const isReady = useAppSelector((state) => state.isLoaded);
-  // const favoriteOffers = useAppSelector((state) => state.favs) ?? [];
   const isReady = useAppSelector(getIsLoaded);
   const favoriteOffers = useAppSelector(getFavs) ?? [];
 

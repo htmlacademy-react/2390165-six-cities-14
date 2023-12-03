@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Offer } from '../../types/offer';
 import { AppRoute, AuthStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-// import { favoritesNumber } from '../../store/actions';
 import { favoritesNumber } from '../../store/app-process/app-process-slice';
 import { postFavStatusAction } from '../../store/api-actions';
 import { getAuthStatus } from '../../store/users-process/user-process-selectors';
@@ -39,7 +38,6 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
   const status = isFav ? 0 : 1;
 
   const dispatch = useAppDispatch();
-  // const authStatus = useAppSelector((state) => state.authStatus);
   const authStatus = useAppSelector(getAuthStatus);
   const navigate = useNavigate();
 

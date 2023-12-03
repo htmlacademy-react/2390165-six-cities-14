@@ -1,14 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
-import { AppProcess } from '../../types/slices';
 import { ActiveCity } from '../../types/city';
-import { Offer } from '../../types/offer';
+import { AppProcess } from '../../types/sliceTypes';
 
 const initialState: AppProcess = {
   activeCity: 'Paris',
   favoritesNumber: 0,
   error: null,
-  // favs: [],
 };
 const appProcess = createSlice({
   name: NameSpace.App,
@@ -24,14 +22,6 @@ const appProcess = createSlice({
     setError:  (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
-    // dropFavOffer: (state, action: PayloadAction<Offer>) => {
-    //   // const index = state.favs.findIndex((offer) => offer.id === action.payload.id);
-    //   // console.log(index)
-    //   // state.favs.splice(index, 1);
-    //   const items = state.favs.filter((offer) => offer.id == action.payload.id)
-    //   console.log('items', items)
-
-    // },
   },
   extraReducers() {},
 });

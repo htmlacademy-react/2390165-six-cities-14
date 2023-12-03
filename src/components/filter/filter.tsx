@@ -8,13 +8,11 @@ import { AppRoute } from '../../const';
 import { getActiveCity } from '../../store/app-process/app-process-selectors';
 
 function Filter(): JSX.Element {
-  // const selectedCity = useAppSelector((state) => state.activeCity);
   const selectedCity = useAppSelector(getActiveCity);
   const filters: Filters = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
   const dispatch = useAppDispatch();
 
   function handleClick(filter: ActiveCity) {
-    // return () => dispatch(setCity({city: filter}));
     return () => dispatch(setCity({city: filter}));
   }
 
