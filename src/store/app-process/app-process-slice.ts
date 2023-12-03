@@ -8,9 +8,8 @@ const initialState: AppProcess = {
   activeCity: 'Paris',
   favoritesNumber: 0,
   error: null,
-  favs: [],
+  // favs: [],
 };
-
 const appProcess = createSlice({
   name: NameSpace.App,
   initialState,
@@ -25,19 +24,22 @@ const appProcess = createSlice({
     setError:  (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
-    dropFavOffer: (state, action: PayloadAction<Offer>) => {
-      const index = state.favs.findIndex((offer) => offer.id === action.payload.id);
-      state.favs.splice(index, 1);
-    },
+    // dropFavOffer: (state, action: PayloadAction<Offer>) => {
+    //   // const index = state.favs.findIndex((offer) => offer.id === action.payload.id);
+    //   // console.log(index)
+    //   // state.favs.splice(index, 1);
+    //   const items = state.favs.filter((offer) => offer.id == action.payload.id)
+    //   console.log('items', items)
+
+    // },
   },
   extraReducers() {},
 });
 
-const {setCity, favoritesNumber, setError, dropFavOffer } = appProcess.actions;
+const {setCity, favoritesNumber, setError } = appProcess.actions;
 
 export {appProcess,
   setCity,
   favoritesNumber,
   setError,
-  dropFavOffer
 };

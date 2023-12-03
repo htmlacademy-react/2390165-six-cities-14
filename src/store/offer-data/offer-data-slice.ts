@@ -35,6 +35,10 @@ const offersData = createSlice({
     setOffers: (state, action: PayloadAction<Offer[]>) => {
       state.offers = action.payload;
     },
+    dropFavOffer: (state, action: PayloadAction<Offer>) => {
+      const index = state.favs.findIndex((offer) => offer.id === action.payload.id);
+      state.favs.splice(index, 1);
+    },
   },
   extraReducers(builder) {
     builder
@@ -78,7 +82,7 @@ const offersData = createSlice({
   },
 });
 
-const { isReviewSending, setReviews, setIsLoaded, setOffers } = offersData.actions;
+const { isReviewSending, setReviews, setIsLoaded, setOffers, dropFavOffer } = offersData.actions;
 
 export {
   offersData,
@@ -86,5 +90,6 @@ export {
   isReviewSending,
   setReviews,
   setIsLoaded,
-  setOffers
+  setOffers,
+  dropFavOffer,
 };
