@@ -67,7 +67,7 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
               {selectedOffer.title}
             </h1>
             <button
-              className="offer__bookmark-button button"
+              className={`${(isFav && authStatus === AuthStatus.Auth) ? 'offer__bookmark-button--active ' : '' }offer__bookmark-button button`}
               type="button"
               onClick={handleFavClick}
             >
