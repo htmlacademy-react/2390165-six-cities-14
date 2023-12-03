@@ -9,6 +9,7 @@ import { Offer } from '../../types/offer';
 const initialState: OffersData = {
   offers: [],
   isLoaded: false,
+  hasError: false,
 
   selectedOffer: null,
   nearPlaces: [],
@@ -44,6 +45,7 @@ const offersData = createSlice({
     builder
       .addCase(fetchOffersAction.pending, (state) => {
         state.isLoaded = false;
+        state.hasError = false;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.offers = action.payload;
@@ -51,6 +53,7 @@ const offersData = createSlice({
       })
       .addCase(fetchOffersAction.rejected, (state) => {
         state.isLoaded = true;
+        state.hasError = true;
       })
 
       .addCase(fetchSelectedOfferDataAction.pending, (state) => {

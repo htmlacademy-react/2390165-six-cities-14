@@ -11,6 +11,8 @@ const getFavs = (state: State): Favorite[] => state[NameSpace.Data].favs;
 
 const getIsReviewSending = (state: State): boolean => state[NameSpace.Data].isReviewSending;
 const getIsLoaded = (state: State): boolean => state[NameSpace.Data].isLoaded;
+const getErrorStatus = (state: State): boolean => state[NameSpace.Data].hasError;
+
 
 export {
   getOffers,
@@ -22,4 +24,5 @@ export {
 
   getIsReviewSending,
   getIsLoaded,
+  getErrorStatus,
 };
