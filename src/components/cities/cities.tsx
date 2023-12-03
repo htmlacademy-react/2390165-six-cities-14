@@ -38,7 +38,7 @@ function Cities({ offersByCity, selectedCity }: CitiesProps): JSX.Element {
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">{offersByCity.length} places to stay in {selectedCity}</b>
+          <b className="places__found">{offersByCity.length} {offersByCity.length === 1 ? 'place' : 'places'} to stay in {selectedCity}</b>
           <Sort cb={setSortItem} />
           <div className="cities__places-list places__list tabs__content">
             <CardList
