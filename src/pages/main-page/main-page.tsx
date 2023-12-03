@@ -23,17 +23,22 @@ function MainPage(): JSX.Element {
     <>
       {(!isLoaded || authStatus === AuthStatus.Unknown) && <PlaceHolder />}
 
-      {isLoaded && offersByCity &&
+
+      {isLoaded &&
         <div className="page page--gray page--main">
-          <main className="page__main page__main--index">
+          <main className={`${offersLength === 0 ? 'page__main--index-empty' : ''}page__main page__main--index`}>
             <h1 className="visually-hidden">Cities</h1>
+
             <div className="tabs">
               <section className="locations container">
                 <Filter />
               </section>
             </div>
             {!offersLength && <MainEmpty />}
-            <Cities offersByCity={offersByCity} selectedCity={filterValue} />
+            {
+              offersLength &&
+              <Cities offersByCity={offersByCity} selectedCity={filterValue} />
+            }
           </main>
         </div>}
 
