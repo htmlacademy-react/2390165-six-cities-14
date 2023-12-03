@@ -2,6 +2,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { fetchFavoritesAction, fetchOffersAction, fetchSelectedOfferDataAction } from '../api-actions';
 import { OffersData } from '../../types/Slices';
+import ReviewType from '../../types/review';
+import { Offer } from '../../types/offer';
 
 
 const initialState: OffersData = {
@@ -23,6 +25,15 @@ const offersData = createSlice({
   reducers: {
     isReviewSending: (state, action: PayloadAction<boolean>) => {
       state.isReviewSending = action.payload;
+    },
+    setReviews: (state, action: PayloadAction<ReviewType[]>) => {
+      state.reviews = action.payload;
+    },
+    setIsLoaded: (state, action: PayloadAction<boolean>) => {
+      state.isLoaded = action.payload;
+    },
+    setOffers: (state, action: PayloadAction<Offer[]>) => {
+      state.offers = action.payload;
     },
   },
   extraReducers(builder) {
@@ -67,5 +78,13 @@ const offersData = createSlice({
   },
 });
 
-export default offersData;
+const { isReviewSending, setReviews, setIsLoaded, setOffers } = offersData.actions;
 
+export {
+  offersData,
+
+  isReviewSending,
+  setReviews,
+  setIsLoaded,
+  setOffers
+};

@@ -2,7 +2,9 @@ import { FormEvent, ChangeEvent, Fragment, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { postCommentAction } from '../../../store/api-actions';
 import { useParams } from 'react-router-dom';
-import { isReviewSending, setReviews } from '../../../store/actions';
+// import { isReviewSending, setReviews } from '../../../store/actions';
+import { getIsReviewSending, getReviews } from '../../../store/offer-data/offer-data-selectors';
+import { isReviewSending, setReviews } from '../../../store/offer-data/offer-data-slice';
 
 function ReviewForm(): JSX.Element {
   const ratingMap = {
@@ -18,14 +20,16 @@ function ReviewForm(): JSX.Element {
 
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('0');
-  const isSending = useAppSelector((state) => state.isReviewSending);
+  // const isSending = useAppSelector((state) => state.isReviewSending);
+  const isSending = useAppSelector(getIsReviewSending);
 
   const formRef = useRef<HTMLFormElement | null>(null);
   const form = formRef.current;
 
   const dispatch = useAppDispatch();
   const { offerId } = useParams();
-  const reviewsList = useAppSelector((state) => state.reviews);
+  // const reviewsList = useAppSelector((state) => state.reviews);
+  const reviewsList = useAppSelector(getReviews);
   const reviewsListCopy = structuredClone(reviewsList);
 
   const sendData = {

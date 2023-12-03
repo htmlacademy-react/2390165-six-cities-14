@@ -3,14 +3,19 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { favoritesNumber } from '../../store/actions';
+import { getFavsNumber } from '../../store/app-process/app-process-selectors';
+import { getUserData } from '../../store/users-process/user-process-selectors';
+import { favoritesNumber } from '../../store/app-process/app-process-slice';
+// import { favoritesNumber } from '../../store/actions';
 
 function Header(): JSX.Element {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const favsNumber = useAppSelector((state) => state.favoritesNumber);
-  const userData = useAppSelector((state) => state.UserData);
+  // const favsNumber = useAppSelector((state) => state.favoritesNumber);
+  // const userData = useAppSelector((state) => state.UserData);
+  const favsNumber = useAppSelector(getFavsNumber);
+  const userData = useAppSelector(getUserData);
 
   const isMain = pathname === AppRoute.Main as string;
   const isLogin = pathname === AppRoute.Login as string;

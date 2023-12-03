@@ -11,14 +11,18 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import { fetchSelectedOfferDataAction } from '../../store/api-actions';
 import NotFound from '../404-page/404-page';
+import { getIsLoaded, getNearPlaces, getSelectedOffer } from '../../store/offer-data/offer-data-selectors';
 
 
 function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const nearOffers = useAppSelector((state) => state.nearPlaces);
-  const selectedOffer = useAppSelector((state) => state.selectedOffer);
+  // const nearOffers = useAppSelector((state) => state.nearPlaces);
+  // const selectedOffer = useAppSelector((state) => state.selectedOffer);
+  const nearOffers = useAppSelector(getNearPlaces);
+  const selectedOffer = useAppSelector(getSelectedOffer);
 
-  const isReady = useAppSelector((state) => state.isLoaded);
+  // const isReady = useAppSelector((state) => state.isLoaded);
+  const isReady = useAppSelector(getIsLoaded);
 
   const { offerId } = useParams();
   useEffect(() => {

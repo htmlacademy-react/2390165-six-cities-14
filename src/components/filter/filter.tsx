@@ -1,17 +1,20 @@
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setCity } from '../../store/actions';
+import { setCity } from '../../store/app-process/app-process-slice';
 
 import Filters from '../../types/filters';
 import { ActiveCity } from '../../types/city';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { getActiveCity } from '../../store/app-process/app-process-selectors';
 
 function Filter(): JSX.Element {
-  const selectedCity = useAppSelector((state) => state.activeCity);
+  // const selectedCity = useAppSelector((state) => state.activeCity);
+  const selectedCity = useAppSelector(getActiveCity);
   const filters: Filters = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
   const dispatch = useAppDispatch();
 
   function handleClick(filter: ActiveCity) {
+    // return () => dispatch(setCity({city: filter}));
     return () => dispatch(setCity({city: filter}));
   }
 

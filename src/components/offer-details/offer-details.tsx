@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 
 import ReviewList from './review-ist/review-list';
 import ReviewForm from './review-form/review-form';
-import { favoritesNumber } from '../../store/actions';
+// import { favoritesNumber } from '../../store/actions';
+import { favoritesNumber } from '../../store/app-process/app-process-slice';
 import { postFavStatusAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AppRoute, AuthStatus } from '../../const';
 
 import { SelectedOffer } from '../../types/offer';
+import { getAuthStatus } from '../../store/users-process/user-process-selectors';
 
 type OfferDetailsProps = {
   selectedOffer: SelectedOffer;
@@ -18,7 +20,8 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const authStatus = useAppSelector((state) => state.authStatus);
+  // const authStatus = useAppSelector((state) => state.authStatus);
+  const authStatus = useAppSelector(getAuthStatus);
   const [isFav, setIsFav] = useState<boolean>(selectedOffer.isFavorite);
 
   const isAvailableForm = authStatus === AuthStatus.Auth;

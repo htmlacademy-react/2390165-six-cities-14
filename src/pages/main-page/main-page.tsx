@@ -5,13 +5,16 @@ import { useAppSelector } from '../../hooks';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import { AuthStatus } from '../../const';
 import MainEmpty from '../../components/main-empty/main-empty';
+import { getIsLoaded, getOffers } from '../../store/offer-data/offer-data-selectors';
+import { getAuthStatus } from '../../store/users-process/user-process-selectors';
+import { getActiveCity } from '../../store/app-process/app-process-selectors';
 
 function MainPage(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-  const isLoaded = useAppSelector((state) => state.isLoaded);
-  const authStatus = useAppSelector((state) => state.authStatus);
+  const offers = useAppSelector(getOffers);
+  const isLoaded = useAppSelector(getIsLoaded);
+  const authStatus = useAppSelector(getAuthStatus);
 
-  const filterValue = useAppSelector((state) => state.activeCity);
+  const filterValue = useAppSelector(getActiveCity);
   const offersByCity = offers.filter((offer) => offer.city.name === filterValue);
 
   const offersLength = offersByCity.length;

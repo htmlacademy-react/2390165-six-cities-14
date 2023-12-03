@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError, AxiosInstance } from 'axios';
 
 import { APIRoute, AuthStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews, setFavs, favoritesNumber, dropFavOffer } from './actions';
+// import { isLoaded, requireAuthorization, setUserData, setError, setOffers, setSelectedOffer, setNearPlaces, setReviews, setFavs, favoritesNumber, dropFavOffer } from './actions';
 import { dropToken, saveToken } from '../services/apiService/token';
 
 import { AppDispatch, State, ThunkAPI } from '../types/state';
@@ -10,6 +10,8 @@ import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType, { CommentSend } from '../types/review';
+import { dropFavOffer, favoritesNumber, setError } from './app-process/app-process-slice';
+import { setIsLoaded, setOffers } from './offer-data/offer-data-slice';
 
 
 const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
@@ -87,7 +89,8 @@ const fetchSelectedOfferDataAction = createAsyncThunk<SelectedOfferData, string,
         api.get<ReviewType[]>(commentsPath),
       ]
     );
-    return data;
+    const list = data.map((item) => item.data);
+    return list;
 
 
 
@@ -114,11 +117,11 @@ const postCommentAction = createAsyncThunk<
 >('user/postReview',
   async ({ reviewData, offerId }, { dispatch, extra: api }) => {
     setTimeout(() => {
-      dispatch(isLoaded(false));
+      dispatch(setIsLoaded(false));
     }, 2000);
     const path = APIRoute.Reviews + offerId;
     const { data } = await api.post<ReviewType>(path, reviewData);
-    setTimeout(() => dispatch(isLoaded(true)), 2000);
+    setTimeout(() => dispatch(setIsLoaded(true)), 2000);
     return data;
   }
 );
@@ -132,9 +135,12 @@ const postFavStatusAction = createAsyncThunk<
     const path = `${APIRoute.Favorite}/${offerId}/${status}`;
     const { data } = await api.post<Favorite>(path);
 
-    const { offers } = getState();
+    const { DATA } = getState();
+    const offers: Offer[] = DATA.offers;
+    console.log(DATA)
     const offersCopy = structuredClone(offers);
     const index = offersCopy.findIndex((offer) => offer.id === data.id);
+    console.log(index)
     offersCopy.splice(index, 1, data);
 
     dispatch(setOffers(offersCopy));
