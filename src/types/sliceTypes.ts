@@ -25,7 +25,7 @@ type OffersData = {
 type AppProcess = {
   'activeCity': ActiveCity;
   'favoritesNumber': number;
-  'error': string | null;
+  'error': string;
 }
 
 export type {
