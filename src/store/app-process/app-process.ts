@@ -33,4 +33,11 @@ const appProcess = createSlice({
   extraReducers() {},
 });
 
-export default appProcess;
+const {setCity, favoritesNumber, setError, dropFavOffer } = appProcess.actions;
+
+export {appProcess,
+  setCity,
+  favoritesNumber,
+  setError,
+  dropFavOffer
+};
