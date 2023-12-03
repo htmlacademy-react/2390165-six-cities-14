@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 import { AuthStatus, NameSpace } from '../../const';
 
-import { UserProcess } from '../../types/Slices';
+import { UserProcess } from '../../types/slices';
 
 const initialState: UserProcess = {
   authStatus: AuthStatus.Unknown,
