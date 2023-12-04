@@ -15,7 +15,7 @@ function ReviewForm(): JSX.Element {
   };
 
   const MIN_COMMENT_LENGTH = 49;
-  const MAX_COMMENT_LENGTH = 300;
+  const MAX_COMMENT_LENGTH = 299;
 
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('0');
@@ -35,11 +35,16 @@ function ReviewForm(): JSX.Element {
   };
 
 
-  function isDisabled() {
+  function isDisabledSubmit() {
     const isCommentValid = (comment.length < MIN_COMMENT_LENGTH) || (comment.length > MAX_COMMENT_LENGTH);
     const isRatingValid = Boolean(Number(rating)) === false;
 
     return (isCommentValid || isRatingValid) || isSending;
+  }
+
+  function isDisabledForm(isSanding: boolean): boolean {
+    // form?.toggleAttribute('disabled', isSanding);
+    return isSanding
   }
 
   function formReset() {
@@ -61,6 +66,7 @@ function ReviewForm(): JSX.Element {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(isReviewSending(true));
+    isDisabledForm(isSending);
 
     if (rating && comment && offerId && form) {
       dispatch(postCommentAction(sendData)).unwrap()
@@ -71,7 +77,10 @@ function ReviewForm(): JSX.Element {
           dispatch(setReviews(reviewsListCopy));
           formReset();
         })
-        .then (() => dispatch(isReviewSending(false)));
+        .then(() => {
+          dispatch(isReviewSending(false));
+          isDisabledForm(isSending);
+        });
     }
   }
 
@@ -96,6 +105,7 @@ function ReviewForm(): JSX.Element {
                 id={`${score}-stars`}
                 type="radio"
                 checked={rating === score}
+                disabled={isDisabledForm(isSending)}
                 onChange={handleInputChange}
               />
               <label
@@ -121,6 +131,7 @@ function ReviewForm(): JSX.Element {
         value={comment}
         minLength={50}
         maxLength={300}
+        disabled={isDisabledForm(isSending)}
         onChange={handleTextAreaChange}
       >
       </textarea>
@@ -132,7 +143,7 @@ function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isDisabled()}
+          disabled={isDisabledSubmit()}
         >
           {isSending ? 'Sending...' : 'Submit'}
         </button>
