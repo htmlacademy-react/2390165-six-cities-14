@@ -37,10 +37,10 @@ enum APIRoute {
 }
 
 const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+  '../markup/img/pin.svg';
 
 const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+  '../markup/img/pin-active.svg';
 
 const CITIES_LOCATION: Array<CityLocationType> = [
   {
