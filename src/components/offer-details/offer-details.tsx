@@ -10,6 +10,7 @@ import { AppRoute, AuthStatus } from '../../const';
 
 import { SelectedOffer } from '../../types/offer';
 import { getAuthStatus } from '../../store/users-process/user-process-selectors';
+import { getRatingValue } from '../../utilities';
 
 type OfferDetailsProps = {
   selectedOffer: SelectedOffer;
@@ -79,7 +80,7 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
           </div>
           <div className="offer__rating rating">
             <div className="offer__stars rating__stars">
-              <span style={{ width: `${selectedOffer.rating / 5 * 100}%` }}></span>
+              <span style={{ width: `${getRatingValue(selectedOffer.rating)}%` }}></span>
               <span className="visually-hidden">Rating</span>
             </div>
             <span className="offer__rating-value rating__value">{selectedOffer.rating}</span>

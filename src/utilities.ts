@@ -3,6 +3,10 @@ import store from './store';
 import { clearErrorAction } from './store/api-actions';
 import { setError } from './store/app-process/app-process-slice';
 
+function getRatingValue(rating: number) {
+  return (Math.round(rating) * 100) / 5;
+}
+
 function pickRandomElement<T>(items: T[]): T {
   const randomIndex = Math.floor(Math.random() * items.length);
   return items[randomIndex];
@@ -22,6 +26,7 @@ function dateInMs(value: string) {
 }
 
 export {
+  getRatingValue,
   pickRandomElement,
   formatDate,
   processErrorHandle,
