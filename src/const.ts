@@ -1,4 +1,6 @@
-import { CityLocationType } from './types/city';
+import { ActiveCity, CityLocationType } from './types/city';
+
+const citiesName: ActiveCity[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 enum NameSpace {
   Data = 'DATA',
@@ -81,6 +83,7 @@ const CITIES_LOCATION: Array<CityLocationType> = [
 
 
 export {
+  citiesName,
   NameSpace,
   TIMEOUT_SHOW_ERROR,
   AppRoute,

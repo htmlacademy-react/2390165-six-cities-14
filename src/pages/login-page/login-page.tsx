@@ -1,18 +1,21 @@
-import { FormEvent, useEffect, useRef } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { FormEvent, useRef } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
-import { AppRoute, AuthStatus } from '../../const';
 import { getAuthStatus } from '../../store/users-process/user-process-selectors';
+import { setCity } from '../../store/app-process/app-process-slice';
+
+import { AppRoute, AuthStatus, citiesName } from '../../const';
+import { pickRandomElement } from '../../utilities';
 
 
 function LoginPage() {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const authStatus = useAppSelector(getAuthStatus);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -37,6 +40,14 @@ function LoginPage() {
   //   }
   // })
 
+  const randomCity = pickRandomElement(citiesName);
+
+  function handleRandomCityClick(event: React.MouseEvent) {
+    event.preventDefault();
+
+    dispatch(setCity({ city: randomCity }));
+    navigate(AppRoute.Main);
+  }
 
   return (
     <div className="page page--gray page--login">
@@ -86,9 +97,13 @@ function LoginPage() {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link
+                className="locations__item-link"
+                to={'/'}
+                onClick={handleRandomCityClick}
+              >
+                <span>{randomCity}</span>
+              </Link>
             </div>
           </section>
         </div>
