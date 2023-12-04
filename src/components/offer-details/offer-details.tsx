@@ -68,7 +68,7 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
               {selectedOffer.title}
             </h1>
             <button
-              className={`${(isFav && authStatus === AuthStatus.Auth) ? 'offer__bookmark-button--active ' : '' }offer__bookmark-button button`}
+              className={`${(isFav && authStatus === AuthStatus.Auth) ? 'offer__bookmark-button--active ' : ''}offer__bookmark-button button`}
               type="button"
               onClick={handleFavClick}
             >
@@ -119,18 +119,18 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
           <div className="offer__host">
             <h2 className="offer__host-title">Meet the host</h2>
             <div className="offer__host-user user">
-              <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+              <div className={`${selectedOffer.host.isPro ? 'offer__avatar-wrapper--pro ' : ''}offer__avatar-wrapper user__avatar-wrapper`}>
                 <img className="offer__avatar user__avatar" src={selectedOffer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
               </div>
               <span className="offer__user-name">
                 {selectedOffer.host.name}
               </span>
-              <span className="offer__user-status">
-                {
-                  selectedOffer.host.isPro &&
-                  'Pro'
-                }
-              </span>
+              {
+                selectedOffer.host.isPro &&
+                <span className="offer__user-status">
+                  Pro
+                </span>
+              }
             </div>
             <div className="offer__description">
               <p className="offer__text">
