@@ -1,5 +1,5 @@
-import { FormEvent, useRef } from 'react';
-import { Navigate } from 'react-router-dom';
+import { FormEvent, useEffect, useRef } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -12,6 +12,7 @@ function LoginPage() {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const authStatus = useAppSelector(getAuthStatus);
+  const navigate = useNavigate()
 
   const dispatch = useAppDispatch();
 
@@ -24,12 +25,17 @@ function LoginPage() {
         password: passwordRef.current.value,
       }));
     }
+    navigate(AppRoute.Main);
   }
-
 
   if (authStatus === AuthStatus.Auth) {
     return <Navigate to={AppRoute.Main} />;
   }
+  // queueMicrotask(() => {
+  //   if (authStatus === AuthStatus.Auth) {
+  //     return <Navigate to={AppRoute.Main} />;
+  //   }
+  // })
 
 
   return (

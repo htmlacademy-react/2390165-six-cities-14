@@ -21,12 +21,10 @@ function Header(): JSX.Element {
 
   function handleSignOutClick(event: React.MouseEvent) {
     event.preventDefault();
-    if (pathname === AppRoute.Favorite as string) {
-      navigate(AppRoute.Main);
-    }
 
-    dispatch(logoutAction());
     dispatch(favoritesNumber(-favsNumber));
+    dispatch(logoutAction())
+      .then(() => navigate(AppRoute.Login));
   }
 
   return (
@@ -61,7 +59,7 @@ function Header(): JSX.Element {
                   <li className="header__nav-item">
                     <Link
                       className="header__nav-link"
-                      to="#"
+                      to="/"
                       onClick={handleSignOutClick}
                     >
                       <span
