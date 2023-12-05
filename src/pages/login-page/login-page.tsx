@@ -30,7 +30,6 @@ function LoginPage() {
       }));
       dispatch(setCity({ city: randomCity }));
     }
-    navigate(AppRoute.Main);
   }
 
   if (authStatus === AuthStatus.Auth) {
