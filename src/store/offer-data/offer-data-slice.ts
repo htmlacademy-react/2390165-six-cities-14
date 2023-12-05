@@ -94,9 +94,9 @@ const offersData = createSlice({
       .addCase(postCommentAction.pending, (state) => {
         state.isReviewSending = LoadingDataStatus.Pending;
       })
-      .addCase(postCommentAction.fulfilled, (state) => {
+      .addCase(postCommentAction.fulfilled, (state, action) => {
         state.isReviewSending = LoadingDataStatus.Success;
-        // state.reviews.push(action.payload);
+        state.reviews.push(action.payload);
       })
       .addCase(postCommentAction.rejected, (state) => {
         state.isReviewSending = LoadingDataStatus.Error;
