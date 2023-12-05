@@ -2,7 +2,7 @@ import { FormEvent, ChangeEvent, Fragment, useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { clearErrorAction, postCommentAction } from '../../../store/api-actions';
 import { useParams } from 'react-router-dom';
-import { getIsReviewSending } from '../../../store/offer-data/offer-data-selectors';
+import { getReviewStatusSending } from '../../../store/offer-data/offer-data-selectors';
 import { LoadingDataStatus } from '../../../const';
 import { setError } from '../../../store/app-process/app-process-slice';
 
@@ -24,7 +24,7 @@ function ReviewForm(): JSX.Element {
   const [rating, setRating] = useState('0');
   const [comment, setComment] = useState('');
 
-  const sendingStatus = useAppSelector(getIsReviewSending);
+  const sendingStatus = useAppSelector(getReviewStatusSending);
   const isSending = sendingStatus === LoadingDataStatus.Pending;
 
 

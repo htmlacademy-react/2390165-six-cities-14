@@ -9,7 +9,7 @@ const getNearPlaces = (state: State): Offer[] => state[NameSpace.Data].nearPlace
 const getReviews = (state: State): ReviewType[] => state[NameSpace.Data].reviews;
 const getFavs = (state: State): Favorite[] => state[NameSpace.Data].favs;
 
-const getIsReviewSending = (state: State): LoadingDataStatus => state[NameSpace.Data].isReviewSending;
+const getReviewStatusSending = (state: State): LoadingDataStatus => state[NameSpace.Data].reviewStatusSending;
 const getIsOffersLoading = (state: State): boolean => state[NameSpace.Data].isOffersLoading;
 const getFavLoadingStatus = (state: State): LoadingDataStatus => state[NameSpace.Data].favsLoadingStatus;
 const getErrorStatus = (state: State): boolean => state[NameSpace.Data].hasError;
@@ -23,7 +23,7 @@ export {
   getFavs,
 
 
-  getIsReviewSending,
+  getReviewStatusSending,
   getIsOffersLoading,
   getFavLoadingStatus,
   getErrorStatus,

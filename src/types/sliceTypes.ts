@@ -18,7 +18,7 @@ type OffersData = {
   'nearPlaces': Offer[];
   'reviews': ReviewType[];
 
-  'isReviewSending': LoadingDataStatus;
+  'reviewStatusSending': LoadingDataStatus;
 
   'favs': Favorite[];
   'favsLoadingStatus': LoadingDataStatus;

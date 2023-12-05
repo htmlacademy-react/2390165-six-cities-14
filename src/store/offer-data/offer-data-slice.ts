@@ -15,7 +15,8 @@ const initialState: OffersData = {
   nearPlaces: [],
   reviews: [],
 
-  isReviewSending: LoadingDataStatus.Unsent,
+
+  reviewStatusSending: LoadingDataStatus.Unsent,
 
   favs: [],
   favsLoadingStatus: LoadingDataStatus.Unsent
@@ -26,7 +27,7 @@ const offersData = createSlice({
   initialState,
   reducers: {
     isReviewSending: (state, action: PayloadAction<LoadingDataStatus>) => {
-      state.isReviewSending = action.payload;
+      state.reviewStatusSending = action.payload;
     },
     setReviews: (state, action: PayloadAction<ReviewType[]>) => {
       state.reviews = action.payload;
@@ -90,14 +91,14 @@ const offersData = createSlice({
       })
 
       .addCase(postCommentAction.pending, (state) => {
-        state.isReviewSending = LoadingDataStatus.Pending;
+        state.reviewStatusSending = LoadingDataStatus.Pending;
       })
       .addCase(postCommentAction.fulfilled, (state, action) => {
-        state.isReviewSending = LoadingDataStatus.Success;
+        state.reviewStatusSending = LoadingDataStatus.Success;
         state.reviews.push(action.payload);
       })
       .addCase(postCommentAction.rejected, (state) => {
-        state.isReviewSending = LoadingDataStatus.Error;
+        state.reviewStatusSending = LoadingDataStatus.Error;
       })
 
       .addCase(fetchFavoritesAction.pending, (state) => {
