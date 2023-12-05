@@ -17,6 +17,7 @@ type OffersData = {
   'selectedOffer': null | SelectedOffer;
   'nearPlaces': Offer[];
   'reviews': ReviewType[];
+  'offerDataStatusSending': LoadingDataStatus;
 
   'reviewStatusSending': LoadingDataStatus;
 

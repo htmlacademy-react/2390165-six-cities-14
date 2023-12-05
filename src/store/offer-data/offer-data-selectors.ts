@@ -11,6 +11,7 @@ const getFavs = (state: State): Favorite[] => state[NameSpace.Data].favs;
 
 const getReviewStatusSending = (state: State): LoadingDataStatus => state[NameSpace.Data].reviewStatusSending;
 const getIsOffersLoading = (state: State): boolean => state[NameSpace.Data].isOffersLoading;
+const getOfferDataStatusSending = (state: State): LoadingDataStatus => state[NameSpace.Data].offerDataStatusSending;
 const getFavLoadingStatus = (state: State): LoadingDataStatus => state[NameSpace.Data].favsLoadingStatus;
 const getErrorStatus = (state: State): boolean => state[NameSpace.Data].hasError;
 
@@ -25,6 +26,7 @@ export {
 
   getReviewStatusSending,
   getIsOffersLoading,
+  getOfferDataStatusSending,
   getFavLoadingStatus,
   getErrorStatus,
 };

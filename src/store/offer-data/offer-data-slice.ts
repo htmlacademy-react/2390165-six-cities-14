@@ -14,6 +14,7 @@ const initialState: OffersData = {
   selectedOffer: null,
   nearPlaces: [],
   reviews: [],
+  offerDataStatusSending: LoadingDataStatus.Unsent,
 
 
   reviewStatusSending: LoadingDataStatus.Unsent,
@@ -76,7 +77,8 @@ const offersData = createSlice({
       })
 
       .addCase(fetchSelectedOfferDataAction.pending, (state) => {
-        state.isOffersLoading = true;
+        // state.isOffersLoading = true;
+        state.offerDataStatusSending = LoadingDataStatus.Pending;
       })
       .addCase(fetchSelectedOfferDataAction.fulfilled, (state, action) => {
         const [selectedOffer, nearbyOffers, comments] = action.payload;
@@ -84,10 +86,12 @@ const offersData = createSlice({
         state.nearPlaces = nearbyOffers;
         state.reviews = comments;
 
-        state.isOffersLoading = false;
+        // state.isOffersLoading = false;
+        state.offerDataStatusSending = LoadingDataStatus.Success;
       })
       .addCase(fetchSelectedOfferDataAction.rejected, (state) => {
-        state.isOffersLoading = false;
+        // state.isOffersLoading = false;
+        state.offerDataStatusSending = LoadingDataStatus.Error;
       })
 
       .addCase(postCommentAction.pending, (state) => {
