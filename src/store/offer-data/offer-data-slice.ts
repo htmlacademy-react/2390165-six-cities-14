@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../const';
+import { LoadingDataStatus, NameSpace } from '../../const';
 import { fetchFavoritesAction, fetchOffersAction, fetchSelectedOfferDataAction } from '../api-actions';
 import { OffersData } from '../../types/sliceTypes';
 import ReviewType from '../../types/review';
@@ -18,6 +18,7 @@ const initialState: OffersData = {
   isReviewSending: false,
 
   favs: [],
+  favsLoadingStatus: LoadingDataStatus.Unsent
 };
 
 const offersData = createSlice({
@@ -72,14 +73,14 @@ const offersData = createSlice({
       })
 
       .addCase(fetchFavoritesAction.pending, (state) => {
-        state.isLoaded = false;
+        state.favsLoadingStatus = LoadingDataStatus.Pending;
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
+        state.favsLoadingStatus = LoadingDataStatus.Success;
         state.favs = action.payload;
-        state.isLoaded = true;
       })
       .addCase(fetchFavoritesAction.rejected, (state) => {
-        state.isLoaded = true;
+        state.favsLoadingStatus = LoadingDataStatus.Error;
       });
 
   },
