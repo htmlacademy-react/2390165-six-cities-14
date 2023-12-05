@@ -45,7 +45,7 @@ function FavoritePage(): JSX.Element {
           <Helmet>
             <title>Избранное</title>
           </Helmet>
-          <main className="page__main page__main--favorites">
+          <main className="page page__main page__main--favorites">
             <div className="page__favorites-container container">
               {
                 favoriteOffersLength &&
