@@ -48,8 +48,8 @@ function OfferPage(): JSX.Element {
               <OfferDetails selectedOffer={selectedOffer} />
               <Map
                 mapType={'offer'}
-                offers={nearOffersCut}
-                selectedOffer={selectedOffer}
+                offers={[...nearOffersCut, selectedOffer]}
+                offerId={selectedOffer.id}
               />
             </section>
             <div className="container">
