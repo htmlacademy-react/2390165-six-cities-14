@@ -8,6 +8,8 @@ import FavoritesByCity from '../../types/favorites-by-city';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import { getFavs, getIsLoaded } from '../../store/offer-data/offer-data-selectors';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 function FavoritePage(): JSX.Element {
   const isReady = useAppSelector(getIsLoaded);
@@ -39,9 +41,9 @@ function FavoritePage(): JSX.Element {
 
       {
         isReady &&
-        <div className="page">
+        <div className='page'>
           <Helmet>
-            <title>{'6 cities - favorites'}</title>
+            <title>Избранное</title>
           </Helmet>
           <main className="page__main page__main--favorites">
             <div className="page__favorites-container container">
@@ -72,12 +74,12 @@ function FavoritePage(): JSX.Element {
             </div>
           </main >
           <footer className="footer container">
-            <a className="footer__logo-link" href="main.html">
+            <Link className="footer__logo-link" to={AppRoute.Main}>
               <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-            </a>
+            </Link>
           </footer>
         </div >
-      };
+      }
     </>
   );
 }
