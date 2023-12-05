@@ -12,16 +12,16 @@ import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import { getFavs, getIsLoaded } from '../../store/offer-data/offer-data-selectors';
 
 function FavoritePage(): JSX.Element {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const isReady = useAppSelector(getIsLoaded);
-  const favoriteOffers = useAppSelector(getFavs) ?? [];
+  const favoriteOffers = useAppSelector(getFavs);
 
   const favoriteOffersLength = favoriteOffers.length;
 
 
-  useEffect(() => {
-    dispatch(fetchFavoritesAction());
-  },[dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchFavoritesAction());
+  // },[dispatch]);
 
 
   function getFavoriteCities(favOffers: Array<Offer>): FavoritesByCity {

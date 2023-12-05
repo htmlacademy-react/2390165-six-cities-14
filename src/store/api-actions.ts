@@ -108,10 +108,14 @@ const postFavStatusAction = createAsyncThunk<
 );
 
 const checkAuthAction = createAsyncThunk<UserData, undefined, {
+  dispatch: AppDispatch;
   extra: AxiosInstance;
 }>('user/checkAuth',
-  async (_arg, { extra: api }) => {
+  async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<UserData>(APIRoute.Login);
+    if (data) {
+      dispatch(fetchFavoritesAction());
+    }
 
     return data;
   });
@@ -127,6 +131,7 @@ const loginAction = createAsyncThunk<UserData, AuthData, {
       saveToken(token);
 
       dispatch(fetchOffersAction());
+      dispatch(fetchFavoritesAction());
     }
     return data;
   });
