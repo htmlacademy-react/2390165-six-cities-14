@@ -11,8 +11,8 @@ type UserProcess = {
 
 type OffersData = {
   'offers': Offer[];
-  'isLoaded': boolean;
   'hasError': boolean;
+  'isOffersLoading': boolean;
 
   'selectedOffer': null | SelectedOffer;
   'nearPlaces': Offer[];

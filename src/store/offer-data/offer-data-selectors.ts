@@ -10,7 +10,8 @@ const getReviews = (state: State): ReviewType[] => state[NameSpace.Data].reviews
 const getFavs = (state: State): Favorite[] => state[NameSpace.Data].favs;
 
 const getIsReviewSending = (state: State): LoadingDataStatus => state[NameSpace.Data].isReviewSending;
-const getIsLoaded = (state: State): boolean => state[NameSpace.Data].isLoaded;
+const getIsOffersLoading = (state: State): boolean => state[NameSpace.Data].isOffersLoading;
+const getFavLoadingStatus = (state: State): LoadingDataStatus => state[NameSpace.Data].favsLoadingStatus;
 const getErrorStatus = (state: State): boolean => state[NameSpace.Data].hasError;
 
 
@@ -23,6 +24,7 @@ export {
 
 
   getIsReviewSending,
-  getIsLoaded,
+  getIsOffersLoading,
+  getFavLoadingStatus,
   getErrorStatus,
 };

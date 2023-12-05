@@ -7,12 +7,13 @@ import { Offer } from '../../types/offer';
 import FavoritesByCity from '../../types/favorites-by-city';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
-import { getFavs, getIsLoaded } from '../../store/offer-data/offer-data-selectors';
+import { getFavLoadingStatus, getFavs} from '../../store/offer-data/offer-data-selectors';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, LoadingDataStatus } from '../../const';
 
 function FavoritePage(): JSX.Element {
-  const isReady = useAppSelector(getIsLoaded);
+  const favLoadingStatus = useAppSelector(getFavLoadingStatus);
+
   const favoriteOffers = useAppSelector(getFavs);
 
   const favoriteOffersLength = favoriteOffers.length;
@@ -37,10 +38,10 @@ function FavoritePage(): JSX.Element {
     <>
       {!favoriteOffersLength && <FavoritesEmpty />}
 
-      {!isReady && <PlaceHolder />}
+      {favLoadingStatus === LoadingDataStatus.Pending && <PlaceHolder />}
 
       {
-        isReady &&
+        favLoadingStatus === LoadingDataStatus.Success &&
         <div className='page'>
           <Helmet>
             <title>Избранное</title>

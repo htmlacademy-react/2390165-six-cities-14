@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
 import { fetchSelectedOfferDataAction } from '../../store/api-actions';
 import NotFound from '../404-page/404-page';
-import { getIsLoaded, getNearPlaces, getSelectedOffer } from '../../store/offer-data/offer-data-selectors';
+import { getIsOffersLoading, getNearPlaces, getSelectedOffer } from '../../store/offer-data/offer-data-selectors';
 
 
 function OfferPage(): JSX.Element {
@@ -19,7 +19,7 @@ function OfferPage(): JSX.Element {
   const nearOffers = useAppSelector(getNearPlaces);
   const selectedOffer = useAppSelector(getSelectedOffer);
 
-  const isReady = useAppSelector(getIsLoaded);
+  const isOfferLoading = useAppSelector(getIsOffersLoading);
 
   const { offerId } = useParams();
   useEffect(() => {
@@ -33,10 +33,10 @@ function OfferPage(): JSX.Element {
 
   return (
     <>
-      {!isReady && !selectedOffer && <PlaceHolder />}
-      {isReady && !selectedOffer && <NotFound />}
+      {isOfferLoading && !selectedOffer && <PlaceHolder />}
+      {!isOfferLoading && !selectedOffer && <NotFound />}
 
-      {isReady && selectedOffer &&
+      {!isOfferLoading && selectedOffer &&
         <div className="page">
           <Helmet>
             <title>{'6 cities - offer'}</title>

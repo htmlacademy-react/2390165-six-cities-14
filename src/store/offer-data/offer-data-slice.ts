@@ -8,8 +8,8 @@ import { Offer } from '../../types/offer';
 
 const initialState: OffersData = {
   offers: [],
-  isLoaded: false,
   hasError: false,
+  isOffersLoading: false,
 
   selectedOffer: null,
   nearPlaces: [],
@@ -31,9 +31,7 @@ const offersData = createSlice({
     setReviews: (state, action: PayloadAction<ReviewType[]>) => {
       state.reviews = action.payload;
     },
-    setIsLoaded: (state, action: PayloadAction<boolean>) => {
-      state.isLoaded = action.payload;
-    },
+
     setOffers: (state, action: PayloadAction<Offer[]>) => {
       state.offers = action.payload;
     },
@@ -64,20 +62,20 @@ const offersData = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchOffersAction.pending, (state) => {
-        state.isLoaded = false;
+        state.isOffersLoading = true;
         state.hasError = false;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.offers = action.payload;
-        state.isLoaded = true;
+        state.isOffersLoading = false;
       })
       .addCase(fetchOffersAction.rejected, (state) => {
-        state.isLoaded = true;
+        state.isOffersLoading = false;
         state.hasError = true;
       })
 
       .addCase(fetchSelectedOfferDataAction.pending, (state) => {
-        state.isLoaded = false;
+        state.isOffersLoading = true;
       })
       .addCase(fetchSelectedOfferDataAction.fulfilled, (state, action) => {
         const [selectedOffer, nearbyOffers, comments] = action.payload;
@@ -85,10 +83,10 @@ const offersData = createSlice({
         state.nearPlaces = nearbyOffers;
         state.reviews = comments;
 
-        state.isLoaded = true;
+        state.isOffersLoading = false;
       })
       .addCase(fetchSelectedOfferDataAction.rejected, (state) => {
-        state.isLoaded = true;
+        state.isOffersLoading = false;
       })
 
       .addCase(postCommentAction.pending, (state) => {
@@ -119,7 +117,7 @@ const offersData = createSlice({
   }
 });
 
-const { updateOffers, dropAllFavorites, isReviewSending, setReviews, setIsLoaded, setOffers, dropFavOffer, addFavOffer} = offersData.actions;
+const { updateOffers, dropAllFavorites, isReviewSending, setReviews, setOffers, dropFavOffer, addFavOffer} = offersData.actions;
 
 export {
   offersData,
@@ -128,7 +126,7 @@ export {
 
   isReviewSending,
   setReviews,
-  setIsLoaded,
+
   setOffers,
   dropFavOffer,
   addFavOffer,
