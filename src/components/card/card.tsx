@@ -53,9 +53,9 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
       dispatch(postFavStatusAction({ offerId: offer.id, status: status }));
 
 
-      setIsFav((isFavPrev) => !isFavPrev);
+      // setIsFav((isFavPrev) => !isFavPrev);
 
-      dispatch(favoritesNumber(isFav ? -1 : 1));
+      // dispatch(favoritesNumber(isFav ? -1 : 1));
 
     }
   }

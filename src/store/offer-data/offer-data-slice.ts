@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { LoadingDataStatus, NameSpace } from '../../const';
-import { fetchFavoritesAction, fetchOffersAction, fetchSelectedOfferDataAction } from '../api-actions';
+import { fetchFavoritesAction, fetchOffersAction, fetchSelectedOfferDataAction, postFavStatusAction } from '../api-actions';
 import { OffersData } from '../../types/sliceTypes';
 import ReviewType from '../../types/review';
 import { Offer } from '../../types/offer';
@@ -40,6 +40,9 @@ const offersData = createSlice({
     dropFavOffer: (state, action: PayloadAction<Offer>) => {
       const index = state.favs.findIndex((offer) => offer.id === action.payload.id);
       state.favs.splice(index, 1);
+    },
+    addFavOffer:(state, action: PayloadAction<Offer>) => {
+      state.favs.push(action.payload);
     },
     updateOffers: (state, action: PayloadAction<Offer>) => {
       const offer = action.payload;
@@ -95,11 +98,15 @@ const offersData = createSlice({
       })
       .addCase(fetchFavoritesAction.rejected, (state) => {
         state.favsLoadingStatus = LoadingDataStatus.Error;
+      })
+      .addCase(postFavStatusAction.fulfilled, (state) => {
+        state.favsLoadingStatus = LoadingDataStatus.Success;
+
       });
-  },
+  }
 });
 
-const { isReviewSending, setReviews, setIsLoaded, setOffers, dropFavOffer, updateOffers } = offersData.actions;
+const { updateOffers, isReviewSending, setReviews, setIsLoaded, setOffers, dropFavOffer, addFavOffer} = offersData.actions;
 
 export {
   offersData,
@@ -110,4 +117,5 @@ export {
   setIsLoaded,
   setOffers,
   dropFavOffer,
+  addFavOffer,
 };
