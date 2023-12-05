@@ -10,7 +10,7 @@ import { UserData } from '../types/user-data';
 import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType, { CommentSend } from '../types/review';
 import { favoritesNumber, setError } from './app-process/app-process-slice';
-import { dropFavOffer, setIsLoaded, setOffers } from './offer-data/offer-data-slice';
+import { dropFavOffer, setIsLoaded, setOffers, updateOffers } from './offer-data/offer-data-slice';
 
 
 const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
@@ -92,13 +92,14 @@ const postFavStatusAction = createAsyncThunk<
     const path = `${APIRoute.Favorite}/${offerId}/${status}`;
     const { data } = await api.post<Favorite>(path);
 
-    const { DATA } = getState();
-    const offers: Offer[] = DATA.offers;
-    const offersCopy = structuredClone(offers);
-    const index = offersCopy.findIndex((offer) => offer.id === data.id);
-    offersCopy.splice(index, 1, data);
+    // const { DATA } = getState();
+    // const offers: Offer[] = DATA.offers;
+    // const offersCopy = structuredClone(offers);
+    // const index = offersCopy.findIndex((offer) => offer.id === data.id);
+    // offersCopy.splice(index, 1, data);
 
-    dispatch(setOffers(offersCopy));
+    // dispatch(setOffers(offersCopy));
+    dispatch(updateOffers(data))
 
     if (status === 0) {
       dispatch(dropFavOffer(data));

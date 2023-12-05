@@ -41,6 +41,20 @@ const offersData = createSlice({
       const index = state.favs.findIndex((offer) => offer.id === action.payload.id);
       state.favs.splice(index, 1);
     },
+    updateOffers: (state, action: PayloadAction<Offer>) => {
+      const offer = action.payload;
+
+      const items = state.offers.map((offerItem: Offer) => {
+        if (offerItem.id === offer.id) {
+          offerItem.isFavorite = !offerItem.isFavorite;
+        }
+
+        return offerItem;
+      });
+      state.offers = items;
+    }
+
+
   },
   extraReducers(builder) {
     builder
@@ -82,14 +96,14 @@ const offersData = createSlice({
       .addCase(fetchFavoritesAction.rejected, (state) => {
         state.favsLoadingStatus = LoadingDataStatus.Error;
       });
-
   },
 });
 
-const { isReviewSending, setReviews, setIsLoaded, setOffers, dropFavOffer } = offersData.actions;
+const { isReviewSending, setReviews, setIsLoaded, setOffers, dropFavOffer, updateOffers } = offersData.actions;
 
 export {
   offersData,
+  updateOffers,
 
   isReviewSending,
   setReviews,
