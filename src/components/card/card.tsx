@@ -1,9 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { Offer } from '../../types/offer';
 import { AppRoute, AuthStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { favoritesNumber } from '../../store/app-process/app-process-slice';
 import { postFavStatusAction } from '../../store/api-actions';
 import { getAuthStatus } from '../../store/users-process/user-process-selectors';
 import { getRatingValue } from '../../utilities';
@@ -34,9 +32,6 @@ const options = {
 
 function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
 
-  const [isFav, setIsFav] = useState<boolean>(offer.isFavorite);
-
-
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(getAuthStatus);
   const navigate = useNavigate();
@@ -51,12 +46,6 @@ function Card({ elementType, offer, onCardHover }: CardProps): JSX.Element {
     const status = isFavorite ? 0 : 1;
     if (authStatus === AuthStatus.Auth) {
       dispatch(postFavStatusAction({ offerId: offer.id, status: status }));
-
-
-      // setIsFav((isFavPrev) => !isFavPrev);
-
-      // dispatch(favoritesNumber(isFav ? -1 : 1));
-
     }
   }
 

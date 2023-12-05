@@ -1,28 +1,19 @@
 import { Helmet } from 'react-helmet-async';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import CardList from '../../components/card-list/card-list';
 
 import { Offer } from '../../types/offer';
 import FavoritesByCity from '../../types/favorites-by-city';
-import { useEffect } from 'react';
 import { PlaceHolder } from '../../components/placeholder/placeholder';
-import { fetchFavoritesAction } from '../../store/api-actions';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import { getFavs, getIsLoaded } from '../../store/offer-data/offer-data-selectors';
 
 function FavoritePage(): JSX.Element {
-  // const dispatch = useAppDispatch();
   const isReady = useAppSelector(getIsLoaded);
   const favoriteOffers = useAppSelector(getFavs);
 
   const favoriteOffersLength = favoriteOffers.length;
-
-
-  // useEffect(() => {
-  //   dispatch(fetchFavoritesAction());
-  // },[dispatch]);
-
 
   function getFavoriteCities(favOffers: Array<Offer>): FavoritesByCity {
 

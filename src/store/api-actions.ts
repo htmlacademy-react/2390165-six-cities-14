@@ -10,7 +10,7 @@ import { UserData } from '../types/user-data';
 import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType, { CommentSend } from '../types/review';
 import { favoritesNumber, setError } from './app-process/app-process-slice';
-import { addFavOffer, dropFavOffer, setIsLoaded, setOffers, updateOffers } from './offer-data/offer-data-slice';
+import { addFavOffer, dropAllFavorites, dropFavOffer, setIsLoaded, setOffers, updateOffers } from './offer-data/offer-data-slice';
 
 
 const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
@@ -134,11 +134,14 @@ const loginAction = createAsyncThunk<UserData, AuthData, {
   });
 
 const logoutAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
   extra: AxiosInstance;
 }>('user/logout',
-  async (_arg, { extra: api }) => {
+  async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);
     dropToken();
+    dispatch(fetchOffersAction());
+    dispatch(dropAllFavorites());
   });
 
 const clearErrorAction = createAsyncThunk('app/clearError',

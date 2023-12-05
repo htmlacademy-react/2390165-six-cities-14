@@ -3,14 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { getFavsNumber } from '../../store/app-process/app-process-selectors';
 import { getUserData } from '../../store/users-process/user-process-selectors';
-import { favoritesNumber } from '../../store/app-process/app-process-slice';
+import { getFavs } from '../../store/offer-data/offer-data-selectors';
 
 function Header(): JSX.Element {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
-  const favsNumber = useAppSelector(getFavsNumber);
+
+  const favs = useAppSelector(getFavs);
   const userData = useAppSelector(getUserData);
 
   const isMain = pathname === AppRoute.Main as string;
@@ -21,7 +21,6 @@ function Header(): JSX.Element {
   function handleSignOutClick(event: React.MouseEvent) {
     event.preventDefault();
 
-    dispatch(favoritesNumber(-favsNumber));
     dispatch(logoutAction());
   }
 
@@ -48,7 +47,7 @@ function Header(): JSX.Element {
                     <span className="header__user-name user__name header__login">{userData ? userData.email : 'Sign in'}</span>
                     {
                       userData &&
-                      <span className="header__favorite-count">{favsNumber}</span>
+                      <span className="header__favorite-count">{favs.length}</span>
                     }
                   </Link>
                 </li>

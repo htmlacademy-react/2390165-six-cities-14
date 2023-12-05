@@ -47,16 +47,18 @@ const offersData = createSlice({
     updateOffers: (state, action: PayloadAction<Offer>) => {
       const offer = action.payload;
 
-      const items = state.offers.map((offerItem: Offer) => {
-        if (offerItem.id === offer.id) {
-          offerItem.isFavorite = !offerItem.isFavorite;
+      const items = state.offers.map((it: Offer) => {
+        if (it.id === offer.id) {
+          it.isFavorite = !it.isFavorite;
         }
 
-        return offerItem;
+        return it;
       });
       state.offers = items;
+    },
+    dropAllFavorites: (state) => {
+      state.favs = [];
     }
-
 
   },
   extraReducers(builder) {
@@ -106,11 +108,12 @@ const offersData = createSlice({
   }
 });
 
-const { updateOffers, isReviewSending, setReviews, setIsLoaded, setOffers, dropFavOffer, addFavOffer} = offersData.actions;
+const { updateOffers, dropAllFavorites, isReviewSending, setReviews, setIsLoaded, setOffers, dropFavOffer, addFavOffer} = offersData.actions;
 
 export {
   offersData,
   updateOffers,
+  dropAllFavorites,
 
   isReviewSending,
   setReviews,
