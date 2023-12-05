@@ -10,7 +10,7 @@ import { UserData } from '../types/user-data';
 import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType, { CommentSend } from '../types/review';
 import { favoritesNumber, setError } from './app-process/app-process-slice';
-import { addFavOffer, dropAllFavorites, dropFavOffer, setIsLoaded, updateOffers } from './offer-data/offer-data-slice';
+import { addFavOffer, dropAllFavorites, dropFavOffer, updateOffers } from './offer-data/offer-data-slice';
 
 
 const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
@@ -71,13 +71,13 @@ const postCommentAction = createAsyncThunk<
   { reviewData: CommentSend; offerId: string | undefined },
   { dispatch: AppDispatch; extra: AxiosInstance }
 >('user/postReview',
-  async ({ reviewData, offerId }, { dispatch, extra: api }) => {
-    setTimeout(() => {
-      dispatch(setIsLoaded(false));
-    }, 2000);
+  async ({ reviewData, offerId }, {extra: api }) => {
+    // setTimeout(() => {
+    //   dispatch(setIsLoaded(false));
+    // }, 2000);
     const path = APIRoute.Reviews + offerId;
     const { data } = await api.post<ReviewType>(path, reviewData);
-    setTimeout(() => dispatch(setIsLoaded(true)), 2000);
+    // setTimeout(() => dispatch(setIsLoaded(true)), 2000);
     return data;
   }
 );

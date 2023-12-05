@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { LoadingDataStatus, NameSpace } from '../../const';
-import { fetchFavoritesAction, fetchOffersAction, fetchSelectedOfferDataAction, postFavStatusAction } from '../api-actions';
+import { fetchFavoritesAction, fetchOffersAction, fetchSelectedOfferDataAction, postCommentAction, postFavStatusAction } from '../api-actions';
 import { OffersData } from '../../types/sliceTypes';
 import ReviewType from '../../types/review';
 import { Offer } from '../../types/offer';
@@ -15,7 +15,7 @@ const initialState: OffersData = {
   nearPlaces: [],
   reviews: [],
 
-  isReviewSending: false,
+  isReviewSending: LoadingDataStatus.Unsent,
 
   favs: [],
   favsLoadingStatus: LoadingDataStatus.Unsent
@@ -25,7 +25,7 @@ const offersData = createSlice({
   name: NameSpace.Data,
   initialState,
   reducers: {
-    isReviewSending: (state, action: PayloadAction<boolean>) => {
+    isReviewSending: (state, action: PayloadAction<LoadingDataStatus>) => {
       state.isReviewSending = action.payload;
     },
     setReviews: (state, action: PayloadAction<ReviewType[]>) => {
@@ -89,6 +89,17 @@ const offersData = createSlice({
       })
       .addCase(fetchSelectedOfferDataAction.rejected, (state) => {
         state.isLoaded = true;
+      })
+
+      .addCase(postCommentAction.pending, (state) => {
+        state.isReviewSending = LoadingDataStatus.Pending;
+      })
+      .addCase(postCommentAction.fulfilled, (state) => {
+        state.isReviewSending = LoadingDataStatus.Success;
+        // state.reviews.push(action.payload);
+      })
+      .addCase(postCommentAction.rejected, (state) => {
+        state.isReviewSending = LoadingDataStatus.Error;
       })
 
       .addCase(fetchFavoritesAction.pending, (state) => {

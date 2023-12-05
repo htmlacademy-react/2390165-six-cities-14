@@ -4,6 +4,7 @@ import { postCommentAction } from '../../../store/api-actions';
 import { useParams } from 'react-router-dom';
 import { getIsReviewSending, getReviews } from '../../../store/offer-data/offer-data-selectors';
 import { isReviewSending, setReviews } from '../../../store/offer-data/offer-data-slice';
+import { LoadingDataStatus } from '../../../const';
 
 function ReviewForm(): JSX.Element {
   const ratingMap = {
@@ -19,7 +20,7 @@ function ReviewForm(): JSX.Element {
 
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('0');
-  const isSending = useAppSelector(getIsReviewSending);
+  const isSendingStatus = useAppSelector(getIsReviewSending);
 
   const formRef = useRef<HTMLFormElement | null>(null);
   const form = formRef.current;
@@ -36,15 +37,14 @@ function ReviewForm(): JSX.Element {
 
 
   function isDisabledSubmit() {
-    const isCommentValid = (comment.length < MIN_COMMENT_LENGTH) || (comment.length > MAX_COMMENT_LENGTH);
-    const isRatingValid = Boolean(Number(rating)) === false;
+    const isCommentNotValid = (comment.length < MIN_COMMENT_LENGTH) || (comment.length > MAX_COMMENT_LENGTH);
+    const isRatingNotValid = Boolean(Number(rating)) === false;
 
-    return (isCommentValid || isRatingValid) || isSending;
+    return isCommentNotValid || isRatingNotValid || isSendingStatus === LoadingDataStatus.Pending;
   }
 
-  function isDisabledForm(isSanding: boolean): boolean {
-    // form?.toggleAttribute('disabled', isSanding);
-    return isSanding
+  function isDisabledForm(isSandingStatus: LoadingDataStatus): boolean {
+    return isSandingStatus === LoadingDataStatus.Pending;
   }
 
   function formReset() {
@@ -65,8 +65,8 @@ function ReviewForm(): JSX.Element {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(isReviewSending(true));
-    isDisabledForm(isSending);
+    // dispatch(isReviewSending(LoadingDataStatus.Pending));
+    // isDisabledForm(isSendingStatus);
 
     if (rating && comment && offerId && form) {
       dispatch(postCommentAction(sendData)).unwrap()
@@ -78,9 +78,15 @@ function ReviewForm(): JSX.Element {
           formReset();
         })
         .then(() => {
-          dispatch(isReviewSending(false));
-          isDisabledForm(isSending);
+          if (isSendingStatus === LoadingDataStatus.Success) {
+            formReset();
+          }
+
         });
+      // .then(() => {
+      //   dispatch(isReviewSending(LoadingDataStatus.Success));
+      // isDisabledForm(isSendingStatus);
+      // });
     }
   }
 
@@ -105,7 +111,7 @@ function ReviewForm(): JSX.Element {
                 id={`${score}-stars`}
                 type="radio"
                 checked={rating === score}
-                disabled={isDisabledForm(isSending)}
+                disabled={isDisabledForm(isSendingStatus)}
                 onChange={handleInputChange}
               />
               <label
@@ -131,7 +137,7 @@ function ReviewForm(): JSX.Element {
         value={comment}
         minLength={50}
         maxLength={300}
-        disabled={isDisabledForm(isSending)}
+        disabled={isDisabledForm(isSendingStatus)}
         onChange={handleTextAreaChange}
       >
       </textarea>
@@ -145,7 +151,7 @@ function ReviewForm(): JSX.Element {
           type="submit"
           disabled={isDisabledSubmit()}
         >
-          {isSending ? 'Sending...' : 'Submit'}
+          {isSendingStatus ? 'Sending...' : 'Submit'}
         </button>
       </div>
     </form>

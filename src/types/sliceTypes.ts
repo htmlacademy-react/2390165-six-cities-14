@@ -18,10 +18,10 @@ type OffersData = {
   'nearPlaces': Offer[];
   'reviews': ReviewType[];
 
-  'isReviewSending': boolean;
+  'isReviewSending': LoadingDataStatus;
 
   'favs': Favorite[];
-  favsLoadingStatus: LoadingDataStatus;
+  'favsLoadingStatus': LoadingDataStatus;
 }
 
 type AppProcess = {
