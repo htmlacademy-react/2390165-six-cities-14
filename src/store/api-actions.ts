@@ -10,7 +10,7 @@ import { UserData } from '../types/user-data';
 import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType, { CommentSend } from '../types/review';
 import { favoritesNumber, setError } from './app-process/app-process-slice';
-import { addFavOffer, dropAllFavorites, dropFavOffer, setIsLoaded, setOffers, updateOffers } from './offer-data/offer-data-slice';
+import { addFavOffer, dropAllFavorites, dropFavOffer, setIsLoaded, updateOffers } from './offer-data/offer-data-slice';
 
 
 const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
@@ -54,15 +54,14 @@ const fetchSelectedOfferDataAction = createAsyncThunk<SelectedOfferData, string,
     const nearbyPath = `${APIRoute.SelectedOffer}${offerId}/nearby`;
     const commentsPath = APIRoute.Reviews + offerId;
 
-    const data = await Promise.all(
+    const [{data: selectedOffer}, {data: nearbyOffers}, {data: comments}] = await Promise.all(
       [
         api.get<SelectedOffer>(offerPath),
         api.get<Offer[]>(nearbyPath),
         api.get<ReviewType[]>(commentsPath),
       ]
     );
-    const list = data.map((item) => item.data);
-    return list;
+    return [selectedOffer, nearbyOffers, comments];
 
   }
 );
