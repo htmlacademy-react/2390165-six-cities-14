@@ -18,6 +18,7 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
+  const randomCity = pickRandomElement(citiesName);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,6 +28,7 @@ function LoginPage() {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       }));
+      dispatch(setCity({ city: randomCity }));
     }
     navigate(AppRoute.Main);
   }
@@ -35,7 +37,6 @@ function LoginPage() {
     return <Navigate to={AppRoute.Main} />;
   }
 
-  const randomCity = pickRandomElement(citiesName);
 
   function handleRandomCityClick(event: React.MouseEvent) {
     event.preventDefault();
