@@ -28,7 +28,7 @@ function OfferPage(): JSX.Element {
     }
   }, [dispatch, offerId]);
 
-  if (!selectedOffer || !offerId) {
+  if (!offerId) {
     return <NotFound />;
   }
 
@@ -36,7 +36,7 @@ function OfferPage(): JSX.Element {
 
   return (
     <>
-      {!isReady && <PlaceHolder />}
+      {(!isReady || !selectedOffer) && <PlaceHolder />}
 
       {isReady && selectedOffer &&
         <div className="page">
