@@ -28,15 +28,13 @@ function OfferPage(): JSX.Element {
     }
   }, [dispatch, offerId]);
 
-  if (!offerId) {
-    return <NotFound />;
-  }
 
   const nearOffersCut = nearOffers.slice(0, 3);
 
   return (
     <>
-      {(!isReady || !selectedOffer) && <PlaceHolder />}
+      {!isReady && !selectedOffer && <PlaceHolder />}
+      {isReady && !selectedOffer && <NotFound />}
 
       {isReady && selectedOffer &&
         <div className="page">
