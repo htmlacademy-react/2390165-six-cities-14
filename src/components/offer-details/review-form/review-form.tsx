@@ -1,9 +1,8 @@
-import { FormEvent, ChangeEvent, Fragment, useState, useEffect, useRef } from 'react';
+import { FormEvent, ChangeEvent, Fragment, useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { postCommentAction } from '../../../store/api-actions';
+import { clearErrorAction, postCommentAction } from '../../../store/api-actions';
 import { useParams } from 'react-router-dom';
-import { getIsReviewSending, getReviews } from '../../../store/offer-data/offer-data-selectors';
-// import { isReviewSending, setReviews } from '../../../store/offer-data/offer-data-slice';
+import { getIsReviewSending } from '../../../store/offer-data/offer-data-selectors';
 import { LoadingDataStatus } from '../../../const';
 import { setError } from '../../../store/app-process/app-process-slice';
 
@@ -20,85 +19,44 @@ function ReviewForm(): JSX.Element {
   const MAX_COMMENT_LENGTH = 299;
 
   const { offerId } = useParams();
+  const dispatch = useAppDispatch();
 
   const [rating, setRating] = useState('0');
   const [comment, setComment] = useState('');
-  const sendingStatus = useAppSelector(getIsReviewSending);
-  const [isSubmiting, setIsSubmiting] = useState(false);
-  const dispatch = useAppDispatch();
 
+  const sendingStatus = useAppSelector(getIsReviewSending);
+  const isSending = sendingStatus === LoadingDataStatus.Pending;
+
+
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+    setRating(event.target.value);
+  }
 
   function handleTextAreaChange(event: ChangeEvent<HTMLTextAreaElement>) {
     setComment(event.target.value);
   }
 
-  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
-    setRating(event.target.value);
-  }
   const sendData = {
     reviewData: { comment, rating: Number(rating) },
     offerId,
   };
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if ((comment.length < MIN_COMMENT_LENGTH) || (comment.length > MAX_COMMENT_LENGTH) || (Boolean(Number(rating)) === false)) {
-      return;
-    }
     dispatch(postCommentAction(sendData));
-    // .then(() => {
-    //   if (sendingStatus === LoadingDataStatus.Success) {
-    //     formReset();
-    //   }
-
-    // })
   }
-
-
-  // if (rating && comment && offerId && form) {
-  //   dispatch(postCommentAction(sendData)).unwrap()
-  //     .then((review) => {
-  //       reviewsListCopy.push(review);
-  //     })
-  //     .then(() => {
-  //       dispatch(setReviews(reviewsListCopy));
-  //       formReset();
-  //     })
-  //     .then(() => {
-  //       if (isSendingStatus === LoadingDataStatus.Success) {
-  //         formReset();
-  //       }
-
-  //     });
-  // }
-  // }
 
   useEffect(() => {
     switch (sendingStatus) {
-      case LoadingDataStatus.Pending:
-        setIsSubmiting(true);
-        break;
       case LoadingDataStatus.Success:
         setComment('');
         setRating('');
         break;
       case LoadingDataStatus.Error:
-        setIsSubmiting(false);
-      // dispatch(setError('Отзыв не отправлен, попробуйте снова'))
+        dispatch(setError('Отзыв не отправлен, попробуйте снова'));
+        dispatch(clearErrorAction());
     }
 
-  }, [sendingStatus])
-
-
-  const isSending = sendingStatus === LoadingDataStatus.Pending;
-
-  // const formRef = useRef<HTMLFormElement | null>(null);
-  // const form = formRef.current;
-
-
-  // const reviewsList = useAppSelector(getReviews);
-  // const reviewsListCopy = structuredClone(reviewsList);
-
-
+  }, [sendingStatus, dispatch]);
 
 
   const isCommentNotValid = (comment.length < MIN_COMMENT_LENGTH) || (comment.length > MAX_COMMENT_LENGTH);
@@ -107,25 +65,11 @@ function ReviewForm(): JSX.Element {
   const isDisabledSubmit = isCommentNotValid || isRatingNotValid || isSending;
 
 
-  function isDisabledForm(isSandingStatus: LoadingDataStatus): boolean {
-    return isSandingStatus === LoadingDataStatus.Pending;
-  }
-
-  function formReset() {
-    setRating('');
-    setComment('');
-
-  }
-
-
-
-
   return (
     <form
       className="reviews__form form"
       action="#"
       method="post"
-      // ref={formRef}
       onSubmit={handleSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -181,7 +125,7 @@ function ReviewForm(): JSX.Element {
           type="submit"
           disabled={isDisabledSubmit}
         >
-          {sendingStatus === LoadingDataStatus.Pending ? 'Sending...' : 'Submit'}
+          {isSending ? 'Sending...' : 'Submit'}
         </button>
       </div>
     </form>

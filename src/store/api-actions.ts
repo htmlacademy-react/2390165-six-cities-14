@@ -72,12 +72,9 @@ const postCommentAction = createAsyncThunk<
   { dispatch: AppDispatch; extra: AxiosInstance }
 >('user/postReview',
   async ({ reviewData, offerId }, {extra: api }) => {
-    // setTimeout(() => {
-    //   dispatch(setIsLoaded(false));
-    // }, 2000);
+
     const path = APIRoute.Reviews + offerId;
     const { data } = await api.post<ReviewType>(path, reviewData);
-    // setTimeout(() => dispatch(setIsLoaded(true)), 2000);
     return data;
   }
 );
