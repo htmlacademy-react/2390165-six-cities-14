@@ -9,7 +9,7 @@ import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType, { CommentSend } from '../types/review';
-import { favoritesNumber, setError } from './app-process/app-process-slice';
+import { setError } from './app-process/app-process-slice';
 import { addFavOffer, dropAllFavorites, dropFavOffer, updateOffers } from './offer-data/offer-data-slice';
 
 
@@ -18,15 +18,8 @@ const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
   extra: AxiosInstance;
 }>(
   'data/fetchOffers',
-  async (_arg, { dispatch, extra: api, }) => {
+  async (_arg, { extra: api, }) => {
     const { data } = await api.get<Offer[]>(APIRoute.Offers);
-
-    const favNumbers = data.reduce((sum, item) => {
-      const number = Number(item.isFavorite);
-      return sum + number;
-    }, 0);
-
-    dispatch(favoritesNumber(favNumbers));
 
     return data;
   }
