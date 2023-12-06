@@ -1,7 +1,7 @@
 import Review from '../review/review';
 
 import { useAppSelector } from '../../../hooks';
-import { dateInMs } from '../../../utilities';
+import { convertDateInMs } from '../../../utilities';
 import { getReviews } from '../../../store/offer-data/offer-data-selectors';
 
 const MAX_COMMENT_LENGTH = 10;
@@ -11,7 +11,7 @@ function ReviewList(): JSX.Element {
   const reviewServer = useAppSelector(getReviews);
 
   const reviewServerCopy = structuredClone(reviewServer)
-    .sort((a, b) => dateInMs(b.date) - dateInMs(a.date))
+    .sort((a, b) => convertDateInMs(b.date) - convertDateInMs(a.date))
     .slice(0, MAX_COMMENT_LENGTH);
 
 

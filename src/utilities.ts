@@ -3,7 +3,7 @@ import store from './store';
 import { clearErrorAction } from './store/api-actions';
 import { setError } from './store/app-process/app-process-slice';
 
-function dateInMs(value: string) {
+function convertDateInMs(value: string) {
   return Date.parse(value);
 }
 
@@ -28,7 +28,7 @@ function processErrorHandle(message: string): void {
 
 
 export {
-  dateInMs,
+  convertDateInMs,
   formatDate,
   getRatingValue,
   pickRandomElement,
