@@ -75,7 +75,7 @@ const postCommentAction = createAsyncThunk<
 
 const postFavStatusAction = createAsyncThunk<
   Offer,
-  { offerId: string | undefined; status: number; elementType: string }, ThunkAPI
+  { offerId: string | undefined; status: number; elementType?: string }, ThunkAPI
 >('user/postFavStatus',
   async ({ offerId, status, elementType }, { dispatch, extra: api }) => {
     const path = `${APIRoute.Favorite}/${offerId}/${status}`;

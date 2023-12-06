@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ReviewList from './review-ist/review-list';
@@ -7,7 +7,7 @@ import { postFavStatusAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AppRoute, AuthStatus } from '../../const';
 
-import { Offer, SelectedOffer } from '../../types/offer';
+import { SelectedOffer } from '../../types/offer';
 import { getAuthStatus } from '../../store/users-process/user-process-selectors';
 import { getRatingValue } from '../../utilities';
 
@@ -18,21 +18,24 @@ type OfferDetailsProps = {
 function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [isFavorite, setIsFavorite] = useState(selectedOffer.isFavorite);
 
   const authStatus = useAppSelector(getAuthStatus);
 
   const isAvailableForm = authStatus === AuthStatus.Auth;
 
-  function handleFavClick(favOffer: Offer) {
+  function handleFavClick() {
     if (authStatus === AuthStatus.NoAuth) {
       navigate(AppRoute.Login);
       return;
     }
 
-    const isFavorite = favOffer.isFavorite;
     const status = isFavorite ? 0 : 1;
     if (authStatus === AuthStatus.Auth) {
-      dispatch(postFavStatusAction({ offerId: selectedOffer.id, status: status }));
+      dispatch(postFavStatusAction({ offerId: selectedOffer.id, status: status })).unwrap()
+        .then((response) => {
+          setIsFavorite(response.isFavorite);
+        });
     }
   }
 
@@ -65,9 +68,9 @@ function OfferDetails({ selectedOffer }: OfferDetailsProps): JSX.Element {
               {selectedOffer.title}
             </h1>
             <button
-              className={`${(selectedOffer.isFavorite && authStatus === AuthStatus.Auth) ? 'offer__bookmark-button--active ' : ''}offer__bookmark-button button`}
+              className={`${(isFavorite && authStatus === AuthStatus.Auth) ? 'offer__bookmark-button--active ' : ''}offer__bookmark-button button`}
               type="button"
-              onClick={() => handleFavClick(selectedOffer)}
+              onClick={handleFavClick}
             >
               <svg className="offer__bookmark-icon" width="31" height="33">
                 <use xlinkHref="#icon-bookmark"></use>

@@ -14,7 +14,7 @@ type OffersData = {
   'hasError': boolean;
   'isOffersLoading': boolean;
 
-  'selectedOffer': null | SelectedOffer | Offer;
+  'selectedOffer': null | SelectedOffer;
   'nearPlaces': Offer[];
   'reviews': ReviewType[];
   'offerDataStatusSending': LoadingDataStatus;

@@ -67,20 +67,7 @@ const offersData = createSlice({
         return it;
       });
 
-      // const nearOffers = state.nearPlaces.map((it) => {
-      //   if (it.id === offer.id) {
-      //     it.isFavorite = !it.isFavorite;
-      //   }
-
-      //   return it;
-      // });
-
-
       state.offers = offers;
-      // state.nearPlaces = nearOffers;
-      state.selectedOffer = offer;
-
-
     },
     dropAllFavorites: (state) => {
       state.favs = [];
