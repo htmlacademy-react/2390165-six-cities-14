@@ -10,7 +10,7 @@ import { UserData } from '../types/user-data';
 import { Favorite, Offer, SelectedOffer } from '../types/offer';
 import ReviewType, { CommentSend } from '../types/review';
 import { setError } from './app-process/app-process-slice';
-import { addFavOffer, dropAllFavorites, dropFavOffer, updateOffers } from './offer-data/offer-data-slice';
+import { addFavOffer, dropAllFavorites, dropFavOffer, updateNearPlaces, updateOffers } from './offer-data/offer-data-slice';
 
 
 const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
@@ -75,9 +75,9 @@ const postCommentAction = createAsyncThunk<
 
 const postFavStatusAction = createAsyncThunk<
   Offer,
-  { offerId: string | undefined; status: number }, ThunkAPI
+  { offerId: string | undefined; status: number; elementType: string }, ThunkAPI
 >('user/postFavStatus',
-  async ({ offerId, status }, { dispatch, extra: api }) => {
+  async ({ offerId, status, elementType }, { dispatch, extra: api }) => {
     const path = `${APIRoute.Favorite}/${offerId}/${status}`;
     const { data } = await api.post<Favorite>(path);
 
@@ -86,7 +86,13 @@ const postFavStatusAction = createAsyncThunk<
     } else {
       dispatch(addFavOffer(data));
     }
-    dispatch(updateOffers(data));
+
+    if (elementType === 'offers') {
+      dispatch(updateNearPlaces(data));
+    } else {
+      dispatch(updateOffers(data));
+    }
+
 
     return data;
 

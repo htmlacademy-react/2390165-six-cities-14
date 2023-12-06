@@ -37,6 +37,18 @@ const offersData = createSlice({
     setOffers: (state, action: PayloadAction<Offer[]>) => {
       state.offers = action.payload;
     },
+
+    updateNearPlaces: (state, action: PayloadAction<Offer>) => {
+      const nearOffers = state.nearPlaces.map((it) => {
+        if (it.id === action.payload.id) {
+          it.isFavorite = !it.isFavorite;
+        }
+        return it;
+      });
+
+      state.nearPlaces = nearOffers;
+    },
+
     dropFavOffer: (state, action: PayloadAction<Offer>) => {
       const index = state.favs.findIndex((offer) => offer.id === action.payload.id);
       state.favs.splice(index, 1);
@@ -55,17 +67,17 @@ const offersData = createSlice({
         return it;
       });
 
-      const nearOffers = state.nearPlaces.map((it) => {
-        if (it.id === offer.id) {
-          it.isFavorite = !it.isFavorite;
-        }
+      // const nearOffers = state.nearPlaces.map((it) => {
+      //   if (it.id === offer.id) {
+      //     it.isFavorite = !it.isFavorite;
+      //   }
 
-        return it;
-      });
+      //   return it;
+      // });
 
 
       state.offers = offers;
-      state.nearPlaces = nearOffers;
+      // state.nearPlaces = nearOffers;
       state.selectedOffer = offer;
 
 
@@ -133,7 +145,7 @@ const offersData = createSlice({
   }
 });
 
-const { updateOffers, dropAllFavorites, isReviewSending, setReviews, setOffers, dropFavOffer, addFavOffer } = offersData.actions;
+const { updateOffers, dropAllFavorites, isReviewSending, setReviews, setOffers, dropFavOffer, addFavOffer, updateNearPlaces } = offersData.actions;
 
 export {
   offersData,
@@ -146,4 +158,5 @@ export {
   setOffers,
   dropFavOffer,
   addFavOffer,
+  updateNearPlaces,
 };
