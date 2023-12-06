@@ -20,7 +20,7 @@ function LoginPage() {
   const dispatch = useAppDispatch();
   const randomCity = pickRandomElement(CITIES_NAME);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (emailRef.current && passwordRef.current) {
@@ -57,7 +57,7 @@ function LoginPage() {
               className="login__form form"
               action="#"
               method="post"
-              onSubmit={handleSubmit}
+              onSubmit={handleFormSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
