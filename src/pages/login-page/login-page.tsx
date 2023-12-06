@@ -7,7 +7,7 @@ import { loginAction } from '../../store/api-actions';
 import { getAuthStatus } from '../../store/users-process/user-process-selectors';
 import { setCity } from '../../store/app-process/app-process-slice';
 
-import { AppRoute, AuthStatus, CITIES_NAME } from '../../const';
+import { AppRoute, AuthStatus, CITY_NAMES } from '../../const';
 import { pickRandomElement } from '../../utilities';
 
 
@@ -18,7 +18,7 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const randomCity = pickRandomElement(CITIES_NAME);
+  const randomCity = pickRandomElement(CITY_NAMES);
 
   function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

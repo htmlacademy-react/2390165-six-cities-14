@@ -23,7 +23,7 @@ enum AuthStatus {
   Unknown = 'UNKNOWN',
 }
 
-const CITIES_NAME: ActiveCity[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+const CITY_NAMES: ActiveCity[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 enum LoadingDataStatus {
   Unsent = 'UNSENT',
@@ -51,7 +51,7 @@ export {
   APIRoute,
   AppRoute,
   AuthStatus,
-  CITIES_NAME,
+  CITY_NAMES,
   LoadingDataStatus,
   NameSpace,
   TIMEOUT_SHOW_ERROR,
