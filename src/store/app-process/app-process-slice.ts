@@ -23,7 +23,6 @@ const appProcess = createSlice({
       state.error = action.payload;
     },
   },
-  extraReducers() {},
 });
 
 const {setCity, favoritesNumber, setError } = appProcess.actions;
