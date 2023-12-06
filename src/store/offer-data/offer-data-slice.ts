@@ -55,6 +55,10 @@ const offersData = createSlice({
         return it;
       });
       state.offers = items;
+      // const item = {...state.selectedOffer};
+      // item.isFavorite = !item.isFavorite;
+      state.selectedOffer = offer;
+
     },
     dropAllFavorites: (state) => {
       state.favs = [];
