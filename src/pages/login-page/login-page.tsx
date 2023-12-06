@@ -9,6 +9,7 @@ import { setCity } from '../../store/app-process/app-process-slice';
 
 import { AppRoute, AuthStatus, CITY_NAMES } from '../../const';
 import { pickRandomElement } from '../../utilities';
+import Header from '../../components/header/header';
 
 
 function LoginPage() {
@@ -49,6 +50,7 @@ function LoginPage() {
       <Helmet>
         <title>{'6 cities - login'}</title>
       </Helmet>
+      <Header block={'noNavigation'}/>
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">

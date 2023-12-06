@@ -37,7 +37,6 @@ function App(): JSX.Element {
         <Routes>
           <Route path={'/'} element={<Layout />} >
             <Route path={AppRoute.Main} element={<MainPage />} />
-            <Route path={AppRoute.Login} element={<LoginPage />} />
 
             <Route path={AppRoute.Favorite} element={
               <PrivateRoute redirectTo={AppRoute.Login} >
@@ -51,6 +50,7 @@ function App(): JSX.Element {
             </Route>
             <Route path={AppRoute.NotFound} element={<NotFound />} />
           </Route>
+          <Route path={AppRoute.Login} element={<LoginPage />} />
         </Routes>
       </BrowserRouter >
     </HelmetProvider >

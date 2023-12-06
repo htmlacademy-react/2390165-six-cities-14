@@ -5,7 +5,7 @@ import Header from '../header/header';
 function Layout(): JSX.Element {
   return (
     <>
-      <Header />
+      <Header block={'hasNavigation'}/>
       <Outlet />
     </>
   );
